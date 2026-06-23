@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Walrus Report — Second Line Pleasure Club Event Newsletter</title>
+  <meta name="description" content="The Walrus Report is the official newsletter of Second Line Pleasure Club — a Bay Area crawfish boil and NOLA music event series. Get upcoming event announcements, crawfish culture dispatches, and early ticket access." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://secondlinepleasure.club/walrus-report.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Second Line Pleasure Club" />
+  <meta property="og:title" content="The Walrus Report — Second Line Pleasure Club Newsletter" />
+  <meta property="og:description" content="The official dispatch of Second Line Pleasure Club. Crawfish culture, upcoming Bay Area boil events, and early access for subscribers." />
+  <meta property="og:url" content="https://secondlinepleasure.club/walrus-report.html" />
+  <meta property="og:image" content="https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg" />
+  <meta property="og:image:alt" content="The Walrus Report — Second Line Pleasure Club newsletter for Bay Area crawfish boil events" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Walrus Report — Second Line Pleasure Club" />
+  <meta name="twitter:description" content="The official dispatch of Second Line Pleasure Club. Crawfish culture, Bay Area events, early ticket access." />
+  <meta name="twitter:image" content="https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --tallow: #C8954A; --bone: #E8DFC8; --fog: #B5A898;
+      --midnight: #0E0B0F; --iron: #1C1820; --ember: #8B3A2A;
+    }
+    html, body { background: var(--midnight); color: var(--bone); font-family: 'EB Garamond', serif; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.75rem;
+      background: rgba(14,11,15,0.93); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(200,149,74,0.12);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
+    .nav-logo-img { width: 80px; height: 80px; border-radius: 50%; overflow: hidden; }
+    .nav-logo-img img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); display: block; }
+    .nav-logo span { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 0.12em; color: var(--tallow); line-height: 1.3; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fog); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--tallow); }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+
+    /* ── MASTHEAD ── */
+    .masthead {
+      padding: 8rem 2rem 5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(200,149,74,0.2);
+      position: relative;
+    }
+    .masthead-rule { width: 100%; height: 2px; background: var(--tallow); margin-bottom: 2.5rem; }
+    .masthead-eyebrow { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.35em; color: var(--fog); text-transform: uppercase; margin-bottom: 1rem; }
+    .masthead-title { font-family: 'Righteous', sans-serif; font-size: clamp(3rem, 10vw, 7rem); color: var(--bone); line-height: 1; margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+    .masthead-subtitle { font-family: 'EB Garamond', serif; font-style: italic; font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--fog); margin-bottom: 2.5rem; }
+    .masthead-rule-bottom { width: 100%; height: 1px; background: rgba(200,149,74,0.3); margin-top: 2rem; }
+    .masthead-tagline { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.35em; color: var(--fog); text-transform: uppercase; margin-top: 1.5rem; }
+
+    /* ── INTRO STRIP ── */
+    .intro-strip {
+      background: var(--iron);
+      padding: 3.5rem 2rem;
+      border-bottom: 1px solid rgba(200,149,74,0.1);
+    }
+    .intro-inner { max-width: 740px; margin: 0 auto; text-align: center; }
+    .intro-text { font-size: 1.2rem; line-height: 1.85; color: var(--bone); margin-bottom: 1rem; }
+    .intro-text.muted { color: var(--fog); font-size: 1.05rem; }
+    .subscribe-cta {
+      display: inline-block; margin-top: 2rem; font-family: 'Cinzel', serif;
+      font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--midnight); background: var(--tallow); padding: 1rem 2.5rem;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .subscribe-cta:hover { background: var(--bone); }
+
+    /* ── ISSUE SECTION ── */
+    .issues { max-width: 860px; margin: 0 auto; padding: 4rem 2rem; }
+
+    .section-label {
+      font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: var(--tallow); margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(200,149,74,0.15); padding-bottom: 0.75rem;
+    }
+
+    .issue-card {
+      border: 1px solid rgba(200,149,74,0.18);
+      background: var(--iron);
+      margin-bottom: 1.5rem;
+    }
+    .issue-card-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 1.75rem 2rem 1rem; gap: 1rem;
+    }
+    .issue-vol { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tallow); margin-bottom: 0.4rem; }
+    .issue-title { font-family: 'Righteous', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); color: var(--bone); line-height: 1.2; }
+    .issue-date { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fog); white-space: nowrap; }
+
+    .issue-body { padding: 0 2rem 2rem; }
+    .issue-body p { font-size: 1.05rem; line-height: 1.75; color: var(--fog); margin-bottom: 0.9rem; }
+
+    .issue-highlights { border-top: 1px solid rgba(200,149,74,0.12); margin-top: 1rem; padding-top: 1rem; }
+    .issue-highlights-label { font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tallow); margin-bottom: 0.75rem; }
+    .issue-highlights ul { list-style: none; display: grid; gap: 0.35rem; }
+    .issue-highlights li { font-size: 0.95rem; color: var(--fog); padding-left: 1rem; position: relative; }
+    .issue-highlights li::before { content: '—'; position: absolute; left: 0; color: rgba(200,149,74,0.5); }
+
+    .issue-footer { border-top: 1px solid rgba(200,149,74,0.12); padding: 1.25rem 2rem; display: flex; justify-content: flex-end; }
+    .read-btn {
+      display: inline-block; font-family: 'Cinzel', serif; font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--midnight);
+      background: var(--tallow); padding: 0.55rem 1.5rem; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .read-btn:hover { background: var(--bone); }
+
+    /* ── WHAT IS THIS ── */
+    .about-strip { background: var(--iron); border-top: 1px solid rgba(200,149,74,0.12); }
+    .about-inner { max-width: 740px; margin: 0 auto; padding: 4rem 2rem; text-align: center; }
+    .about-heading { font-family: 'Righteous', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); color: var(--bone); margin-bottom: 1.25rem; }
+    .about-body { font-size: 1.1rem; line-height: 1.8; color: var(--fog); }
+
+    footer { background: var(--midnight); border-top: 1px solid rgba(200,149,74,0.1); padding: 2rem; text-align: center; font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em; color: var(--fog); }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://secondlinepleasure.club/"},
+          {"@type": "ListItem", "position": 2, "name": "The Walrus Report", "item": "https://secondlinepleasure.club/walrus-report.html"}
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "name": "The Walrus Report",
+        "description": "The official newsletter of Second Line Pleasure Club. Crawfish culture, upcoming Bay Area event announcements, and early ticket access for subscribers.",
+        "url": "https://secondlinepleasure.club/walrus-report.html",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Second Line Pleasure Club",
+          "url": "https://secondlinepleasure.club"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <div class="nav-logo-img"><img src="assets/logos/Updated Simple Logo 3_16_26.png" alt="SLPC" /></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="walrus-report.html" class="active">Walrus Report</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="masthead-rule"></div>
+    <p class="masthead-eyebrow">Second Line Pleasure Club &nbsp;·&nbsp; Bay Area</p>
+    <h1 class="masthead-title">The Walrus Report</h1>
+    <p class="masthead-subtitle">Our irregularly issued dispatch on crawfish culture, upcoming events, and wherever the second line takes us.</p>
+    <div class="masthead-rule-bottom"></div>
+    <p class="masthead-tagline">Subscribe for SMS early access &nbsp;·&nbsp; Published when there's something worth saying</p>
+  </div>
+
+  <!-- INTRO STRIP -->
+  <div class="intro-strip">
+    <div class="intro-inner">
+      <p class="intro-text">
+        The Walrus Report started as a way to talk about what's coming up — not just dates and venues, but the full context. Who's playing. Where we're going. What we learned from the last boil. What we're cooking next.
+      </p>
+      <p class="intro-text muted">
+        It's part event guide, part culture dispatch, part whatever Aaron felt like writing about that week. Subscribers get first access to tickets, tables, and anything else that fills up fast. There's no set schedule. We publish when there's something worth saying.
+      </p>
+      <a class="subscribe-cta" href="https://markitai.com/u/secondlinepleasureclub" target="_blank" rel="noopener">Subscribe — It's Free</a>
+      <p style="margin-top:1.25rem; font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.15em; color:var(--fog);">
+        <a href="events.html" style="color:var(--tallow); text-decoration:none;">See upcoming events →</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ISSUES -->
+  <div class="issues">
+    <p class="section-label">Latest Issues</p>
+
+    <!-- Vol. 0 -->
+    <div class="issue-card">
+      <div class="issue-card-header">
+        <div>
+          <p class="issue-vol">Vol. 0 &nbsp;·&nbsp; Inaugural Issue</p>
+          <h2 class="issue-title">Welcome to the Club — Summer 2026</h2>
+        </div>
+        <span class="issue-date">June 2026</span>
+      </div>
+      <div class="issue-body">
+        <p>
+          The first edition. An introduction to what Second Line Pleasure Club is, why it exists, and what's coming up across the Bay and Sacramento this summer. Plus a full rundown of the June and July event calendar with bands, venues, and all the details you need to show up hungry and ready.
+        </p>
+        <p>
+          Vol. 0 covers our first full season — eleven boils across seven venues, from Pacifica to Sacramento, featuring zydeco, brass, funk, jazz, and a whole lot of crawfish. It's where the experiment began.
+        </p>
+        <div class="issue-highlights">
+          <p class="issue-highlights-label">In This Issue</p>
+          <ul>
+            <li>What is Second Line Pleasure Club and why does it exist</li>
+            <li>The full June + July 2026 event calendar</li>
+            <li>Band spotlights: The Back Dimples, Okie Weiss &amp; the Zydeco Playboys, Jay Sanders</li>
+            <li>Venue profiles: Humble Sea, Henhouse Records Room, Southern Pacific Brewing, Drakes Barn</li>
+            <li>Notes on Sacramento Delta Signal crawfish and the season ahead</li>
+            <li>How to pre-order, what to expect, and what to bring</li>
+          </ul>
+        </div>
+      </div>
+      <div class="issue-footer">
+        <a class="read-btn" href="https://markitai.com/e/zTnLU4GZo" target="_blank" rel="noopener">Read the Full Issue →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p style="margin-bottom: 0.5rem;"><strong style="color: var(--bone);">Second Line Pleasure Club</strong> &nbsp;·&nbsp; San Francisco Bay Area, CA &nbsp;·&nbsp; <a href="tel:+18772691385" style="color: var(--fog); text-decoration: none;">+1 (877) 269-1385</a> &nbsp;·&nbsp; <a href="mailto:info@secondlinepleasure.club" style="color: var(--fog); text-decoration: none;">info@secondlinepleasure.club</a></p>
+    <p>An Overtone Collective Joint &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; secondlinepleasure.club</p>
+  </footer>
+
+</body>
+</html>

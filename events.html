@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crawfish Boil Events Bay Area — Second Line Pleasure Club Summer 2026</title>
+  <meta name="description" content="Upcoming Second Line Pleasure Club crawfish boil events across the Bay Area. Louisiana-style seafood boils with live music at San Francisco, Oakland, Berkeley, Alameda, Pacifica, Sacramento venues. July 2026. Buy tickets online." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://secondlinepleasure.club/events.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Second Line Pleasure Club" />
+  <meta property="og:title" content="Crawfish Boil Events Bay Area — Second Line Pleasure Club" />
+  <meta property="og:description" content="Upcoming Louisiana-style crawfish boil events with live music at Bay Area breweries and venues. San Francisco, Alameda, Berkeley, Pacifica, Sacramento. Tickets available online." />
+  <meta property="og:url" content="https://secondlinepleasure.club/events.html" />
+  <meta property="og:image" content="https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg" />
+  <meta property="og:image:alt" content="Louisiana crawfish boil event at a Bay Area brewery — Second Line Pleasure Club" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bay Area Crawfish Boil Events — Second Line Pleasure Club" />
+  <meta name="twitter:description" content="Louisiana-style crawfish boil events at Bay Area breweries with live NOLA music. SF, Oakland, Berkeley, Sacramento. Tickets online." />
+  <meta name="twitter:image" content="https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --tallow: #C8954A; --bone: #E8DFC8; --fog: #B5A898;
+      --midnight: #0E0B0F; --iron: #1C1820; --ember: #8B3A2A;
+    }
+    html, body { background: var(--midnight); color: var(--bone); font-family: 'EB Garamond', serif; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.75rem;
+      background: rgba(14,11,15,0.93); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(200,149,74,0.12);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
+    .nav-logo-img { width: 80px; height: 80px; border-radius: 50%; overflow: hidden; }
+    .nav-logo-img img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); display: block; }
+    .nav-logo span { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 0.12em; color: var(--tallow); line-height: 1.3; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fog); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--tallow); }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+
+    /* ── PAGE HERO ── */
+    .page-hero { padding: 8rem 2rem 3.5rem; text-align: center; border-bottom: 1px solid rgba(200,149,74,0.12); }
+    .page-label { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--tallow); text-transform: uppercase; margin-bottom: 0.75rem; }
+    .page-title { font-family: 'Righteous', sans-serif; font-size: clamp(3rem, 8vw, 5rem); color: var(--bone); line-height: 1.1; margin-bottom: 1rem; }
+    .page-sub { font-family: 'EB Garamond', serif; font-size: 1.1rem; color: var(--fog); max-width: 540px; margin: 0 auto 2rem; }
+
+    /* ── SUGGEST BUTTON ── */
+    .suggest-bar { display: flex; justify-content: center; padding: 1.25rem 2rem 2.5rem; }
+    .suggest-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--tallow); text-decoration: none;
+      border: 1px solid rgba(200,149,74,0.4); padding: 0.85rem 2rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .suggest-btn:hover { background: var(--tallow); color: var(--midnight); }
+    .suggest-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* ── MONTH DIVIDER ── */
+    .month-divider { display: flex; align-items: center; gap: 1.25rem; padding: 3.5rem 2rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+    .month-divider h2 { font-family: 'Righteous', sans-serif; font-size: clamp(1.5rem, 3vw, 2rem); color: var(--tallow); white-space: nowrap; }
+    .month-divider::after { content: ''; flex: 1; height: 1px; background: rgba(200,149,74,0.25); }
+
+    /* ── EVENTS GRID ── */
+    .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; padding: 0 2rem 2rem; max-width: 1200px; margin: 0 auto; }
+
+    /* ── EVENT CARD ── */
+    .event-card { background: var(--iron); border: 1px solid rgba(200,149,74,0.12); overflow: hidden; transition: border-color 0.2s, transform 0.2s; display: flex; flex-direction: column; }
+    .event-card:hover { border-color: rgba(200,149,74,0.4); transform: translateY(-3px); }
+    .event-card.past { opacity: 0.5; }
+    .event-card.past:hover { opacity: 0.7; transform: none; }
+
+    .event-photo-link { display: block; position: relative; overflow: hidden; aspect-ratio: 16/9; cursor: pointer; }
+    .event-photo-link img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.4s; }
+    .event-card:hover .event-photo-link img { transform: scale(1.04); }
+
+    .event-photo-overlay { position: absolute; inset: 0; background: rgba(14,11,15,0); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+    .event-card:hover .event-photo-overlay { background: rgba(14,11,15,0.35); }
+
+    .ticket-badge { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--midnight); background: var(--tallow); padding: 0.5rem 1.25rem; opacity: 0; transform: scale(0.9); transition: opacity 0.3s, transform 0.3s; }
+    .event-card:hover .ticket-badge { opacity: 1; transform: scale(1); }
+
+    .tba-badge { position: absolute; top: 0.75rem; right: 0.75rem; font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; background: rgba(14,11,15,0.7); color: var(--fog); border: 1px solid rgba(181,168,152,0.3); padding: 0.3rem 0.7rem; }
+
+    .event-info { padding: 1.25rem 1.5rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .event-meta { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tallow); margin-bottom: 0.4rem; }
+    .event-venue { font-family: 'Righteous', sans-serif; font-size: 1.2rem; color: var(--bone); margin-bottom: 0.2rem; }
+    .event-location { font-size: 0.9rem; color: var(--fog); margin-bottom: 0.6rem; }
+    .event-band { font-size: 0.95rem; font-style: italic; color: var(--bone); margin-bottom: 0.5rem; }
+    .event-desc { font-size: 0.9rem; color: var(--fog); line-height: 1.5; flex: 1; }
+
+    .event-footer { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(200,149,74,0.12); display: flex; justify-content: space-between; align-items: center; }
+    .event-time-chip { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--fog); text-transform: uppercase; }
+    .ticket-btn { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--midnight); background: var(--tallow); padding: 0.45rem 1rem; text-decoration: none; transition: background 0.2s; white-space: nowrap; }
+    .ticket-btn:hover { background: var(--bone); }
+    .past-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--fog); text-transform: uppercase; border: 1px solid rgba(181,168,152,0.2); padding: 0.35rem 0.8rem; }
+
+    .page-footer-note { text-align: center; padding: 3rem 2rem; font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.15em; color: var(--fog); }
+    .page-footer-note a { color: var(--tallow); text-decoration: none; }
+    footer { background: var(--midnight); border-top: 1px solid rgba(200,149,74,0.1); padding: 2rem; text-align: center; font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em; color: var(--fog); }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://secondlinepleasure.club/"},
+          {"@type": "ListItem", "position": 2, "name": "Events", "item": "https://secondlinepleasure.club/events.html"}
+        ]
+      },
+      {
+        "@type": "Event",
+        "@id": "https://secondlinepleasure.club/events.html#event-jul10",
+        "name": "Second Line Pleasure Club Crawfish Boil — Natural Wine Venue Berkeley",
+        "startDate": "2026-07-10",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {"@type": "Place", "name": "Natural Wine Venue", "address": {"@type": "PostalAddress", "addressLocality": "Berkeley", "addressRegion": "CA", "addressCountry": "US"}},
+        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
+        "offers": {"@type": "Offer", "url": "https://markitai.com/e/lkvMA2SWL", "availability": "https://schema.org/InStock"},
+        "description": "Louisiana-style crawfish boil at a Berkeley natural wine venue. Subscribe via SMS for early access and venue announcement.",
+        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-1.jpg"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://secondlinepleasure.club/events.html#event-jul12",
+        "name": "Second Line Pleasure Club Crawfish Boil — Southern Pacific Brewing San Francisco",
+        "startDate": "2026-07-12T14:00:00-07:00",
+        "endDate": "2026-07-12T20:00:00-07:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {"@type": "Place", "name": "Southern Pacific Brewing", "address": {"@type": "PostalAddress", "streetAddress": "620 Treat Ave", "addressLocality": "San Francisco", "addressRegion": "CA", "postalCode": "94110", "addressCountry": "US"}},
+        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
+        "performer": {"@type": "MusicGroup", "name": "Okie Weiss & the Zydeco Playboys"},
+        "offers": {"@type": "Offer", "url": "https://markitai.com/e/yArRAPSey", "availability": "https://schema.org/InStock"},
+        "description": "Louisiana-style crawfish boil at Southern Pacific Brewing in San Francisco with live zydeco by Okie Weiss & the Zydeco Playboys. Boil 2–5pm, dance lesson 5–5:30pm, live show 5:30–8pm.",
+        "image": "https://secondlinepleasure.club/assets/photos/nighttime%20dump%202.jpeg"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://secondlinepleasure.club/events.html#event-jul14",
+        "name": "Second Line Pleasure Club Crawfish Boil — Lafayette Summer Music Workshop",
+        "startDate": "2026-07-14T17:00:00-07:00",
+        "endDate": "2026-07-14T20:00:00-07:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {"@type": "Place", "name": "Lafayette Location TBA", "address": {"@type": "PostalAddress", "addressLocality": "Lafayette", "addressRegion": "CA", "addressCountry": "US"}},
+        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
+        "performer": {"@type": "MusicGroup", "name": "Lafayette Summer Music Workshop"},
+        "offers": {"@type": "Offer", "url": "https://markitai.com/e/-o9aSJm1b", "availability": "https://schema.org/InStock"},
+        "description": "Louisiana-style crawfish boil in Lafayette with a live jam session from the Lafayette Summer Music Workshop.",
+        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-28.jpg"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://secondlinepleasure.club/events.html#event-jul16",
+        "name": "Second Line Pleasure Club Crawfish Boil — Drakes Barn Sacramento",
+        "startDate": "2026-07-16T17:00:00-07:00",
+        "endDate": "2026-07-16T20:00:00-07:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {"@type": "Place", "name": "Drakes Barn", "address": {"@type": "PostalAddress", "addressLocality": "Sacramento", "addressRegion": "CA", "addressCountry": "US"}},
+        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
+        "offers": {"@type": "Offer", "url": "https://markitai.com/e/WFrsLlJId", "availability": "https://schema.org/InStock"},
+        "description": "Louisiana-style crawfish boil at Drakes Barn in Sacramento. Delta crawfish near the source.",
+        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-3.jpg"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://secondlinepleasure.club/events.html#event-jul17",
+        "name": "Second Line Pleasure Club Crawfish Boil — Drakes Barrel House San Leandro",
+        "startDate": "2026-07-17T17:00:00-07:00",
+        "endDate": "2026-07-17T20:00:00-07:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {"@type": "Place", "name": "Drakes Barrel House", "address": {"@type": "PostalAddress", "addressLocality": "San Leandro", "addressRegion": "CA", "addressCountry": "US"}},
+        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
+        "offers": {"@type": "Offer", "url": "https://markitai.com/e/jVwxADsFU", "availability": "https://schema.org/InStock"},
+        "description": "Louisiana-style crawfish boil at Drakes Barrel House in San Leandro. Room to spread out and eat properly.",
+        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-5.jpg"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://secondlinepleasure.club/events.html#event-jul18",
+        "name": "Second Line Pleasure Club Crawfish Boil — Shotski's Alpine Lodge San Francisco",
+        "startDate": "2026-07-18T15:00:00-07:00",
+        "endDate": "2026-07-18T20:00:00-07:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {"@type": "Place", "name": "Shotski's Alpine Lodge", "address": {"@type": "PostalAddress", "addressLocality": "San Francisco", "addressRegion": "CA", "addressCountry": "US"}},
+        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
+        "offers": {"@type": "Offer", "url": "https://markitai.com/e/viLz0OlVa", "availability": "https://schema.org/InStock"},
+        "description": "Louisiana-style crawfish boil and live music at Shotski's Alpine Lodge in San Francisco. Boil and music in the alley — intimate and feral.",
+        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-34.jpg"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://secondlinepleasure.club/events.html#event-jul19",
+        "name": "Second Line Pleasure Club Crawfish Boil — Humble Sea Brewing Alameda",
+        "startDate": "2026-07-19T14:00:00-07:00",
+        "endDate": "2026-07-19T17:00:00-07:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {"@type": "Place", "name": "Humble Sea Brewing", "address": {"@type": "PostalAddress", "addressLocality": "Alameda", "addressRegion": "CA", "addressCountry": "US"}},
+        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
+        "offers": {"@type": "Offer", "url": "https://markitai.com/e/96pgbEqUu", "availability": "https://schema.org/InStock"},
+        "description": "Louisiana-style crawfish boil with live zydeco music at Humble Sea Brewing in Alameda.",
+        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://secondlinepleasure.club/events.html#event-jul21",
+        "name": "Second Line Pleasure Club Crawfish Boil — Humble Sea Brewing Pacifica",
+        "startDate": "2026-07-21T17:00:00-07:00",
+        "endDate": "2026-07-21T20:00:00-07:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {"@type": "Place", "name": "Humble Sea Brewing", "address": {"@type": "PostalAddress", "addressLocality": "Pacifica", "addressRegion": "CA", "addressCountry": "US"}},
+        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
+        "offers": {"@type": "Offer", "url": "https://markitai.com/e/YiW-9ACgN", "availability": "https://schema.org/InStock"},
+        "description": "Louisiana-style crawfish boil at Humble Sea Brewing in Pacifica. Oceanside boil with live music.",
+        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-15.jpg"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <div class="nav-logo-img"><img src="assets/logos/Updated Simple Logo 3_16_26.png" alt="SLPC" /></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html" class="active">Events</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="walrus-report.html">Walrus Report</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <p class="page-label">Bay Area Boils</p>
+    <h1 class="page-title">Upcoming Events</h1>
+    <p class="page-sub">Second Line Pleasure Club hosts Louisiana-style crawfish boils with live NOLA music at Bay Area breweries and venues. Click any event to buy tickets — or subscribe via SMS for early access.</p>
+  </div>
+
+  <!-- SUGGEST BUTTON — replace href="#" with your link when ready -->
+  <div class="suggest-bar">
+    <a class="suggest-btn" href="https://markitai.com/e/yuEyRbLkzN" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8l4 4-4 4M3 12h18"/></svg>
+      Suggest Where to Boil Next
+    </a>
+  </div>
+  <p style="text-align:center; padding:0 2rem 1.75rem; font-family:'Cinzel',serif; font-size:1.05rem; letter-spacing:0.06em; color:var(--fog);">Planning a private or corporate event? <a href="private.html" style="color:var(--tallow); text-decoration:none;">Book a private boil →</a></p>
+
+  <!-- ── JUNE 2026 ── -->
+  <div class="month-divider"><h2>June 2026</h2></div>
+
+  <div class="events-grid">
+
+    <!-- June 25 — Calicraft Walnut Creek -->
+    <div class="event-card">
+      <a class="event-photo-link" href="https://markitai.com/e/lkvMA2SWL" target="_blank" rel="noopener">
+        <img src="assets/photos/041926-SLPC-9.jpg" alt="Crawfish boil at Calicraft Shadelands Beer Garden Walnut Creek — Second Line Pleasure Club" style="object-position: center 40%;" />
+        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Thu · June 25 · 5–8pm</p>
+        <p class="event-venue">Calicraft Shadelands Beer Garden</p>
+        <p class="event-location">Walnut Creek, CA</p>
+        <p class="event-band">Jay Sanders — NOLA Jazz, Funk, R&B</p>
+        <p class="event-desc">Special offer: show a Back Dimples ticket and get 15% off your haul.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">5:00pm – 8:00pm</span>
+          <a class="ticket-btn" href="https://markitai.com/e/lkvMA2SWL" target="_blank" rel="noopener">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── JULY ── -->
+  <div class="month-divider"><h2>July 2026</h2></div>
+
+  <div class="events-grid">
+
+    <!-- July 10 — Berkeley -->
+    <div class="event-card">
+      <a class="event-photo-link" href="https://markitai.com/e/lkvMA2SWL" target="_blank" rel="noopener">
+        <img src="assets/photos/041926-SLPC-1.jpg" alt="Louisiana-style crawfish boil at Berkeley natural wine venue — Second Line Pleasure Club" />
+        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+        <span class="tba-badge">Location TBA</span>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Fri · July 10</p>
+        <p class="event-venue">Natural Wine Venue</p>
+        <p class="event-location">Berkeley, CA</p>
+        <p class="event-band">Music TBA</p>
+        <p class="event-desc">A special one. Crawfish meets natural wine in Berkeley. Details dropping soon — sign up for SMS to be first to know.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">Time TBA</span>
+          <a class="ticket-btn" href="https://markitai.com/e/lkvMA2SWL" target="_blank" rel="noopener">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- July 12 — Southern Pacific SF -->
+    <div class="event-card">
+      <a class="event-photo-link" href="https://markitai.com/e/yArRAPSey" target="_blank" rel="noopener">
+        <img src="assets/photos/nighttime dump 2.jpeg" alt="Nighttime crawfish dump at Southern Pacific Brewing San Francisco — Second Line Pleasure Club" style="object-position: top;" />
+        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Sun · July 12 · 2–8pm</p>
+        <p class="event-venue">Southern Pacific Brewing</p>
+        <p class="event-location">San Francisco, CA</p>
+        <p class="event-band">Okie Weiss &amp; the Zydeco Playboys</p>
+        <p class="event-desc">Boil, then Show. Boil from 2–5, pre-show dance lesson at 5–5:30, then the show runs 5:30–8. Full bar on site.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">2:00pm – 8:00pm</span>
+          <a class="ticket-btn" href="https://markitai.com/e/yArRAPSey" target="_blank" rel="noopener">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- July 14 — Lafayette -->
+    <div class="event-card">
+      <a class="event-photo-link" href="https://markitai.com/e/-o9aSJm1b" target="_blank" rel="noopener">
+        <img src="assets/photos/041926-SLPC-28.jpg" alt="Guests at Second Line Pleasure Club crawfish boil in Lafayette California" />
+        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+        <span class="tba-badge">Location TBA</span>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Tue · July 14 · 5–8pm</p>
+        <p class="event-venue">Lafayette Location TBA</p>
+        <p class="event-location">Lafayette or Orinda, CA</p>
+        <p class="event-band">Lafayette Summer Music Workshop — Jam Session</p>
+        <p class="event-desc">The Lafayette Summer Music Workshop brings musicians of all levels. Their jam session meets our boil.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">5:00pm – 8:00pm</span>
+          <a class="ticket-btn" href="https://markitai.com/e/-o9aSJm1b" target="_blank" rel="noopener">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- July 16 — Drakes Barn Sacramento -->
+    <div class="event-card">
+      <a class="event-photo-link" href="https://markitai.com/e/WFrsLlJId" target="_blank" rel="noopener">
+        <img src="assets/photos/041926-SLPC-3.jpg" alt="Crawfish boil at Drakes Barn Sacramento — Second Line Pleasure Club" style="object-position: top;" />
+        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Thu · July 16 · 5–8pm</p>
+        <p class="event-venue">Drakes Barn</p>
+        <p class="event-location">Sacramento, CA</p>
+        <p class="event-band">TBA</p>
+        <p class="event-desc">Our largest format yet. The Barn has a full stage. First event a stone's throw from the very Delta waters where the crawfish live.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">5:00pm – 8:00pm</span>
+          <a class="ticket-btn" href="https://markitai.com/e/WFrsLlJId" target="_blank" rel="noopener">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- July 17 — Drakes Barrel San Leandro -->
+    <div class="event-card">
+      <a class="event-photo-link" href="https://markitai.com/e/jVwxADsFU" target="_blank" rel="noopener">
+        <img src="assets/photos/041926-SLPC-5.jpg" alt="Fresh crawfish at Drakes Barrel House San Leandro Bay Area boil — Second Line Pleasure Club" />
+        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Fri · July 17 · 5–8pm</p>
+        <p class="event-venue">Drakes Barrel House</p>
+        <p class="event-location">San Leandro, CA</p>
+        <p class="event-band">TBA</p>
+        <p class="event-desc">First boil in San Leandro at another Drakes location. Room to spread out and eat properly.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">5:00pm – 8:00pm</span>
+          <a class="ticket-btn" href="https://markitai.com/e/jVwxADsFU" target="_blank" rel="noopener">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- July 18 — Shotski's SF -->
+    <div class="event-card">
+      <a class="event-photo-link" href="https://markitai.com/e/viLz0OlVa" target="_blank" rel="noopener">
+        <img src="assets/photos/041926-SLPC-34.jpg" alt="Guests at Shotski's Alpine Lodge San Francisco crawfish boil — Second Line Pleasure Club" style="object-position: top;" />
+        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Sat · July 18 · 3–6pm</p>
+        <p class="event-venue">Shotski's Alpine Lodge</p>
+        <p class="event-location">San Francisco, CA</p>
+        <p class="event-band">TBA</p>
+        <p class="event-desc">Stepping out of breweries into the world of dive bars. Boil and music in the alley. Intimate and feral.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">3:00pm – 6:00pm</span>
+          <a class="ticket-btn" href="https://markitai.com/e/viLz0OlVa" target="_blank" rel="noopener">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- July 19 — Humble Sea Alameda -->
+    <div class="event-card">
+      <a class="event-photo-link" href="https://markitai.com/e/96pgbEqUu" target="_blank" rel="noopener">
+        <img src="assets/photos/041926-SLPC-22.jpg" alt="Crawfish spread at Humble Sea Brewing Alameda — Second Line Pleasure Club" />
+        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Sun · July 19 · 2–5pm</p>
+        <p class="event-venue">Humble Sea Brewing</p>
+        <p class="event-location">Alameda, CA</p>
+        <p class="event-band">TBA — Planning Zydeco</p>
+        <p class="event-desc">3rd round at our Alameda clubhouse. Planning to get some Zydeco on the books for this one.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">2:00pm – 5:00pm</span>
+          <a class="ticket-btn" href="https://markitai.com/e/96pgbEqUu" target="_blank" rel="noopener">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- July 21 — Humble Sea Pacifica -->
+    <div class="event-card">
+      <a class="event-photo-link" href="https://markitai.com/e/YiW-9ACgN" target="_blank" rel="noopener">
+        <img src="assets/photos/041926-SLPC-15.jpg" alt="Guests eating crawfish at Humble Sea Brewing Pacifica Bay Area boil — Second Line Pleasure Club" />
+        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Tue · July 21 · 5–8pm</p>
+        <p class="event-venue">Humble Sea Brewing</p>
+        <p class="event-location">Pacifica, CA</p>
+        <p class="event-band">TBA</p>
+        <p class="event-desc">Going back to where the early sellout pattern started. Pacifica was a party. We are so excited to return.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">5:00pm – 8:00pm</span>
+          <a class="ticket-btn" href="https://markitai.com/e/YiW-9ACgN" target="_blank" rel="noopener">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── PAST EVENTS ── -->
+  <div class="month-divider" style="padding-top:4rem;"><h2 style="color:var(--fog);">Past Events</h2></div>
+
+  <div class="events-grid">
+
+    <div class="event-card past">
+      <a class="event-photo-link" style="pointer-events:none;">
+        <img src="assets/photos/041926-SLPC-29.jpg" alt="Humble Sea Alameda" />
+        <div class="event-photo-overlay"></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Sat · June 20 · 2–5pm</p>
+        <p class="event-venue">Humble Sea Brewing</p>
+        <p class="event-location">Alameda, CA</p>
+        <p class="event-band">Hutton &amp; Joseph — NOLA Jazz, Funk, R&B</p>
+        <p class="event-desc">Guitar and piano duo at our favorite Alameda brewery.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">2:00pm – 5:00pm</span>
+          <span class="past-label">Past Event</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="event-card past">
+      <a class="event-photo-link" style="pointer-events:none;">
+        <img src="assets/photos/041926-SLPC-30.jpg" alt="Henhouse Novato" />
+        <div class="event-photo-overlay"></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Sun · June 21 · 2–5pm</p>
+        <p class="event-venue">Henhouse Records Room</p>
+        <p class="event-location">Novato, CA</p>
+        <p class="event-band">The Back Dimples — Cajun Zydeco</p>
+        <p class="event-desc">A Father's Day to remember. Our biggest boil yet.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">2:00pm – 5:00pm</span>
+          <span class="past-label">Past Event</span>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="page-footer-note">
+    More events added regularly. <a href="https://markitai.com/u/secondlinepleasureclub" target="_blank" rel="noopener">Join the club</a> for early access before public announcements.
+  </div>
+
+  <footer>
+    <p style="margin-bottom: 0.5rem;"><strong style="color: var(--bone);">Second Line Pleasure Club</strong> &nbsp;·&nbsp; San Francisco Bay Area, CA &nbsp;·&nbsp; <a href="tel:+18772691385" style="color: var(--fog); text-decoration: none;">+1 (877) 269-1385</a> &nbsp;·&nbsp; <a href="mailto:info@secondlinepleasure.club" style="color: var(--fog); text-decoration: none;">info@secondlinepleasure.club</a></p>
+    <p>An Overtone Collective Joint &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; secondlinepleasure.club</p>
+  </footer>
+
+</body>
+</html>

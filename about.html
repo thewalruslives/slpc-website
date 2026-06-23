@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Second Line Pleasure Club | Bay Area Crawfish Boil Events</title>
+  <meta name="description" content="Second Line Pleasure Club is a Bay Area crawfish boil event series honoring New Orleans food and music culture. Founded by Aaron Salit, chef and restaurant consultant. Events at breweries across the San Francisco Bay Area." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://secondlinepleasure.club/about.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Second Line Pleasure Club" />
+  <meta property="og:title" content="About Second Line Pleasure Club — Bay Area Crawfish Boil Events" />
+  <meta property="og:description" content="Learn the story behind Second Line Pleasure Club — a Bay Area crawfish boil event series bringing Louisiana food and NOLA music culture to brewery venues across the Bay." />
+  <meta property="og:url" content="https://secondlinepleasure.club/about.html" />
+  <meta property="og:image" content="https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg" />
+  <meta property="og:image:alt" content="Crawfish spread at a Second Line Pleasure Club event in the Bay Area" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About Second Line Pleasure Club" />
+  <meta name="twitter:description" content="Bay Area crawfish boil event series honoring New Orleans food and music culture. Founded by Aaron Salit." />
+  <meta name="twitter:image" content="https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --tallow: #C8954A; --bone: #E8DFC8; --fog: #B5A898;
+      --midnight: #0E0B0F; --iron: #1C1820; --ember: #8B3A2A;
+    }
+    html, body { background: var(--midnight); color: var(--bone); font-family: 'EB Garamond', serif; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.75rem;
+      background: rgba(14,11,15,0.93); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(200,149,74,0.12);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
+    .nav-logo-img { width: 80px; height: 80px; border-radius: 50%; overflow: hidden; }
+    .nav-logo-img img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); display: block; }
+    .nav-logo span { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 0.12em; color: var(--tallow); line-height: 1.3; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fog); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--tallow); }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+
+    /* ── HERO ── */
+    .page-hero {
+      min-height: 60vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding: 8rem 2rem 4rem; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .page-hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/photos/041926-SLPC-3.jpg');
+      background-size: cover; background-position: center 30%;
+      filter: brightness(0.35);
+    }
+    .page-hero-content { position: relative; z-index: 1; }
+    .page-label { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--tallow); text-transform: uppercase; margin-bottom: 0.75rem; }
+    .page-title { font-family: 'Righteous', sans-serif; font-size: clamp(3rem, 8vw, 5.5rem); color: var(--bone); line-height: 1.1; }
+
+    /* ── SECTION HELPERS ── */
+    .section { padding: 5.5rem 2rem; }
+    .section-inner { max-width: 820px; margin: 0 auto; }
+    .section-inner.wide { max-width: 1100px; }
+    .dark-band { background: var(--iron); }
+
+    .overline { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--tallow); text-transform: uppercase; margin-bottom: 1rem; }
+    .section-heading { font-family: 'Righteous', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--bone); margin-bottom: 1.75rem; line-height: 1.2; }
+    .body-text { font-size: 1.15rem; line-height: 1.85; color: var(--bone); margin-bottom: 1.25rem; }
+    .body-text.muted { color: var(--fog); }
+
+    .pull-quote {
+      border-left: 3px solid var(--tallow); padding: 1.25rem 1.75rem;
+      background: var(--iron); margin: 2.5rem 0;
+      font-family: 'EB Garamond', serif; font-style: italic;
+      font-size: clamp(1.15rem, 2.5vw, 1.45rem); color: var(--bone); line-height: 1.6;
+    }
+
+    /* ── SINGLE FULL-WIDTH PHOTO ── */
+    .section-photo {
+      width: 100%; max-height: 520px; overflow: hidden;
+    }
+    .section-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center; display: block;
+    }
+    .section-photo.tall { max-height: 700px; }
+    .section-photo.full {
+      max-height: none; overflow: visible;
+    }
+    .section-photo.full img {
+      width: 100%; height: auto; object-fit: unset;
+      object-position: unset;
+    }
+
+    /* ── FOOD SECTION ── */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 2.25rem; }
+    .food-card { background: var(--midnight); border: 1px solid rgba(200,149,74,0.18); padding: 1.75rem; }
+    .food-card .food-title { font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tallow); margin-bottom: 0.75rem; }
+    .food-card p { font-size: 1rem; color: var(--fog); line-height: 1.65; }
+    .food-note { margin-top: 2rem; font-size: 1.45rem; font-style: italic; color: var(--bone); line-height: 1.7; }
+
+    /* ── FORMAT STEPS (large) ── */
+    .format-step {
+      padding: 5rem 2rem;
+      border-bottom: 1px solid rgba(200,149,74,0.1);
+    }
+    .format-step:last-child { border-bottom: none; }
+    .format-step-inner { max-width: 820px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: start; }
+    .step-num { font-family: 'Righteous', sans-serif; font-size: clamp(5rem, 15vw, 9rem); color: rgba(200,149,74,0.18); line-height: 1; user-select: none; }
+    .step-body {}
+    .step-title { font-family: 'Righteous', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--bone); margin-bottom: 1rem; line-height: 1.15; }
+    .step-text { font-size: 1.2rem; line-height: 1.85; color: var(--fog); }
+    .step-link { display: inline-block; margin-top: 1rem; font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tallow); text-decoration: none; border-bottom: 1px solid rgba(200,149,74,0.3); padding-bottom: 2px; }
+    .step-link:hover { border-color: var(--tallow); }
+    @media (max-width: 600px) { .format-step-inner { grid-template-columns: 1fr; gap: 1rem; } .step-num { font-size: 5rem; } }
+
+    /* ── VALUES ── */
+    .values-list { list-style: none; margin-top: 1.5rem; display: grid; gap: 0.75rem; }
+    .values-list li { padding: 1rem 1.4rem; background: var(--iron); border-left: 3px solid rgba(200,149,74,0.4); }
+    .values-list li strong { display: block; font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--tallow); margin-bottom: 0.3rem; }
+    .values-list li span { font-size: 1.15rem; color: var(--fog); line-height: 1.6; }
+
+    /* ── CTA ── */
+    .cta-section { text-align: center; padding: 5rem 2rem; }
+    .cta-btn { display: inline-block; font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--midnight); background: var(--tallow); padding: 1.1rem 2.75rem; text-decoration: none; transition: background 0.2s; }
+    .cta-btn:hover { background: var(--bone); }
+    .cta-btn.outline { background: transparent; color: var(--tallow); border: 1px solid var(--tallow); }
+    .cta-btn.outline:hover { background: var(--tallow); color: var(--midnight); }
+
+    footer { background: var(--midnight); border-top: 1px solid rgba(200,149,74,0.1); padding: 2rem; text-align: center; font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em; color: var(--fog); }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://secondlinepleasure.club/"},
+          {"@type": "ListItem", "position": 2, "name": "About", "item": "https://secondlinepleasure.club/about.html"}
+        ]
+      },
+      {
+        "@type": "Person",
+        "name": "Aaron Salit",
+        "jobTitle": "Founder",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Second Line Pleasure Club",
+          "url": "https://secondlinepleasure.club"
+        },
+        "description": "Bay Area native, chef, and restaurant consultant. Founder of Second Line Pleasure Club, a Louisiana-style crawfish boil event series at Bay Area breweries and wineries.",
+        "knowsAbout": ["Cajun cuisine", "Louisiana crawfish", "restaurant consulting", "event hosting", "New Orleans food culture"]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <div class="nav-logo-img"><img src="assets/logos/Updated Simple Logo 3_16_26.png" alt="SLPC" /></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="walrus-report.html">Walrus Report</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-content">
+      <p class="page-label">The Story</p>
+      <h1 class="page-title">About</h1>
+    </div>
+  </div>
+
+  <!-- THE FOUNDER -->
+  <section class="section">
+    <div class="section-inner">
+      <p class="overline">The Founder</p>
+      <h2 class="section-heading">Bay Area Born. NOLA Devoted.</h2>
+      <p class="body-text">
+        I'm Aaron — a Bay Area native, chef, restaurant consultant, and music lover who fell hard for New Orleans the first time I visited, about ten years ago. I'd been around San Francisco's underground energy my whole life. Venues and bars where weird wasn't a costume. New Orleans felt like that same thing turned all the way up.
+      </p>
+      <p class="body-text muted">
+        Parade season, brass bands, costuming, krewes — and this unmistakable sense that you're seen as a full human being. No judgment, just joy. I've been back every year since. I go to eat, to listen, to watch how people gather. And I've been trying to bring that same feeling to the Bay ever since.
+      </p>
+      <div class="pull-quote">
+        "A crawfish boil is a social technology that brings people together. It's hands-on, messy, chaotic, slow, and collaborative. That's what I want to bring to the Bay — without kitsch, without cheap imitation, and with real community at the center."
+      </div>
+    </div>
+  </section>
+
+  <!-- SINGLE PHOTO -->
+  <div class="section-photo full">
+    <img src="assets/photos/041926-SLPC-30.jpg" alt="Aaron at the boil" />
+  </div>
+
+  <!-- WHAT'S A SECOND LINE -->
+  <section class="section dark-band">
+    <div class="section-inner">
+      <p class="overline">The Name</p>
+      <h2 class="section-heading">What's a Second Line?</h2>
+      <p class="body-text">
+        A second line is a New Orleans tradition. After the main parade — the first line — the community follows. Dancing, waving handkerchiefs, joining the music just because it feels right. Citizens and visitors alike fall in without permission.
+      </p>
+      <p class="body-text muted">
+        That's the spirit this project is built on. Collective joy. Second Line Pleasure Club isn't a catering company or a pop-up food brand. It's a gathering. A standing invitation to join something joyful, communal, and delicious. No background required. No dress code. No age limit.
+      </p>
+    </div>
+  </section>
+
+
+
+  <!-- THE FOOD -->
+  <section class="section">
+    <div class="section-inner wide">
+      <p class="overline">The Sacrament</p>
+      <h2 class="section-heading">The Food</h2>
+      <p class="body-text">
+        Every boil starts with the crawfish and works outward from there. We source local, we spice from scratch, and we let the season dictate what's on the table. No two boils are the same. That's the whole point.
+      </p>
+      <div class="food-grid">
+        <div class="food-card">
+          <div class="food-title">Sacramento Delta Signal Crawfish</div>
+          <p>The backbone of the season. Signal crawfish from the Sacramento River Delta — sweeter and often slightly smaller than their Louisiana cousins, but undeniably local and wild. This is what's in the pot from spring through summer.</p>
+        </div>
+        <div class="food-card">
+          <div class="food-title">California Red Crawfish</div>
+          <p>Come August, we transition to California-grown red crawfish — the same species as Louisiana's red swamp crawfish, raised right here. Meatier, familiar, and a fitting close to the season. A true California story.</p>
+        </div>
+        <div class="food-card">
+          <div class="food-title">Livermore Butcher Shop Andouille</div>
+          <p>House-smoked andouille from our Livermore butcher partner. Dense, porky, deeply smoky. Goes in the pot and comes out transformed. Every bite carries the whole boil.</p>
+        </div>
+        <div class="food-card">
+          <div class="food-title">Oaktown Spice Shop Blend</div>
+          <p>Our custom spice blend, built in partnership with Oaktown Spice Shop in Oakland. The public recipe doesn't exist. It changes slightly every time and gets better every season.</p>
+        </div>
+        <div class="food-card">
+          <div class="food-title">Aromatics & Secret Ingredients</div>
+          <p>Lots of them. The boil is a living thing. We add, we adjust, we go by feel. Every boil is a little different — come enough times and you'll start to notice.</p>
+        </div>
+        <div class="food-card">
+          <div class="food-title">In-Season Fixings</div>
+          <p>What's in the pot with the crawfish changes boil to boil depending on what's good, what's fresh, and what Aaron's feeling. Come along on the journey. That's the whole invitation.</p>
+        </div>
+      </div>
+      <p class="food-note">Every boil is an experiment. Show up curious and hungry — you'll leave satisfied and coming back for next time.</p>
+    </div>
+  </section>
+
+
+
+  <!-- HOW A BOIL WORKS -->
+  <section style="background: var(--iron); padding-top: 5rem; padding-bottom: 0;">
+    <div style="max-width: 820px; margin: 0 auto; padding: 0 2rem 2rem;">
+      <p class="overline">The Format</p>
+      <h2 class="section-heading">How a Boil Works</h2>
+    </div>
+  </section>
+
+  <div style="background: var(--iron);">
+    <div class="format-step">
+      <div class="format-step-inner">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3 class="step-title">Pre-Order Online</h3>
+          <p class="step-text">Grab your ticket before you show up. Choose your portion — from a solo haul to a full family spread. Walk-ins are welcome while supplies last, but pre-orders guarantee your crawfish. A sample menu is available to browse options before you arrive.</p>
+          <a class="step-link" href="slpc-menu-sample-june-26.pdf" target="_blank" rel="noopener">View Sample Menu →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-step">
+      <div class="format-step-inner">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3 class="step-title">Table Pour — Group Option</h3>
+          <p class="step-text">Bringing your crew? Reserve a parchment-lined table for your group. We dump your crawfish hot when you're ready. The table pour is the most communal way to eat — everyone goes in at once, hands everywhere, conversation mandatory. It's the most affordable way to haul big too.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-step">
+      <div class="format-step-inner">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3 class="step-title">Eat With Your Hands</h3>
+          <p class="step-text">Communal tables. Newspapers on the surface. Cold beer. Hot spice. Your order comes out hot, by name, in a bag or in the pour. Every ticket includes a free snack, and at select events a beverage discount from our venue partners. First-timers get the full peel-and-eat walkthrough.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-step">
+      <div class="format-step-inner">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h3 class="step-title">Move to the Music</h3>
+          <p class="step-text">Live music is woven into every event. Brass bands, zydeco, jazz, funk, soul — the lineup is always intentional and always rooted in the New Orleans tradition of using music as a communal thread. Plan to stay long after the crawfish are gone.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SINGLE PHOTO -->
+  <div class="section-photo full">
+    <img src="assets/photos/041926-SLPC-34.jpg" alt="People at the boil" />
+  </div>
+
+  <!-- VALUES -->
+  <section class="section dark-band">
+    <div class="section-inner">
+      <p class="overline">What We're About</p>
+      <h2 class="section-heading">The Values</h2>
+      <ul class="values-list">
+        <li><strong>Community</strong><span>Communal tables, shared meals, strangers becoming neighbors.</span></li>
+        <li><strong>Joy</strong><span>Not just fun — collective effervescence. The feeling when everyone is at the same frequency.</span></li>
+        <li><strong>Inclusivity</strong><span>In the menu, the welcome, and the hosting. Everyone has a seat at the table.</span></li>
+        <li><strong>Stewardship</strong><span>Honoring Louisiana culture with integrity, not imitation.</span></li>
+        <li><strong>Craft</strong><span>Quality food, real music, intentional details. Nothing phoned in.</span></li>
+        <li><strong>Social Aid &amp; Philanthropy</strong><span>Rooted in the New Orleans tradition of mutual support. We give back through accessible pricing, community partnerships, and fair pay for artists.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <p class="overline" style="margin-bottom: 1rem;">Ready?</p>
+    <h2 class="section-heading" style="margin-bottom: 2rem;">Come Hungry. Bring Your People.</h2>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+      <a class="cta-btn" href="events.html">See Upcoming Boils</a>
+      <a class="cta-btn outline" href="https://markitai.com/u/secondlinepleasureclub" target="_blank" rel="noopener">Join the Club</a>
+    </div>
+  </div>
+
+  <footer>
+    <p style="margin-bottom: 0.5rem;"><strong style="color: var(--bone);">Second Line Pleasure Club</strong> &nbsp;·&nbsp; San Francisco Bay Area, CA &nbsp;·&nbsp; <a href="tel:+18772691385" style="color: var(--fog); text-decoration: none;">+1 (877) 269-1385</a> &nbsp;·&nbsp; <a href="mailto:info@secondlinepleasure.club" style="color: var(--fog); text-decoration: none;">info@secondlinepleasure.club</a></p>
+    <p>An Overtone Collective Joint &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; secondlinepleasure.club</p>
+  </footer>
+
+</body>
+</html>

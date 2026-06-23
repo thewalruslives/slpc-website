@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+*.log
+serve.py
+.claude/
+*.zip
+*.textClipping
+SLPC Brand-Marketing Kit/
