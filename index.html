@@ -523,7 +523,7 @@
       <p class="contact-body">
         Questions? Group reservations? Interested in hosting a private or corporate boil?<br/>
         Email or text anytime.<br/><br/>
-        <a href="mailto:aaron@secondlinepleasure.club">aaron@secondlinepleasure.club</a><br/>
+        <a href="mailto:info@secondlinepleasure.club">info@secondlinepleasure.club</a><br/>
         <a href="sms:+18772691385">+1 (877) 269-1385</a>
       </p>
       <div class="contact-links">
@@ -597,7 +597,7 @@
       driver2.style.height = PHOTOS2.length * VH_PER_PHOTO * window.innerHeight + 'px';
     }
     sizeDrivers();
-    window.addEventListener('resize', () => { sizeDrivers(); rafDirty = true; }, { passive: true });
+    window.addEventListener('resize', () => { sizeDrivers(); onScroll(); }, { passive: true });
 
     // ─── REFS ───
     const logo      = document.getElementById('main-logo');
@@ -632,7 +632,6 @@
       logo.style.transform = `translate(${cx}px, ${cy}px)`;
     }
     centerLogo();
-    window.addEventListener('resize', centerLogo, { passive: true });
 
     // ─── MAIN SCROLL HANDLER ───
     let rafDirty = false;
