@@ -233,6 +233,34 @@
       .thumb { width: 128px; height: 128px; }
       .arrow { width: 38px; height: 38px; font-size: 1.1rem; }
     }
+
+    /* ── MOBILE NAV ── */
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 0.4rem; z-index: 200;
+    }
+    .nav-toggle span { display: block; width: 26px; height: 2px; background: var(--tallow); }
+    .nav-overlay {
+      position: fixed; inset: 0; background: var(--midnight); z-index: 150;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .nav-overlay.open { opacity: 1; pointer-events: all; }
+    .nav-overlay-close {
+      position: absolute; top: 1.75rem; right: 1.75rem;
+      background: none; border: none; cursor: pointer;
+      font-family: 'Cinzel', serif; font-size: 0.8rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--fog);
+    }
+    .nav-overlay-close:hover { color: var(--tallow); }
+    .nav-overlay-links { list-style: none; text-align: center; }
+    .nav-overlay-links li a {
+      font-family: 'Righteous', sans-serif; font-size: clamp(1.8rem, 8vw, 2.5rem);
+      color: var(--tallow); text-decoration: none; display: block; line-height: 1.65;
+    }
+    .nav-overlay-links li a:hover,
+    .nav-overlay-links li a.active { color: var(--bone); }
+    @media (max-width: 640px) { .nav-toggle { display: flex; } }
   </style>
   <script type="application/ld+json">
   {
@@ -272,7 +300,21 @@
       <li><a href="walrus-report.html">Walrus Report</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
+    <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('nav-overlay').classList.add('open')">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <div id="nav-overlay" class="nav-overlay">
+    <button class="nav-overlay-close" onclick="document.getElementById('nav-overlay').classList.remove('open')">✕ Close</button>
+    <ul class="nav-overlay-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="walrus-report.html">Walrus Report</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
 
   <h1 class="sr-only">Second Line Pleasure Club Photo Gallery — Bay Area Crawfish Boil Events</h1>
 
