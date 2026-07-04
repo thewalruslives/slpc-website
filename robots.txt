@@ -1,7 +1,4 @@
 User-agent: *
 Allow: /
 
-# Block assets from being indexed individually (they're referenced by pages)
-Disallow: /assets/
-
 Sitemap: https://secondlinepleasure.club/sitemap.xml
