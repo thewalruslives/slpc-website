@@ -105,10 +105,19 @@
     .body-text.muted { color: var(--fog); }
 
     /* ── PHOTO STRIP ── */
-    .photo-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-    .photo-duo-item { aspect-ratio: 4/3; overflow: hidden; }
-    .photo-duo-item img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.4s; }
-    .photo-duo-item:hover img { transform: scale(1.03); }
+    .photo-quad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+    .photo-quad-item { aspect-ratio: 3/4; overflow: hidden; }
+    .photo-quad-item img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.4s; }
+    .photo-quad-item:hover img { transform: scale(1.03); }
+    @media (max-width: 640px) { .photo-quad { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ── FOOD GALLERY ── */
+    .food-gallery { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto; gap: 0.5rem; }
+    .food-gallery-item { overflow: hidden; aspect-ratio: 4/3; }
+    .food-gallery-item.tall { grid-row: span 2; aspect-ratio: unset; }
+    .food-gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .food-gallery-item:hover img { transform: scale(1.04); }
+    @media (max-width: 640px) { .food-gallery { grid-template-columns: repeat(2, 1fr); } .food-gallery-item.tall { grid-row: span 1; aspect-ratio: 4/3; } }
 
     /* ── PACKAGE CARDS ── */
     .packages { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
@@ -262,10 +271,12 @@
     </div>
   </section>
 
-  <!-- PHOTO DUO -->
-  <div class="photo-duo">
-    <div class="photo-duo-item"><img src="assets/photos/041926-SLPC-28.jpg" alt="Crawfish at the table" /></div>
-    <div class="photo-duo-item"><img src="assets/photos/041926-SLPC-1.jpg" alt="The boil pot" /></div>
+  <!-- PHOTO QUAD -->
+  <div class="photo-quad">
+    <div class="photo-quad-item"><img src="assets/photos/private-venue-setup.jpeg" alt="Private event venue setup with communal tables and stage" /></div>
+    <div class="photo-quad-item"><img src="assets/photos/private-prep-station.jpeg" alt="Boil prep station setup" style="object-position: top;" /></div>
+    <div class="photo-quad-item"><img src="assets/photos/private-buffet-rice.jpeg" alt="Private boil buffet spread" /></div>
+    <div class="photo-quad-item"><img src="assets/photos/private-buffet-spread.jpeg" alt="Full private boil buffet with guests" style="object-position: top;" /></div>
   </div>
 
   <!-- PACKAGES -->
@@ -315,6 +326,17 @@
       </div>
     </div>
   </section>
+
+  <!-- FOOD GALLERY -->
+  <div style="padding: 0.5rem 0;">
+    <div class="food-gallery">
+      <div class="food-gallery-item tall"><img src="assets/photos/private-gallery-crawfish-bowl.jpeg" alt="Crawfish and shrimp boil close-up" style="object-position: center;" /></div>
+      <div class="food-gallery-item"><img src="assets/photos/private-gallery-table-dump.jpeg" alt="Table dump at a private Second Line Pleasure Club boil" style="object-position: top;" /></div>
+      <div class="food-gallery-item"><img src="assets/photos/private-gallery-mac-cheese.jpeg" alt="Homemade mac and cheese at a private boil" /></div>
+      <div class="food-gallery-item"><img src="assets/photos/private-gallery-pizza.jpeg" alt="Detroit-style pizza at a private boil" /></div>
+      <div class="food-gallery-item"><img src="assets/photos/private-gallery-chicken-greens.jpeg" alt="Fried chicken and collard greens at a private boil" /></div>
+    </div>
+  </div>
 
   <!-- HOW TO BOOK -->
   <section class="section">
