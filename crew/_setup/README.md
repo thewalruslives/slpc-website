@@ -108,6 +108,25 @@ Everything behind the crew code, linked from the bar at the top of each:
   rust when it is short, grey for an extra labor day. Tap a day for the detail.
   On a phone the pills become coloured bars so the grid still fits.
 
+## Getting the data back out
+
+**Dashboard → Export a CSV.** Pick a range (everything / upcoming / past) and
+one of three shapes:
+
+- **The schedule** — one row per event with every field. Its headers are the
+  ones the importer reads, so this is a true round trip: export it, edit it in
+  Excel, and import it straight back. Verified against all 40 events with no
+  drift.
+- **Crew answers** — one row per person per event: who said what, who is on the
+  crew, who can deliver, their note and when they answered. The shape to sort,
+  filter or pivot.
+- **Staffing grid** — a column per crew member with their answer in the cell,
+  plus how many are on and how many are still needed. This is your old staffing
+  worksheet's layout.
+
+Files are named with the date, e.g. `slpc-schedule-2026-09-16.csv`, and carry a
+UTF-8 marker so Excel opens them with the accents intact.
+
 ## Confirming who actually works
 
 Collecting answers is only half of it — the editor's **Crew** section is where

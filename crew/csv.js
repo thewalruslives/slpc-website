@@ -120,11 +120,22 @@ window.SLPC_CSV = (function () {
     if (isEnd && start != null && v <= start && v + 12 <= 23) v += 12;
     return v;
   }
+  // A lone time with no end, e.g. an extra-labor day that just starts at 10.
+  const SINGLE = /^\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\s*$/i;
+
   function parseRange(raw){
     const s = String(raw || "").trim();
     if (!s) return { start:null, end:null, rest:"" };
     const m = RANGE.exec(s);
-    if (!m) return { start:null, end:null, rest:s };
+    if (!m){
+      const one = SINGLE.exec(s);
+      if (one){
+        const h = hour24(one[1], one[3], false);
+        return { start: String(h).padStart(2,"0") + ":" + String(+(one[2]||0)).padStart(2,"0"),
+                 end: null, rest: "" };
+      }
+      return { start:null, end:null, rest:s };
+    }
     const sh = hour24(m[1], m[3], false);
     const eh = hour24(m[4], m[6], true, sh);
     const pad = (h, mm) => String(h).padStart(2,"0") + ":" + String(+(mm||0)).padStart(2,"0");

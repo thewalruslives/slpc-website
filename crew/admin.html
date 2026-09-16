@@ -50,6 +50,7 @@
   <div class="adminbar">
     <button class="btn solid" id="open-import">Import a CSV</button>
     <button class="btn" id="new-blank">Add event</button>
+    <button class="btn" id="open-export">Export a CSV</button>
     <button class="btn ghost" id="open-settings">Roster &amp; crew code</button>
   </div>
 
@@ -178,6 +179,40 @@
   </div>
 </dialog>
 
+<!-- export -->
+<dialog id="dlg-export">
+  <div class="dlg-hd"><h2>Export a CSV</h2>
+    <button class="x" type="button" data-close aria-label="Close">&times;</button></div>
+  <div class="dlg-bd">
+    <div class="sect">Which events</div>
+    <div class="scope" id="scope" role="group" aria-label="Which events to export">
+      <button type="button" data-scope="all" aria-pressed="true">Everything</button>
+      <button type="button" data-scope="upcoming" aria-pressed="false">Upcoming only</button>
+      <button type="button" data-scope="past" aria-pressed="false">Past only</button>
+    </div>
+
+    <div class="sect">What to export</div>
+    <div class="exports">
+      <button type="button" class="exp" data-kind="schedule">
+        <b>The schedule</b>
+        <span>One row per event with every detail. Uses the same column names as
+          the importer, so you can edit this in a spreadsheet and load it back in.</span>
+      </button>
+      <button type="button" class="exp" data-kind="answers">
+        <b>Crew answers</b>
+        <span>One row per person per event — who said what, who is on the crew,
+          who can deliver, and their notes. The shape to sort or pivot.</span>
+      </button>
+      <button type="button" class="exp" data-kind="grid">
+        <b>Staffing grid</b>
+        <span>A column per crew member with their answer in the cell, the way
+          your old staffing worksheet read.</span>
+      </button>
+    </div>
+    <div class="status" id="export-status" style="margin-top:14px"></div>
+  </div>
+</dialog>
+
 <!-- settings -->
 <dialog id="dlg-settings">
   <div class="dlg-hd"><h2>Roster &amp; crew code</h2>
@@ -210,6 +245,7 @@
 <script src="config.js"></script>
 <script src="common.js"></script>
 <script src="csv.js"></script>
+<script src="export.js"></script>
 <script>
 (function () {
 "use strict";
@@ -467,6 +503,41 @@ function handleShot(file){
   $("#shot-status").className = "status ok";
   $("#shot-status").textContent = "Poster ready — it saves with the event.";
 }
+
+/* ── export ── */
+const dlgX = $("#dlg-export");
+let scope = "all";
+
+$("#open-export").addEventListener("click", () => {
+  $("#export-status").textContent = ""; $("#export-status").className = "status";
+  dlgX.showModal();
+});
+$("#scope").addEventListener("click", ev => {
+  const b = ev.target.closest("button[data-scope]"); if (!b) return;
+  scope = b.dataset.scope;
+  $$("#scope button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+});
+$(".exports").addEventListener("click", ev => {
+  const b = ev.target.closest(".exp"); if (!b) return;
+  const kind = b.dataset.kind;
+  const st = $("#export-status");
+  const n = SLPC_EXPORT.sorted(S.events, scope).length;
+  if (!n){ st.className = "status err"; st.textContent = "No events in that range."; return; }
+  try {
+    const stamp = SLPC_EXPORT.stamp();
+    if (kind === "schedule")
+      SLPC_EXPORT.download(SLPC_EXPORT.schedule(S.events, scope), "slpc-schedule-" + stamp + ".csv");
+    else if (kind === "answers")
+      SLPC_EXPORT.download(SLPC_EXPORT.answers(S.events, S.resp, scope), "slpc-crew-answers-" + stamp + ".csv");
+    else
+      SLPC_EXPORT.download(SLPC_EXPORT.grid(S.events, S.resp, S.roster, scope), "slpc-staffing-grid-" + stamp + ".csv");
+    st.className = "status ok";
+    st.textContent = "Downloaded \u2014 " + n + " event" + (n > 1 ? "s" : "") + ".";
+  } catch (err){
+    st.className = "status err";
+    st.textContent = "Couldn\u2019t build the file \u2014 " + (err.message || "try again.");
+  }
+});
 
 /* ── settings ── */
 function renderRoster(){
