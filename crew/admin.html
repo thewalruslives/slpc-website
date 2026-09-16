@@ -110,6 +110,10 @@
       <div class="f"><label for="f-se">Support ends</label><input id="f-se" type="time"></div>
       <div class="f wide"><button type="button" class="btn ghost" id="suggest-support">
         Suggest from boil time (&minus;2h / +1h)</button></div>
+      <div class="f wide"><label for="f-staff">Staff needed</label>
+        <input id="f-staff" type="number" min="0" max="99" step="1" placeholder="How many people on site">
+        <span class="hint">The crew sees how many have said yes against this.
+          Leave blank if you haven’t decided.</span></div>
     </div>
 
     <div class="sect">Details</div>
@@ -232,7 +236,7 @@ function buckets(){
   const up = all.filter(e => e.date >= t);
   return {
     upcoming: up,
-    needs: up.filter(e => e.kind !== "labor" && !respFor(e.id).some(r => r.status === "yes")),
+    needs: up.filter(e => e.kind !== "labor" && K.shortfall(e, respFor(e.id)) > 0),
     unconfirmed: up.filter(e => !e.confirmed && e.kind !== "labor"),
     past: all.filter(e => e.date < t).reverse()
   };
@@ -246,14 +250,15 @@ function render(){
   }
   $$("#filters button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === S.filter)));
 
-  const outstanding = bk.upcoming.reduce((n,e) => n + (S.roster.length - respFor(e.id).length), 0);
+  const stillNeeded = bk.upcoming.reduce((n,e) =>
+    n + (e.kind === "labor" ? 0 : (Number(e.staff_needed) ? K.shortfall(e, respFor(e.id)) : 0)), 0);
   $("#stats").innerHTML = '<div class="stats">' +
     '<div class="stat"><div class="n">' + bk.upcoming.length + '</div><div class="l">Upcoming</div></div>' +
     '<div class="stat"><div class="n' + (bk.needs.length ? " warn" : "") + '">' + bk.needs.length +
-      '</div><div class="l">No crew yet</div></div>' +
+      '</div><div class="l">Short on crew</div></div>' +
     '<div class="stat"><div class="n">' + bk.unconfirmed.length + '</div><div class="l">Not confirmed</div></div>' +
-    '<div class="stat"><div class="n">' + Math.max(0, outstanding) +
-      '</div><div class="l">Answers outstanding</div></div></div>';
+    '<div class="stat"><div class="n' + (stillNeeded ? " warn" : "") + '">' + stillNeeded +
+      '</div><div class="l">Crew still needed</div></div></div>';
 
   const rows = bk[S.filter] || [];
   $("#list").innerHTML = rows.length
@@ -291,6 +296,7 @@ function openEvent(e, startWithShot){
   setV("#f-place", v.place); setV("#f-city", v.city); setV("#f-date", v.date);
   setV("#f-es", K.hhmm(v.event_start));   setV("#f-ee", K.hhmm(v.event_end));
   setV("#f-ss", K.hhmm(v.support_start)); setV("#f-se", K.hhmm(v.support_end));
+  setV("#f-staff", v.staff_needed ? v.staff_needed : "");
   setV("#f-band", v.band); setV("#f-sold", v.sold_estimate);
   setV("#f-notes", v.notes); setV("#f-aaron", v.aaron_note); setV("#f-nickwork", v.nick_work);
   $("#f-confirmed").checked = !!v.confirmed;
@@ -332,6 +338,7 @@ $("#ev-save").addEventListener("click", async () => {
     support_start: $("#f-ss").value || null, support_end: $("#f-se").value || null,
     band: $("#f-band").value.trim(),
     sold_estimate: $("#f-sold").value.trim(),
+    staff_needed: Math.max(0, Math.min(99, parseInt($("#f-staff").value, 10) || 0)),
     notes: $("#f-notes").value.trim(),
     aaron_note: $("#f-aaron").value.trim(),
     nick_work: $("#f-nickwork").value.trim(),

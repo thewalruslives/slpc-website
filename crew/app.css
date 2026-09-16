@@ -275,3 +275,11 @@ table.imp .warn{color:var(--rust)}
   letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
 .imp-note{margin-top:12px;font-family:var(--util);font-size:12.5px;color:var(--fog);line-height:1.5}
 #dlg-import{width:min(720px,calc(100vw - 24px))}
+
+/* ── staffing tally ── */
+.tally{font-family:var(--util);font-size:13px;letter-spacing:.04em;margin-top:12px;
+  display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:2px;border:1px solid}
+.tally b{font-weight:600;font-variant-numeric:tabular-nums}
+.tally.met{color:var(--absinthe-lit);border-color:rgba(110,151,96,.4);background:rgba(74,103,65,.13)}
+.tally.short{color:var(--rust);border-color:rgba(160,82,45,.45);background:rgba(139,58,42,.13)}
+.tally + .crew{margin-top:8px}

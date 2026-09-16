@@ -49,6 +49,8 @@ window.SLPC_CSV = (function () {
     aaronnote:"aaronNote", note:"notes", notes:"notes",
     confirmed:"confirmed",
     musicbooking:"band", band:"band", music:"band", act:"band",
+    staffneeded:"staffNeeded", crewneeded:"staffNeeded", staff:"staffNeeded",
+    howmany:"staffNeeded", headcount:"staffNeeded",
     kind:"kind", type:"kind"
   };
   const PREFIX = [
@@ -203,6 +205,7 @@ window.SLPC_CSV = (function () {
         nick_dropoff_dublin: parseBool(g.nickDropoffDublin),
         nick_direct_to_location: parseBool(g.nickDirectToLocation),
         nick_needs_ride: parseBool(g.nickNeedsRide),
+        staff_needed: Math.max(0, Math.min(99, parseInt(clean(g.staffNeeded), 10) || 0)),
         assigned_staff: assigned,
         poster_path: null,
         source: "CSV import",
@@ -215,9 +218,9 @@ window.SLPC_CSV = (function () {
   }
 
   const TEMPLATE =
-    "Place,Date,City,Boil Time,Support Hours,Band,Sold Estimate,Notes,Aaron Note,Confirmed\n" +
-    "Humble Sea Pacifica,10/4/2026,Pacifica,5-8,3-9,Back Dimples,200,,Bring the big pot,TRUE\n" +
-    "Woods Bar & Brewery,11/8/2026,Oakland,12-3,10-5,,150,Ticketed,,FALSE\n";
+    "Place,Date,City,Boil Time,Support Hours,Staff Needed,Band,Sold Estimate,Notes,Aaron Note,Confirmed\n" +
+    "Humble Sea Pacifica,10/4/2026,Pacifica,5-8,3-9,3,Back Dimples,200,,Bring the big pot,TRUE\n" +
+    "Woods Bar & Brewery,11/8/2026,Oakland,12-3,10-5,2,,150,Ticketed,,FALSE\n";
 
   return { parse, mapHeaders, parseDate, parseRange, parseBool, toEvents, TEMPLATE };
 })();

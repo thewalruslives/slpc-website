@@ -51,6 +51,17 @@ window.SLPC = (function () {
 
   const rkey = (eventId, staff) => eventId + "__" + slug(staff);
 
+  const yesCount = rs => rs.filter(r => r.status === "yes").length;
+
+  // How many more people this event still needs.
+  // A target of 0 means it was never set, so fall back to "flag it if nobody
+  // is on it" — the behaviour before targets existed.
+  function shortfall(e, rs){
+    const yes = yesCount(rs), want = Number(e.staff_needed) || 0;
+    if (want > 0) return Math.max(0, want - yes);
+    return yes === 0 ? 1 : 0;
+  }
+
   function posterURL(path){
     if (!path) return "";
     const c = window.SLPC_CONFIG || {};
@@ -102,6 +113,15 @@ window.SLPC = (function () {
     return lines.length ? '<div class="lines">' + lines.join("") + '</div>' : "";
   }
 
+  function tallyHTML(e, rs){
+    const want = Number(e.staff_needed) || 0;
+    if (!want) return "";
+    const yes = yesCount(rs), short = Math.max(0, want - yes);
+    return '<div class="tally ' + (short ? "short" : "met") + '">' +
+      "<b>" + yes + " of " + want + "</b> signed up" +
+      (short ? " \u00b7 " + short + " more needed" : " \u00b7 covered") + "</div>";
+  }
+
   function crewHTML(rs, me){
     if (!rs.length)
       return '<div class="crew"><span class="chip none">Nobody has answered yet</span></div>';
@@ -142,11 +162,14 @@ window.SLPC = (function () {
     const o = opts || {}, rs = o.responses || [];
     const p = parts(e.date), past = e.date < today();
     const labor = e.kind === "labor";
-    const nc = !past && !labor && !rs.some(r => r.status === "yes");
+    const want = Number(e.staff_needed) || 0;
+    const short = (past || labor) ? 0 : shortfall(e, rs);
+    const nc = short > 0;
     const tags = [];
     if (labor) tags.push('<span class="tag labor">Extra labor</span>');
     else if (!e.confirmed && !past) tags.push('<span class="tag hold">Not confirmed</span>');
-    if (nc) tags.push('<span class="tag needs">No crew yet</span>');
+    if (nc) tags.push('<span class="tag needs">' +
+      (want ? "Needs " + short + " more" : "No crew yet") + "</span>");
     const mine = o.me ? rs.find(r => r.staff === o.me) : null;
     return '<article class="ev' + (past ? " past" : "") + '" data-id="' + esc(e.id) +
       '" data-needs="' + (nc ? 1 : 0) + '">' +
@@ -161,7 +184,7 @@ window.SLPC = (function () {
         trackHTML(e) + detailLines(e) +
         (e.poster_path ? '<img class="poster" loading="lazy" src="' + esc(posterURL(e.poster_path)) +
           '" alt="Poster for ' + esc(e.place) + '">' : "") +
-        crewHTML(rs, o.me) +
+        tallyHTML(e, rs) + crewHTML(rs, o.me) +
         (o.showAnswer && !past ? answerHTML(e, mine, o.me) : "") +
       "</div></article>";
   }
@@ -196,5 +219,5 @@ window.SLPC = (function () {
 
   return { DOW, MON, MONL, esc, slug, ymd, today, parts, mins, hhmm, fmt, span,
            addMin, rkey, posterURL, trackHTML, detailLines, crewHTML, answerHTML,
-           evHTML, monthGroups, configured, setupNotice };
+           evHTML, monthGroups, configured, setupNotice, yesCount, shortfall, tallyHTML };
 })();

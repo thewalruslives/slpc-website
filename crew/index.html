@@ -111,7 +111,7 @@ if (!K.configured()) {
     const up = all.filter(e => e.date >= t);
     return {
       upcoming: up,
-      needs: up.filter(e => e.kind !== "labor" && !respFor(e.id).some(r => r.status === "yes")),
+      needs: up.filter(e => e.kind !== "labor" && K.shortfall(e, respFor(e.id)) > 0),
       mine: S.me ? up.filter(e => { const r = mineFor(e.id);
         return r && (r.status === "yes" || r.status === "maybe"); }) : [],
       unanswered: S.me ? up.filter(e => { const r = mineFor(e.id); return !r || !r.status; }) : [],

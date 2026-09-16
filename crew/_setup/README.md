@@ -24,6 +24,7 @@ the whole file each time, press **Run**.
 | `01-schema.sql` | Tables, access rules, the crew functions, poster storage |
 | `02-data.sql` | Your 40 events, 30 imported answers, and the roster |
 | `03-your-turn.sql` | **Edit it first** — the crew code and your admin login |
+| `04-staff-needed.sql` | Adds the "staff needed" number to each event |
 
 `03-your-turn.sql` has two lines to change, both marked. It ends with a check
 query; you should see `events 40`, `roster 5`, `admins 1`, `crew_code_set 1`.
@@ -70,6 +71,10 @@ without reformatting: it reads that sheet's own headers — `Place`, `Date`,
 - **Nothing is written until you look.** The preview lists every row as New or
   Update, flags anything with no support hours, and names any row it had to
   skip and why.
+- **`Staff Needed`** sets how many people you want on site. The crew then see
+  "1 of 3 signed up · 2 more needed" on the card, and the event stays flagged
+  until it's covered. Leave it blank and the app just flags events nobody has
+  taken, as before.
 - **Crew availability columns are ignored on purpose** — `Rolfe Available`,
   `Marshall Available` and the like. Those answers belong to the crew now, and
   in your sheet a blank and a real "no" both read as FALSE. The preview tells
@@ -77,6 +82,18 @@ without reformatting: it reads that sheet's own headers — `Place`, `Date`,
 
 To start from scratch instead, **Download a blank template** gives you the
 column headers with two example rows.
+
+## Setting how many staff you need
+
+Each event has a **Staff needed** box in the editor, under the support hours.
+Put the number of people you want on site and the crew see their progress
+against it — "1 of 3 signed up · 2 more needed" — with the event tagged
+**Needs 2 more** until it fills. Once it's covered the tag disappears and the
+tally turns green.
+
+Leave it blank on an event you haven't sized yet; that event is only flagged
+when nobody at all has said yes. The dashboard's **Crew still needed** tile
+adds up the shortfall across every upcoming event.
 
 ## How the access rules work
 

@@ -31,6 +31,8 @@ create table if not exists events (
   nick_direct_to_location boolean not null default false,
   nick_needs_ride         boolean not null default false,
   assigned_staff text[] not null default '{}',
+  -- how many people you need on site. 0 means you haven't said.
+  staff_needed  int not null default 0 check (staff_needed >= 0 and staff_needed <= 99),
   kind          text not null default 'event' check (kind in ('event','labor')),
   poster_path   text,
   source        text not null default '',
