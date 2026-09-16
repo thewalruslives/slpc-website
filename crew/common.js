@@ -56,10 +56,19 @@ window.SLPC = (function () {
   // How many more people this event still needs.
   // A target of 0 means it was never set, so fall back to "flag it if nobody
   // is on it" — the behaviour before targets existed.
+  const confirmedOf = e => (e && e.assigned_staff) ? e.assigned_staff : [];
+
+  // Who counts towards the target: the crew you have actually confirmed, or —
+  // until you have confirmed anyone — whoever has volunteered.
+  function counted(e, rs){
+    const conf = confirmedOf(e).length;
+    return conf > 0 ? { n: conf, basis: "confirmed" }
+                    : { n: yesCount(rs), basis: "signed up" };
+  }
   function shortfall(e, rs){
-    const yes = yesCount(rs), want = Number(e.staff_needed) || 0;
-    if (want > 0) return Math.max(0, want - yes);
-    return yes === 0 ? 1 : 0;
+    const { n } = counted(e, rs), want = Number(e.staff_needed) || 0;
+    if (want > 0) return Math.max(0, want - n);
+    return n === 0 ? 1 : 0;
   }
 
   function posterURL(path){
@@ -99,8 +108,6 @@ window.SLPC = (function () {
   function detailLines(e){
     const lines = [];
     if (e.band) lines.push("<div><b>Band</b> · " + esc(e.band) + "</div>");
-    if (e.assigned_staff && e.assigned_staff.length)
-      lines.push("<div><b>Penciled in</b> · " + esc(e.assigned_staff.join(", ")) + "</div>");
     const del = [];
     if (e.nick_dropoff_dublin)     del.push("Drop off in Dublin only");
     if (e.nick_direct_to_location) del.push("Bring craw and work on site");
@@ -116,21 +123,36 @@ window.SLPC = (function () {
   function tallyHTML(e, rs){
     const want = Number(e.staff_needed) || 0;
     if (!want) return "";
-    const yes = yesCount(rs), short = Math.max(0, want - yes);
+    const { n, basis } = counted(e, rs), short = Math.max(0, want - n);
     return '<div class="tally ' + (short ? "short" : "met") + '">' +
-      "<b>" + yes + " of " + want + "</b> signed up" +
+      "<b>" + n + " of " + want + "</b> " + basis +
       (short ? " \u00b7 " + short + " more needed" : " \u00b7 covered") + "</div>";
   }
 
-  function crewHTML(rs, me){
-    if (!rs.length)
+  // A confirmed name may carry a detail from the old spreadsheet, e.g.
+  // "Bia (10:30-3:30)", so match on the leading name.
+  const isConfirmed = (e, name) => confirmedOf(e).some(a =>
+    a === name || a.indexOf(name + " ") === 0 || a.indexOf(name + "(") === 0);
+
+  function crewHTML(e, rs, me){
+    const rows = rs.map(r => ({ staff:r.staff, status:r.status,
+      can_deliver:r.can_deliver, note:r.note, on:isConfirmed(e, r.staff) }));
+    // Anyone you confirmed who never answered still needs to see they are booked.
+    for (const a of confirmedOf(e)){
+      if (!rows.some(r => a === r.staff || a.indexOf(r.staff + " ") === 0 || a.indexOf(r.staff + "(") === 0))
+        rows.push({ staff:a, status:"", can_deliver:false, note:"", on:true });
+    }
+    if (!rows.length)
       return '<div class="crew"><span class="chip none">Nobody has answered yet</span></div>';
     const order = { yes:0, maybe:1, no:2 };
-    rs = rs.slice().sort((a,b) =>
+    rows.sort((a,b) => (b.on?1:0) - (a.on?1:0) ||
       (order[a.status] ?? 3) - (order[b.status] ?? 3) || a.staff.localeCompare(b.staff));
-    return '<div class="crew">' + rs.map(r =>
-      '<span class="chip ' + r.status + (r.staff === me ? " me-chip" : "") + '">' +
+    return '<div class="crew">' + rows.map(r =>
+      '<span class="chip ' + (r.status || "none") + (r.on ? " on" : "") +
+      (r.staff === me ? " me-chip" : "") + '">' +
+      (r.on ? '<span class="tick" aria-hidden="true">\u2713</span>' : "") +
       esc(r.staff) +
+      (r.on ? '<span class="dv">On the crew</span>' : "") +
       (r.can_deliver ? '<span class="dv">Can deliver</span>' : "") +
       (r.note ? '<span class="dv" title="' + esc(r.note) + '">Note</span>' : "") +
       "</span>").join("") + "</div>";
@@ -184,7 +206,7 @@ window.SLPC = (function () {
         trackHTML(e) + detailLines(e) +
         (e.poster_path ? '<img class="poster" loading="lazy" src="' + esc(posterURL(e.poster_path)) +
           '" alt="Poster for ' + esc(e.place) + '">' : "") +
-        tallyHTML(e, rs) + crewHTML(rs, o.me) +
+        tallyHTML(e, rs) + crewHTML(e, rs, o.me) +
         (o.showAnswer && !past ? answerHTML(e, mine, o.me) : "") +
       "</div></article>";
   }
@@ -219,5 +241,6 @@ window.SLPC = (function () {
 
   return { DOW, MON, MONL, esc, slug, ymd, today, parts, mins, hhmm, fmt, span,
            addMin, rkey, posterURL, trackHTML, detailLines, crewHTML, answerHTML,
-           evHTML, monthGroups, configured, setupNotice, yesCount, shortfall, tallyHTML };
+           evHTML, monthGroups, configured, setupNotice, yesCount, shortfall, tallyHTML,
+           counted, confirmedOf, isConfirmed };
 })();

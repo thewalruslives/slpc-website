@@ -112,8 +112,13 @@ if (!K.configured()) {
     return {
       upcoming: up,
       needs: up.filter(e => e.kind !== "labor" && K.shortfall(e, respFor(e.id)) > 0),
-      mine: S.me ? up.filter(e => { const r = mineFor(e.id);
-        return r && (r.status === "yes" || r.status === "maybe"); }) : [],
+      // Being put on the crew counts as a shift even if you never answered —
+      // that is exactly when you most need to see it.
+      mine: S.me ? up.filter(e => {
+        if (K.isConfirmed(e, S.me)) return true;
+        const r = mineFor(e.id);
+        return r && (r.status === "yes" || r.status === "maybe");
+      }) : [],
       unanswered: S.me ? up.filter(e => { const r = mineFor(e.id); return !r || !r.status; }) : [],
       past: all.filter(e => e.date < t).reverse()
     };

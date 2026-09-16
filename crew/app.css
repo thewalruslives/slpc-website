@@ -283,3 +283,23 @@ table.imp .warn{color:var(--rust)}
 .tally.met{color:var(--absinthe-lit);border-color:rgba(110,151,96,.4);background:rgba(74,103,65,.13)}
 .tally.short{color:var(--rust);border-color:rgba(160,82,45,.45);background:rgba(139,58,42,.13)}
 .tally + .crew{margin-top:8px}
+
+/* ── crew picker (event editor) ── */
+.crewpick{display:flex;flex-direction:column;gap:1px;background:var(--line-soft);
+  border:1px solid var(--line-soft);border-radius:4px;overflow:hidden}
+.pick{display:flex;align-items:center;gap:11px;padding:11px 13px;background:var(--midnight);
+  cursor:pointer;font-family:var(--util);font-size:15px;transition:background .15s}
+.pick:hover{background:var(--iron-2)}
+.pick input{width:17px;height:17px;accent-color:var(--tallow);flex:none;margin:0}
+.pick .who{color:var(--bone);font-weight:600;letter-spacing:.02em}
+.pick .ans{margin-left:auto;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog)}
+.pick.yes   .ans{color:var(--absinthe-lit)}
+.pick.no    .ans{color:#C4705F}
+.pick.maybe .ans{color:#A294C9}
+.pick:has(input:checked){background:rgba(200,149,74,.09)}
+.pick:has(input:checked) .who{color:var(--tallow)}
+
+/* confirmed chip on the event card */
+.chip.on{border-color:var(--tallow);background:rgba(200,149,74,.16);color:var(--tallow)}
+.chip.on .tick{font-size:11px;opacity:.9}
+.chip.on .dv{border-left-color:rgba(200,149,74,.5)}

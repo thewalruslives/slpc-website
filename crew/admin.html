@@ -116,6 +116,12 @@
           Leave blank if you haven’t decided.</span></div>
     </div>
 
+    <div class="sect">Crew &mdash; who is actually working</div>
+    <div class="crewpick" id="crewpick"></div>
+    <div class="f" style="margin-top:10px"><span class="hint">
+      Tick the people you are putting on this event. Until you tick anyone, the
+      count on the card follows whoever volunteered.</span></div>
+
     <div class="sect">Details</div>
     <div class="fgrid">
       <div class="f"><label for="f-band">Band</label><input id="f-band" placeholder="Back Dimples"></div>
@@ -305,6 +311,7 @@ function openEvent(e, startWithShot){
   $("#f-direct").checked = !!v.nick_direct_to_location;
   $("#f-ride").checked   = !!v.nick_needs_ride;
   $("#hint-ss").textContent = "";
+  renderCrewPick(e);
   if (e && e.poster_path){
     $("#shot-img").src = K.posterURL(e.poster_path);
     $("#shot-preview").hidden = false;
@@ -312,6 +319,37 @@ function openEvent(e, startWithShot){
     $("#shot-status").textContent = "Poster saved with this event.";
   }
   dlgE.showModal();
+}
+
+function renderCrewPick(e){
+  const assigned = (e && e.assigned_staff) || [];
+  const rs = e ? respFor(e.id) : [];
+  const label = r => !r || !r.status ? "no answer yet"
+    : r.status === "yes"   ? "said yes" + (r.can_deliver ? " \u00b7 can deliver" : "")
+    : r.status === "maybe" ? "maybe"
+    : "can\u2019t make it";
+
+  const rows = S.roster.map(n => {
+    const orig = assigned.find(a => a === n || a.indexOf(n + " ") === 0 || a.indexOf(n + "(") === 0);
+    const r = rs.find(x => x.staff === n);
+    return '<label class="pick ' + ((r && r.status) || "none") + '">' +
+      '<input type="checkbox" data-crew="' + K.esc(n) + '" data-orig="' + K.esc(orig || "") + '"' +
+        (orig ? " checked" : "") + ">" +
+      '<span class="who">' + K.esc(orig || n) + "</span>" +
+      '<span class="ans">' + K.esc(label(r)) + "</span></label>";
+  });
+
+  // Names carried over from the spreadsheet that are not on the roster.
+  for (const a of assigned){
+    if (!S.roster.some(n => a === n || a.indexOf(n + " ") === 0 || a.indexOf(n + "(") === 0)){
+      rows.push('<label class="pick none">' +
+        '<input type="checkbox" data-crew="' + K.esc(a) + '" data-orig="' + K.esc(a) + '" checked>' +
+        '<span class="who">' + K.esc(a) + "</span>" +
+        '<span class="ans">not on the roster</span></label>');
+    }
+  }
+  $("#crewpick").innerHTML = rows.join("") ||
+    '<div class="hint">Add people to the roster first.</div>';
 }
 
 $("#suggest-support").addEventListener("click", () => {
@@ -347,7 +385,9 @@ $("#ev-save").addEventListener("click", async () => {
     nick_dropoff_dublin: $("#f-dublin").checked,
     nick_direct_to_location: $("#f-direct").checked,
     nick_needs_ride: $("#f-ride").checked,
-    assigned_staff: prev.assigned_staff || [],
+    assigned_staff: $$("#crewpick input[type=checkbox]")
+      .filter(c => c.checked)
+      .map(c => c.dataset.orig || c.dataset.crew),
     poster_path: S.clearPoster ? null : (prev.poster_path || null),
     source: prev.source || "Added in the dashboard",
     updated_at: new Date().toISOString()
