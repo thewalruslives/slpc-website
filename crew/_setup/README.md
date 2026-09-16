@@ -182,3 +182,9 @@ crew page needs to show them. Only an admin can upload one.
   (Storage → Buckets).
 - **A CSV import skips everything** — the header row needs a `Place` column and
   a `Date` column. The preview says which line failed and why.
+
+---
+
+*Credentials note: this repository is public. Never commit a real crew code,
+API key or token. The crew code is set in the Supabase SQL editor or from the
+dashboard, and `config.js` holds only the anon key, which is safe to publish.*
