@@ -6,3 +6,6 @@ serve.py
 *.zip
 *.textClipping
 SLPC Brand-Marketing Kit/
+
+# Filled-in setup SQL — never commit a real crew code
+crew/_setup/*-local.sql

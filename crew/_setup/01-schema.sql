@@ -2,6 +2,8 @@
 -- Paste this whole file into the Supabase SQL Editor and press Run.
 -- Safe to re-run: it drops and recreates policies and functions.
 
+-- Supabase keeps extensions in their own schema, so every function that calls
+-- crypt()/gen_salt() below sets search_path to "public, extensions".
 create extension if not exists pgcrypto;
 
 -- ─────────────────────────────── tables ───────────────────────────────
@@ -99,7 +101,7 @@ create policy admin_read_admins   on admins    for select to authenticated
 -- ──────────────────────── crew access (passcode only) ────────────────────────
 
 create or replace function check_passcode(p_passcode text) returns boolean
-  language plpgsql stable security definer set search_path = public as $$
+  language plpgsql stable security definer set search_path = public, extensions as $$
 declare stored text;
 begin
   select value into stored from app_config where key = 'crew_passcode';
@@ -167,7 +169,7 @@ grant execute on function submit_response(text,text,text,text,boolean,text) to a
 -- ─────────────────── admin-only: change the crew code ───────────────────
 
 create or replace function set_crew_passcode(p_new text) returns void
-  language plpgsql security definer set search_path = public as $$
+  language plpgsql security definer set search_path = public, extensions as $$
 begin
   if not is_admin() then raise exception 'Not allowed'; end if;
   if length(coalesce(p_new,'')) < 6 then raise exception 'Use at least 6 characters'; end if;
