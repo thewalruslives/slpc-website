@@ -45,7 +45,7 @@
 <main class="wrap" id="app" hidden>
   <div id="stats"></div>
   <div class="adminbar">
-    <button class="btn solid" id="new-shot">Add from screenshot</button>
+    <button class="btn solid" id="open-import">Import a CSV</button>
     <button class="btn" id="new-blank">Add event</button>
     <button class="btn ghost" id="open-settings">Roster &amp; crew code</button>
   </div>
@@ -72,10 +72,10 @@
     <button class="x" type="button" data-close aria-label="Close">&times;</button></div>
   <div class="dlg-bd">
     <div id="shot-zone">
-      <div class="sect">Start from a poster</div>
+      <div class="sect">Poster</div>
       <div class="drop" id="drop" tabindex="0" role="button">
-        <b>Upload a screenshot</b>
-        Drop the event flyer here, or click to choose.
+        <b>Add a poster</b>
+        Drop the flyer here, or click to choose. It shows on the crew’s event card.
       </div>
       <input type="file" id="shot-input" accept="image/*" hidden>
       <div class="shot" id="shot-preview" hidden>
@@ -84,7 +84,6 @@
           <div class="status" id="shot-status"></div>
           <div style="margin-top:9px;display:flex;gap:7px;flex-wrap:wrap">
             <button type="button" class="btn ghost" id="shot-clear">Remove poster</button>
-            <button type="button" class="btn ghost" id="shot-retry" hidden>Read again</button>
           </div>
         </div>
       </div>
@@ -142,6 +141,30 @@
   </div>
 </dialog>
 
+<!-- csv import -->
+<dialog id="dlg-import">
+  <div class="dlg-hd"><h2>Import events from a CSV</h2>
+    <button class="x" type="button" data-close aria-label="Close">&times;</button></div>
+  <div class="dlg-bd">
+    <div class="drop" id="csv-drop" tabindex="0" role="button">
+      <b>Choose a CSV file</b>
+      Drop it here, or click to browse. Your Master Calendar’s own column names
+      work as they are — Place, Date, City, Boil Time, Support Hours and the rest.
+    </div>
+    <input type="file" id="csv-input" accept=".csv,text/csv,text/plain" hidden>
+    <div style="margin-top:11px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+      <button type="button" class="btn ghost" id="csv-template">Download a blank template</button>
+      <span class="status" id="csv-status"></span>
+    </div>
+    <div id="csv-preview" hidden></div>
+  </div>
+  <div class="dlg-ft">
+    <button type="button" class="btn solid" id="csv-commit" disabled>Import</button>
+    <button type="button" class="btn ghost" data-close>Cancel</button>
+    <span class="status" id="csv-commit-status"></span>
+  </div>
+</dialog>
+
 <!-- settings -->
 <dialog id="dlg-settings">
   <div class="dlg-hd"><h2>Roster &amp; crew code</h2>
@@ -173,6 +196,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <script src="common.js"></script>
+<script src="csv.js"></script>
 <script>
 (function () {
 "use strict";
@@ -261,7 +285,7 @@ function openEvent(e, startWithShot){
   $("#ev-delete").hidden = !e;
   $("#ev-status").textContent = ""; $("#ev-status").className = "status";
   $("#shot-preview").hidden = true; $("#shot-img").removeAttribute("src");
-  $("#shot-status").textContent = ""; $("#shot-retry").hidden = true;
+  $("#shot-status").textContent = ""; $("#shot-status").className = "status";
   $$(".f.filled").forEach(f => f.classList.remove("filled"));
   const v = e || {};
   setV("#f-place", v.place); setV("#f-city", v.city); setV("#f-date", v.date);
@@ -282,7 +306,6 @@ function openEvent(e, startWithShot){
     $("#shot-status").textContent = "Poster saved with this event.";
   }
   dlgE.showModal();
-  if (startWithShot) $("#shot-input").click();
 }
 
 $("#suggest-support").addEventListener("click", () => {
@@ -379,7 +402,6 @@ $("#shot-clear").addEventListener("click", () => {
   S.pendingShot = null; S.clearPoster = true;
   $("#shot-preview").hidden = true; $("#shot-img").removeAttribute("src");
 });
-$("#shot-retry").addEventListener("click", () => { if (S.pendingShot) readShot(S.pendingShot); });
 
 function handleShot(file){
   if (!/^image\//.test(file.type)){
@@ -392,48 +414,8 @@ function handleShot(file){
   const url = URL.createObjectURL(file);
   $("#shot-img").src = url; $("#shot-preview").hidden = false;
   $("#shot-img").onload = () => URL.revokeObjectURL(url);
-  readShot(file);
-}
-
-const b64 = file => new Promise((res, rej) => {
-  const r = new FileReader();
-  r.onload = () => res(String(r.result).split(",")[1]);
-  r.onerror = rej;
-  r.readAsDataURL(file);
-});
-
-async function readShot(file){
-  const st = $("#shot-status"); $("#shot-retry").hidden = true;
-  st.className = "status"; st.textContent = "Reading the poster…";
-  try {
-    const { data, error } = await sb.functions.invoke("extract-poster", {
-      body: { image: await b64(file), mediaType: file.type, today: K.today() }
-    });
-    if (error) throw error;
-    const g = k => typeof data[k] === "string" ? data[k].trim() : "";
-    const filled = [];
-    const put = (sel, val) => { const el = $(sel); if (val && el && !el.value){ el.value = val; filled.push(sel); } };
-    put("#f-place", g("place").replace(/^@\s*/, ""));
-    put("#f-city", g("city"));
-    if (/^\d{4}-\d{2}-\d{2}$/.test(g("date")))     put("#f-date", g("date"));
-    if (/^\d{1,2}:\d{2}$/.test(g("eventStart")))   put("#f-es", g("eventStart"));
-    if (/^\d{1,2}:\d{2}$/.test(g("eventEnd")))     put("#f-ee", g("eventEnd"));
-    put("#f-band", g("band"));
-    put("#f-notes", g("notes"));
-    if ($("#f-es").value && !$("#f-ss").value){ $("#f-ss").value = K.addMin($("#f-es").value, -120); filled.push("#f-ss"); }
-    if ($("#f-ee").value && !$("#f-se").value){ $("#f-se").value = K.addMin($("#f-ee").value, 60);  filled.push("#f-se"); }
-    markFilled(filled);
-    $("#hint-ss").textContent = "Suggested from the boil time — adjust if this one is different.";
-    st.className = "status ok";
-    st.textContent = filled.length
-      ? "Filled in " + filled.length + " field" + (filled.length > 1 ? "s" : "") + " — check them before saving."
-      : "Nothing readable on the poster. Fill in the details below.";
-    $("#shot-retry").hidden = false;
-  } catch (err){
-    st.className = "status";
-    st.textContent = "Poster saved. Fill in the details below — " +
-      "automatic reading isn’t switched on.";
-  }
+  $("#shot-status").className = "status ok";
+  $("#shot-status").textContent = "Poster ready — it saves with the event.";
 }
 
 /* ── settings ── */
@@ -499,7 +481,155 @@ $("#filters").addEventListener("click", ev => {
   S.filter = b.dataset.f; render();
 });
 $("#new-blank").addEventListener("click", () => openEvent(null, false));
-$("#new-shot").addEventListener("click", () => openEvent(null, true));
+
+/* ── csv import ── */
+const dlgI = $("#dlg-import");
+let csvPending = null;
+
+$("#open-import").addEventListener("click", () => {
+  csvPending = null;
+  $("#csv-preview").hidden = true; $("#csv-preview").innerHTML = "";
+  $("#csv-status").textContent = ""; $("#csv-status").className = "status";
+  $("#csv-commit-status").textContent = ""; $("#csv-commit-status").className = "status";
+  $("#csv-commit").disabled = true;
+  $("#csv-commit").textContent = "Import";
+  dlgI.showModal();
+});
+
+const csvDrop = $("#csv-drop"), csvIn = $("#csv-input");
+csvDrop.addEventListener("click", () => csvIn.click());
+csvDrop.addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === " "){ e.preventDefault(); csvIn.click(); }
+});
+["dragenter","dragover"].forEach(t => csvDrop.addEventListener(t, e => {
+  e.preventDefault(); csvDrop.classList.add("over"); }));
+["dragleave","drop"].forEach(t => csvDrop.addEventListener(t, e => {
+  e.preventDefault(); csvDrop.classList.remove("over"); }));
+csvDrop.addEventListener("drop", e => {
+  const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (f) readCSV(f);
+});
+csvIn.addEventListener("change", () => {
+  const f = csvIn.files && csvIn.files[0]; if (f) readCSV(f); csvIn.value = "";
+});
+
+$("#csv-template").addEventListener("click", () => {
+  const blob = new Blob([SLPC_CSV.TEMPLATE], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "slpc-events-template.csv";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
+function readCSV(file){
+  const st = $("#csv-status");
+  st.className = "status"; st.textContent = "Reading " + file.name + "…";
+  const fr = new FileReader();
+  fr.onerror = () => { st.className = "status err"; st.textContent = "Couldn’t read that file."; };
+  fr.onload = () => {
+    try {
+      const res = SLPC_CSV.toEvents(String(fr.result), new Set(S.events.map(e => e.id)));
+      csvPending = res;
+      renderPreview(res, file.name);
+    } catch (err){
+      st.className = "status err";
+      st.textContent = "Couldn’t read that file — " + (err.message || "is it a CSV?");
+    }
+  };
+  fr.readAsText(file);
+}
+
+function renderPreview(res, filename){
+  const st = $("#csv-status"), box = $("#csv-preview");
+  const adds = res.events.filter(e => e._isNew).length;
+  const upds = res.events.length - adds;
+
+  if (!res.events.length){
+    st.className = "status err";
+    st.textContent = "Nothing to import from " + filename + ".";
+    box.hidden = false;
+    box.innerHTML = '<div class="imp-err"><b>No usable rows</b>' +
+      res.errors.map(e => "<div>Line " + e.line + " — " + K.esc(e.why) + "</div>").join("") +
+      "</div>";
+    $("#csv-commit").disabled = true;
+    return;
+  }
+
+  st.className = "status ok";
+  st.textContent = filename + " — " + res.events.length + " row" +
+    (res.events.length > 1 ? "s" : "") + " read.";
+
+  const rows = res.events.map(e =>
+    "<tr>" +
+    '<td><span class="pill ' + (e._isNew ? "new" : "upd") + '">' +
+      (e._isNew ? "New" : "Update") + "</span></td>" +
+    "<td>" + K.esc(e.place) + (e.city ? '<span class="sub">' + K.esc(e.city) + "</span>" : "") + "</td>" +
+    '<td class="u">' + K.esc(e.date) + "</td>" +
+    '<td class="u">' + (K.span(e.event_start, e.event_end) || "—") + "</td>" +
+    '<td class="u">' + (K.span(e.support_start, e.support_end) ||
+      '<span class="warn">none</span>') + "</td>" +
+    "</tr>").join("");
+
+  box.hidden = false;
+  box.innerHTML =
+    '<div class="imp-sum"><b>' + adds + "</b> new · <b>" + upds + "</b> updated" +
+      (upds ? ' <span class="sub">(matched on venue + date)</span>' : "") + "</div>" +
+    '<div class="imp-wrap"><table class="imp"><thead><tr>' +
+      "<th></th><th>Venue</th><th>Date</th><th>Boil</th><th>Support</th>" +
+      "</tr></thead><tbody>" + rows + "</tbody></table></div>" +
+    (res.errors.length
+      ? '<div class="imp-err"><b>' + res.errors.length + " row" +
+        (res.errors.length > 1 ? "s" : "") + " skipped</b>" +
+        res.errors.map(e => "<div>Line " + e.line +
+          (e.place ? " (" + K.esc(e.place) + ")" : "") + " — " + K.esc(e.why) + "</div>").join("") +
+        "</div>"
+      : "") +
+    (res.ignored.length
+      ? '<div class="imp-note">Columns ignored: ' + K.esc(res.ignored.join(", ")) +
+        ". Crew availability is collected in the app, not imported.</div>"
+      : "");
+
+  $("#csv-commit").disabled = false;
+  $("#csv-commit").textContent = "Import " + res.events.length + " event" +
+    (res.events.length > 1 ? "s" : "");
+}
+
+$("#csv-commit").addEventListener("click", async () => {
+  if (!csvPending || !csvPending.events.length) return;
+  const st = $("#csv-commit-status");
+  const btn = $("#csv-commit"); btn.disabled = true;
+  st.className = "status"; st.textContent = "Importing…";
+
+  const rows = csvPending.events.map(e => {
+    const r = Object.assign({}, e);
+    delete r._isNew; delete r._line; delete r._noTimes;
+    // A CSV has no poster and may have no crew column — don't wipe what's
+    // already on an event we're updating.
+    const prev = S.events.find(x => x.id === r.id);
+    if (prev){
+      r.poster_path = prev.poster_path || null;
+      if (!r.assigned_staff.length) r.assigned_staff = prev.assigned_staff || [];
+    }
+    r.updated_at = new Date().toISOString();
+    return r;
+  });
+
+  try {
+    for (let i = 0; i < rows.length; i += 100){
+      const { error } = await sb.from("events").upsert(rows.slice(i, i + 100));
+      if (error) throw error;
+    }
+    await loadAll(); render();
+    st.className = "status ok";
+    st.textContent = "Imported. " + rows.length + " event" + (rows.length > 1 ? "s" : "") + " saved.";
+    setTimeout(() => dlgI.close(), 900);
+  } catch (err){
+    btn.disabled = false;
+    st.className = "status err";
+    st.textContent = "Couldn’t import — " + (err.message || "try again.");
+  }
+});
 
 /* ── auth ── */
 async function enter(session){

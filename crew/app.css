@@ -249,3 +249,29 @@ dialog::backdrop{background:rgba(14,11,15,.82)}
   .fgrid{grid-template-columns:1fr}
   .top-in{padding-block:11px}
 }
+
+/* ── csv import preview ── */
+.imp-sum{font-family:var(--util);font-size:14px;color:var(--fog);margin:18px 0 10px}
+.imp-sum b{color:var(--bone);font-size:16px;font-weight:600}
+.imp-sum .sub{opacity:.75}
+.imp-wrap{overflow-x:auto;border:1px solid var(--line-soft);border-radius:4px}
+table.imp{border-collapse:collapse;width:100%;font-family:var(--util);font-size:14px}
+table.imp th{text-align:left;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--fog);font-weight:600;padding:9px 11px;border-bottom:1px solid var(--line-soft);
+  background:var(--midnight);position:sticky;top:0}
+table.imp td{padding:9px 11px;border-bottom:1px solid var(--line-soft);color:var(--bone);
+  vertical-align:top;white-space:nowrap}
+table.imp tr:last-child td{border-bottom:none}
+table.imp .sub{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--fog);margin-top:2px}
+table.imp .warn{color:var(--rust)}
+.pill{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 7px;border-radius:2px;border:1px solid currentColor}
+.pill.new{color:var(--absinthe-lit)}
+.pill.upd{color:var(--tallow)}
+.imp-err{margin-top:14px;border-left:2px solid var(--rust);padding:10px 13px;
+  background:rgba(139,58,42,.1);border-radius:0 3px 3px 0;font-size:14px;color:var(--fog)}
+.imp-err b{display:block;color:#C4705F;font-family:var(--util);font-size:12px;
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.imp-note{margin-top:12px;font-family:var(--util);font-size:12.5px;color:var(--fog);line-height:1.5}
+#dlg-import{width:min(720px,calc(100vw - 24px))}

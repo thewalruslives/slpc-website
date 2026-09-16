@@ -53,31 +53,30 @@ passcode-protected crew functions.
 
 ---
 
-## Optional: reading posters automatically
+## Adding events from a CSV
 
-Without this, "Add from screenshot" still saves the poster to the event — you
-just type the venue, date and times yourself. With it, Claude reads them off
-the flyer and fills the form for you to check.
+**Dashboard → Import a CSV.** Built to eat an export of your Master Calendar
+without reformatting: it reads that sheet's own headers — `Place`, `Date`,
+`City`, `Boil Time`, `Support Hours`, `Music Booking`, `Aaron Note`,
+`Confirmed`, `Support A/B/C`, and the three `Nick ...` delivery columns.
 
-It needs an **Anthropic API key**, which is billed separately from any Claude
-subscription. Reading one poster is a fraction of a cent.
+- **Times** can be written the way you already write them. `5-8` becomes
+  5–8 PM, `12-3` becomes 12–3 PM, `9-6` becomes 9 AM–6 PM. Trailing detail
+  like `1-4 (band 12:30-3:30)` keeps the range and moves the rest into notes.
+- **Dates** accept `10/3/2026`, `2026-10-03`, or `Oct 3, 2026`.
+- **Re-importing is safe.** A row matching an existing venue *and* date
+  updates that event rather than adding a second one. Posters and penciled-in
+  crew already on the event survive an update.
+- **Nothing is written until you look.** The preview lists every row as New or
+  Update, flags anything with no support hours, and names any row it had to
+  skip and why.
+- **Crew availability columns are ignored on purpose** — `Rolfe Available`,
+  `Marshall Available` and the like. Those answers belong to the crew now, and
+  in your sheet a blank and a real "no" both read as FALSE. The preview tells
+  you which columns it ignored.
 
-1. Get a key at **console.anthropic.com** → API Keys.
-2. Install the Supabase CLI, then from this folder:
-
-```bash
-supabase link --project-ref YOUR_PROJECT_REF
-supabase secrets set ANTHROPIC_API_KEY=sk-ant-your-key-here
-supabase functions deploy extract-poster
-```
-
-The function checks that the caller is signed in **and** in the `admins` table
-before it spends anything, so a stranger can't run up your bill.
-
-To use a cheaper model, change the `MODEL` line at the top of
-`extract-poster/index.ts` to `claude-sonnet-5` or `claude-haiku-4-5`.
-
----
+To start from scratch instead, **Download a blank template** gives you the
+column headers with two example rows.
 
 ## How the access rules work
 
@@ -109,3 +108,5 @@ crew page needs to show them. Only an admin can upload one.
   part 2 of `03-your-turn.sql` with the exact email you signed up with.
 - **Posters don't appear** — check the `posters` bucket exists and is public
   (Storage → Buckets).
+- **A CSV import skips everything** — the header row needs a `Place` column and
+  a `Date` column. The preview says which line failed and why.
