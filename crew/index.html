@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0E0B0F">
+<title>Crew Call — Second Line Pleasure Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="top" id="top" hidden>
+  <div class="top-in">
+    <div class="brand">
+      <b>Second Line Crew Call</b>
+      <span>Boil schedule &amp; staffing</span>
+    </div>
+    <div class="whoami">
+      <label for="me-select">I am</label>
+      <select class="me" id="me-select"><option value="">Pick your name</option></select>
+    </div>
+  </div>
+</header>
+
+<!-- passcode gate -->
+<div class="gate" id="gate" hidden>
+  <form class="gate-card" id="gate-form">
+    <h1>Crew Call</h1>
+    <p>Enter the crew code Aaron gave you.</p>
+    <input id="gate-code" type="password" inputmode="text" autocomplete="current-password"
+           placeholder="CREW CODE" aria-label="Crew code" required>
+    <button class="btn solid" type="submit" id="gate-go">Open the schedule</button>
+    <div class="status" id="gate-status" style="margin-top:12px"></div>
+  </form>
+</div>
+
+<main class="wrap" id="app" hidden>
+  <nav class="filters" id="filters" role="group" aria-label="Filter events">
+    <button data-f="upcoming" aria-pressed="true">Upcoming <span class="count" id="c-upcoming"></span></button>
+    <button data-f="needs" aria-pressed="false">Needs crew <span class="count" id="c-needs"></span></button>
+    <button data-f="mine" aria-pressed="false">My shifts <span class="count" id="c-mine"></span></button>
+    <button data-f="unanswered" aria-pressed="false">Not answered <span class="count" id="c-unanswered"></span></button>
+    <button data-f="past" aria-pressed="false">Past <span class="count" id="c-past"></span></button>
+  </nav>
+
+  <div id="list">
+    <div class="skel"><div></div><div></div><div></div></div>
+    <div class="skel"><div></div><div></div><div></div></div>
+    <div class="skel"><div></div><div></div><div></div></div>
+  </div>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <div class="foot">
+    <div class="legend">
+      <span><i style="background:var(--tallow)"></i>Boil time</span>
+      <span><i style="background:var(--iron-2);border:1px solid var(--line-soft)"></i>Support hours</span>
+      <span><i style="background:var(--ember)"></i>No crew yet</span>
+    </div>
+  </div>
+</main>
+
+<div id="setup-slot"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+(function () {
+"use strict";
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => [...(r || document).querySelectorAll(s)];
+const K = SLPC;
+
+if (!K.configured()) {
+  $("#setup-slot").innerHTML = K.setupNotice();
+} else {
+  const cfg = window.SLPC_CONFIG;
+  const sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY,
+    { auth: { persistSession: false } });
+
+  const S = { code:null, events:[], resp:[], roster:[], me:null, filter:"upcoming", loaded:false };
+
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k,v){ try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k,v); } catch(e){} }
+  };
+
+  /* ── data ── */
+  async function load(code){
+    const { data, error } = await sb.rpc("crew_load", { p_passcode: code });
+    if (error) throw error;
+    if (!data) { const e = new Error("bad code"); e.badCode = true; throw e; }
+    S.events = data.events || [];
+    S.resp   = data.responses || [];
+    S.roster = data.roster || [];
+    S.loaded = true;
+  }
+
+  function respFor(eventId){ return S.resp.filter(r => r.event_id === eventId); }
+  function mineFor(eventId){ return S.me ? S.resp.find(r => r.event_id === eventId && r.staff === S.me) : null; }
+
+  function buckets(){
+    const t = K.today();
+    const all = S.events.slice().sort((a,b) =>
+      a.date < b.date ? -1 : a.date > b.date ? 1 : (a.place||"").localeCompare(b.place||""));
+    const up = all.filter(e => e.date >= t);
+    return {
+      upcoming: up,
+      needs: up.filter(e => e.kind !== "labor" && !respFor(e.id).some(r => r.status === "yes")),
+      mine: S.me ? up.filter(e => { const r = mineFor(e.id);
+        return r && (r.status === "yes" || r.status === "maybe"); }) : [],
+      unanswered: S.me ? up.filter(e => { const r = mineFor(e.id); return !r || !r.status; }) : [],
+      past: all.filter(e => e.date < t).reverse()
+    };
+  }
+
+  /* ── render ── */
+  function fillRoster(){
+    const sel = $("#me-select");
+    sel.innerHTML = '<option value="">Pick your name</option>' +
+      S.roster.map(n => '<option value="' + K.esc(n) + '">' + K.esc(n) + "</option>").join("");
+    if (S.me && S.roster.includes(S.me)) sel.value = S.me; else if (S.me) { S.me = null; store.set("slpc.crew.me", null); }
+  }
+
+  function render(){
+    const bk = buckets();
+    for (const k of ["upcoming","needs","mine","unanswered","past"]){
+      const el = $("#c-" + k); if (el) el.textContent = bk[k].length ? bk[k].length : "";
+    }
+    $$("#filters button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === S.filter)));
+    if (!S.loaded) return;
+    const rows = bk[S.filter] || [], list = $("#list");
+    if (!rows.length){
+      const msg = {
+        upcoming:["Nothing on the books","Aaron hasn’t added any events yet."],
+        needs:["Every event has crew","Nobody is left uncovered right now."],
+        mine:[S.me ? "No shifts yet" : "Pick your name first",
+              S.me ? "Say yes to an event and it lands here." : "Choose your name at the top of the page."],
+        unanswered:[S.me ? "You’re all caught up" : "Pick your name first",
+              S.me ? "Every upcoming event has your answer." : "Choose your name at the top of the page."],
+        past:["No past events",""]
+      }[S.filter] || ["Nothing here",""];
+      list.innerHTML = '<div class="empty"><b>' + K.esc(msg[0]) + "</b>" + K.esc(msg[1]) + "</div>";
+      return;
+    }
+    list.innerHTML = K.monthGroups(rows.map(e => ({
+      date: e.date,
+      html: K.evHTML(e, { responses: respFor(e.id), me: S.me, showAnswer: true, showEdit: false })
+    })));
+  }
+
+  function banner(html){
+    const b = $("#banner");
+    if (!html) { b.hidden = true; return; }
+    b.innerHTML = html; b.hidden = false;
+  }
+
+  /* ── writes ── */
+  async function submit(eventId, patch){
+    if (!S.me) return;
+    let r = S.resp.find(x => x.event_id === eventId && x.staff === S.me);
+    if (!r) { r = { event_id: eventId, staff: S.me, status:"", can_deliver:false, note:"" }; S.resp.push(r); }
+    Object.assign(r, patch);
+    render();
+    const { error } = await sb.rpc("submit_response", {
+      p_passcode: S.code, p_event_id: eventId, p_staff: S.me,
+      p_status: r.status || "", p_can_deliver: !!r.can_deliver, p_note: r.note || ""
+    });
+    if (error){
+      banner("<b>That didn’t save.</b> " + K.esc(error.message || "Check your connection and try again."));
+    } else {
+      banner("");
+    }
+  }
+
+  /* ── events ── */
+  $("#list").addEventListener("click", ev => {
+    const btn = ev.target.closest("[data-act]"); if (!btn) return;
+    const art = ev.target.closest(".ev"); if (!art) return;
+    const id = art.dataset.id, act = btn.dataset.act;
+    if (act === "status"){
+      const cur = mineFor(id);
+      const v = btn.dataset.v;
+      submit(id, { status: cur && cur.status === v ? "" : v });
+    }
+    if (act === "deliver"){
+      const cur = mineFor(id) || {};
+      submit(id, { can_deliver: !cur.can_deliver });
+    }
+  });
+
+  let noteTimer = null;
+  $("#list").addEventListener("input", ev => {
+    const inp = ev.target.closest('[data-act="note"]'); if (!inp) return;
+    const art = ev.target.closest(".ev"); if (!art) return;
+    const id = art.dataset.id, val = inp.value;
+    const tag = art.querySelector("[data-saved]");
+    clearTimeout(noteTimer);
+    noteTimer = setTimeout(async () => {
+      let r = S.resp.find(x => x.event_id === id && x.staff === S.me);
+      if (r && (r.note || "") === val) return;
+      if (!r){ r = { event_id:id, staff:S.me, status:"", can_deliver:false, note:"" }; S.resp.push(r); }
+      r.note = val;
+      const { error } = await sb.rpc("submit_response", {
+        p_passcode: S.code, p_event_id: id, p_staff: S.me,
+        p_status: r.status || "", p_can_deliver: !!r.can_deliver, p_note: val
+      });
+      if (!error && tag){ tag.hidden = false; setTimeout(() => { tag.hidden = true; }, 1800); }
+      if (error) banner("<b>That note didn’t save.</b> " + K.esc(error.message || ""));
+    }, 700);
+  });
+
+  $("#filters").addEventListener("click", ev => {
+    const b = ev.target.closest("button[data-f]"); if (!b) return;
+    S.filter = b.dataset.f; render();
+  });
+
+  $("#me-select").addEventListener("change", e => {
+    S.me = e.target.value || null;
+    store.set("slpc.crew.me", S.me);
+    render();
+  });
+
+  /* ── gate ── */
+  function showApp(){
+    $("#gate").hidden = true; $("#top").hidden = false; $("#app").hidden = false;
+    fillRoster(); render();
+  }
+  function showGate(msg){
+    $("#gate").hidden = false; $("#top").hidden = true; $("#app").hidden = true;
+    const st = $("#gate-status");
+    st.className = msg ? "status err" : "status";
+    st.textContent = msg || "";
+  }
+
+  $("#gate-form").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const code = $("#gate-code").value.trim();
+    if (!code) return;
+    const btn = $("#gate-go"); btn.disabled = true;
+    $("#gate-status").className = "status"; $("#gate-status").textContent = "Checking…";
+    try {
+      await load(code);
+      S.code = code; store.set("slpc.crew.code", code);
+      showApp();
+    } catch (err){
+      showGate(err && err.badCode ? "That code doesn’t match. Check with Aaron."
+        : "Couldn’t reach the schedule. Check your connection.");
+    } finally { btn.disabled = false; }
+  });
+
+  /* ── boot ── */
+  S.me = store.get("slpc.crew.me");
+  const saved = store.get("slpc.crew.code");
+  if (saved){
+    load(saved).then(() => { S.code = saved; showApp(); })
+      .catch(err => { if (err && err.badCode) store.set("slpc.crew.code", null); showGate(""); });
+  } else {
+    showGate("");
+  }
+
+  // Pick up other people's answers without a manual refresh.
+  let refreshing = false;
+  async function refresh(){
+    if (!S.code || refreshing || document.hidden) return;
+    refreshing = true;
+    try { await load(S.code); fillRoster(); render(); } catch(e){} finally { refreshing = false; }
+  }
+  setInterval(refresh, 60000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(); });
+}
+})();
+</script>
+</body>
+</html>

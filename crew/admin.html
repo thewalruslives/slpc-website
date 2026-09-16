@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0E0B0F">
+<title>Crew Call Dashboard — Second Line Pleasure Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="top" id="top" hidden>
+  <div class="top-in">
+    <div class="brand">
+      <b>Crew Call Dashboard</b>
+      <span id="who">Signed in</span>
+    </div>
+    <a class="btn ghost" href="index.html">Crew view</a>
+    <button class="btn ghost" id="signout">Sign out</button>
+  </div>
+</header>
+
+<!-- sign in -->
+<div class="gate" id="gate" hidden>
+  <form class="gate-card" id="login-form">
+    <h1>Dashboard</h1>
+    <p>Sign in with the Supabase account you set up.</p>
+    <div class="f" style="text-align:left;margin-bottom:10px">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+    </div>
+    <div class="f" style="text-align:left">
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+    </div>
+    <button class="btn solid" type="submit" id="login-go">Sign in</button>
+    <div class="status" id="login-status" style="margin-top:12px"></div>
+  </form>
+</div>
+
+<main class="wrap" id="app" hidden>
+  <div id="stats"></div>
+  <div class="adminbar">
+    <button class="btn solid" id="new-shot">Add from screenshot</button>
+    <button class="btn" id="new-blank">Add event</button>
+    <button class="btn ghost" id="open-settings">Roster &amp; crew code</button>
+  </div>
+
+  <nav class="filters" id="filters" role="group" aria-label="Filter events">
+    <button data-f="upcoming" aria-pressed="true">Upcoming <span class="count" id="c-upcoming"></span></button>
+    <button data-f="needs" aria-pressed="false">Needs crew <span class="count" id="c-needs"></span></button>
+    <button data-f="unconfirmed" aria-pressed="false">Not confirmed <span class="count" id="c-unconfirmed"></span></button>
+    <button data-f="past" aria-pressed="false">Past <span class="count" id="c-past"></span></button>
+  </nav>
+
+  <div id="list">
+    <div class="skel"><div></div><div></div><div></div></div>
+    <div class="skel"><div></div><div></div><div></div></div>
+  </div>
+  <div class="banner" id="banner" hidden></div>
+</main>
+
+<div id="setup-slot"></div>
+
+<!-- event editor -->
+<dialog id="dlg-event">
+  <div class="dlg-hd"><h2 id="ev-title">Edit event</h2>
+    <button class="x" type="button" data-close aria-label="Close">&times;</button></div>
+  <div class="dlg-bd">
+    <div id="shot-zone">
+      <div class="sect">Start from a poster</div>
+      <div class="drop" id="drop" tabindex="0" role="button">
+        <b>Upload a screenshot</b>
+        Drop the event flyer here, or click to choose.
+      </div>
+      <input type="file" id="shot-input" accept="image/*" hidden>
+      <div class="shot" id="shot-preview" hidden>
+        <img id="shot-img" alt="Event poster">
+        <div>
+          <div class="status" id="shot-status"></div>
+          <div style="margin-top:9px;display:flex;gap:7px;flex-wrap:wrap">
+            <button type="button" class="btn ghost" id="shot-clear">Remove poster</button>
+            <button type="button" class="btn ghost" id="shot-retry" hidden>Read again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sect">Event</div>
+    <div class="fgrid">
+      <div class="f wide"><label for="f-place">Venue</label>
+        <input id="f-place" required placeholder="Humble Sea Pacifica"></div>
+      <div class="f"><label for="f-city">City</label><input id="f-city" placeholder="Pacifica"></div>
+      <div class="f"><label for="f-date">Date</label><input id="f-date" type="date" required></div>
+    </div>
+
+    <div class="sect">Boil time &mdash; when the event runs</div>
+    <div class="fgrid">
+      <div class="f"><label for="f-es">Boil starts</label><input id="f-es" type="time"></div>
+      <div class="f"><label for="f-ee">Boil ends</label><input id="f-ee" type="time"></div>
+    </div>
+
+    <div class="sect">Support hours &mdash; when you need crew</div>
+    <div class="fgrid">
+      <div class="f"><label for="f-ss">Support starts</label><input id="f-ss" type="time">
+        <span class="hint" id="hint-ss"></span></div>
+      <div class="f"><label for="f-se">Support ends</label><input id="f-se" type="time"></div>
+      <div class="f wide"><button type="button" class="btn ghost" id="suggest-support">
+        Suggest from boil time (&minus;2h / +1h)</button></div>
+    </div>
+
+    <div class="sect">Details</div>
+    <div class="fgrid">
+      <div class="f"><label for="f-band">Band</label><input id="f-band" placeholder="Back Dimples"></div>
+      <div class="f"><label for="f-sold">Sold estimate</label><input id="f-sold" placeholder="200"></div>
+      <div class="f wide"><label for="f-notes">Notes for the crew</label><textarea id="f-notes"></textarea></div>
+      <div class="f wide"><label for="f-aaron">Note from Aaron</label>
+        <textarea id="f-aaron" placeholder="Shown with a gold bar on the card"></textarea></div>
+      <div class="f wide"><label class="chk"><input type="checkbox" id="f-confirmed"> Event is confirmed</label></div>
+      <div class="f wide"><label class="chk"><input type="checkbox" id="f-labor">
+        This is an extra labor day, not a boil</label></div>
+    </div>
+
+    <div class="sect">Delivery</div>
+    <div class="fgrid">
+      <div class="f wide"><label class="chk"><input type="checkbox" id="f-dublin"> Drop off in Dublin only</label></div>
+      <div class="f wide"><label class="chk"><input type="checkbox" id="f-direct"> Bring craw and work directly at the location</label></div>
+      <div class="f wide"><label class="chk"><input type="checkbox" id="f-ride"> Needs a ride from Dublin to the location</label></div>
+      <div class="f wide"><label for="f-nickwork">Delivery note</label>
+        <input id="f-nickwork" placeholder="Deliver to Dublin by 10am"></div>
+    </div>
+  </div>
+  <div class="dlg-ft">
+    <button type="button" class="btn solid" id="ev-save">Save event</button>
+    <button type="button" class="btn ghost" data-close>Cancel</button>
+    <button type="button" class="btn danger" id="ev-delete" hidden>Delete</button>
+    <span class="status" id="ev-status"></span>
+  </div>
+</dialog>
+
+<!-- settings -->
+<dialog id="dlg-settings">
+  <div class="dlg-hd"><h2>Roster &amp; crew code</h2>
+    <button class="x" type="button" data-close aria-label="Close">&times;</button></div>
+  <div class="dlg-bd">
+    <div class="sect">Crew roster</div>
+    <div class="rosterlist" id="rosterlist"></div>
+    <div style="margin-top:11px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+      <button class="btn ghost" id="roster-add">Add person</button>
+      <button class="btn solid" id="roster-save">Save roster</button>
+      <span class="status" id="roster-status"></span>
+    </div>
+
+    <div class="sect">Crew code</div>
+    <p style="color:var(--fog);font-size:15px;margin:0 0 12px">
+      This is what the crew types to open the schedule. Changing it signs everyone
+      out until you give them the new one.</p>
+    <div class="fgrid">
+      <div class="f wide"><label for="new-code">New crew code</label>
+        <input id="new-code" type="text" autocomplete="off" placeholder="At least 6 characters"></div>
+    </div>
+    <div style="margin-top:11px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+      <button class="btn solid" id="code-save">Change crew code</button>
+      <span class="status" id="code-status"></span>
+    </div>
+  </div>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+(function () {
+"use strict";
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => [...(r || document).querySelectorAll(s)];
+const K = SLPC;
+
+if (!K.configured()) { $("#setup-slot").innerHTML = K.setupNotice(); return; }
+
+const cfg = window.SLPC_CONFIG;
+const sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+const S = { events:[], resp:[], roster:[], filter:"upcoming", editing:null,
+            pendingShot:null, clearPoster:false };
+
+/* ── data ── */
+async function loadAll(){
+  const [ev, rs, ro] = await Promise.all([
+    sb.from("events").select("*").order("date"),
+    sb.from("responses").select("*"),
+    sb.from("roster").select("*").order("sort_order")
+  ]);
+  if (ev.error) throw ev.error;
+  S.events = ev.data || [];
+  S.resp   = rs.data || [];
+  S.roster = (ro.data || []).filter(r => r.active).map(r => r.name);
+}
+const respFor = id => S.resp.filter(r => r.event_id === id);
+
+function buckets(){
+  const t = K.today();
+  const all = S.events.slice().sort((a,b) =>
+    a.date < b.date ? -1 : a.date > b.date ? 1 : (a.place||"").localeCompare(b.place||""));
+  const up = all.filter(e => e.date >= t);
+  return {
+    upcoming: up,
+    needs: up.filter(e => e.kind !== "labor" && !respFor(e.id).some(r => r.status === "yes")),
+    unconfirmed: up.filter(e => !e.confirmed && e.kind !== "labor"),
+    past: all.filter(e => e.date < t).reverse()
+  };
+}
+
+/* ── render ── */
+function render(){
+  const bk = buckets();
+  for (const k of ["upcoming","needs","unconfirmed","past"]){
+    const el = $("#c-" + k); if (el) el.textContent = bk[k].length ? bk[k].length : "";
+  }
+  $$("#filters button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === S.filter)));
+
+  const outstanding = bk.upcoming.reduce((n,e) => n + (S.roster.length - respFor(e.id).length), 0);
+  $("#stats").innerHTML = '<div class="stats">' +
+    '<div class="stat"><div class="n">' + bk.upcoming.length + '</div><div class="l">Upcoming</div></div>' +
+    '<div class="stat"><div class="n' + (bk.needs.length ? " warn" : "") + '">' + bk.needs.length +
+      '</div><div class="l">No crew yet</div></div>' +
+    '<div class="stat"><div class="n">' + bk.unconfirmed.length + '</div><div class="l">Not confirmed</div></div>' +
+    '<div class="stat"><div class="n">' + Math.max(0, outstanding) +
+      '</div><div class="l">Answers outstanding</div></div></div>';
+
+  const rows = bk[S.filter] || [];
+  $("#list").innerHTML = rows.length
+    ? K.monthGroups(rows.map(e => ({ date:e.date,
+        html: K.evHTML(e, { responses: respFor(e.id), showAnswer:false, showEdit:true }) })))
+    : '<div class="empty"><b>Nothing here</b>Add an event to get the crew signed up.</div>';
+}
+
+function banner(html){
+  const b = $("#banner");
+  if (!html){ b.hidden = true; return; }
+  b.innerHTML = html; b.hidden = false;
+}
+
+/* ── editor ── */
+const dlgE = $("#dlg-event"), dlgS = $("#dlg-settings");
+$$("[data-close]").forEach(b => b.addEventListener("click", () => b.closest("dialog").close()));
+
+const setV = (id, v) => { const el = $(id); if (el) el.value = v == null ? "" : v; };
+function markFilled(ids){
+  $$(".f.filled").forEach(f => f.classList.remove("filled"));
+  ids.forEach(id => { const el = $(id); if (el && el.value) el.closest(".f").classList.add("filled"); });
+}
+
+function openEvent(e, startWithShot){
+  S.editing = e ? e.id : null;
+  S.pendingShot = null; S.clearPoster = false;
+  $("#ev-title").textContent = e ? "Edit event" : "New event";
+  $("#ev-delete").hidden = !e;
+  $("#ev-status").textContent = ""; $("#ev-status").className = "status";
+  $("#shot-preview").hidden = true; $("#shot-img").removeAttribute("src");
+  $("#shot-status").textContent = ""; $("#shot-retry").hidden = true;
+  $$(".f.filled").forEach(f => f.classList.remove("filled"));
+  const v = e || {};
+  setV("#f-place", v.place); setV("#f-city", v.city); setV("#f-date", v.date);
+  setV("#f-es", K.hhmm(v.event_start));   setV("#f-ee", K.hhmm(v.event_end));
+  setV("#f-ss", K.hhmm(v.support_start)); setV("#f-se", K.hhmm(v.support_end));
+  setV("#f-band", v.band); setV("#f-sold", v.sold_estimate);
+  setV("#f-notes", v.notes); setV("#f-aaron", v.aaron_note); setV("#f-nickwork", v.nick_work);
+  $("#f-confirmed").checked = !!v.confirmed;
+  $("#f-labor").checked = v.kind === "labor";
+  $("#f-dublin").checked = !!v.nick_dropoff_dublin;
+  $("#f-direct").checked = !!v.nick_direct_to_location;
+  $("#f-ride").checked   = !!v.nick_needs_ride;
+  $("#hint-ss").textContent = "";
+  if (e && e.poster_path){
+    $("#shot-img").src = K.posterURL(e.poster_path);
+    $("#shot-preview").hidden = false;
+    $("#shot-status").className = "status ok";
+    $("#shot-status").textContent = "Poster saved with this event.";
+  }
+  dlgE.showModal();
+  if (startWithShot) $("#shot-input").click();
+}
+
+$("#suggest-support").addEventListener("click", () => {
+  const es = $("#f-es").value, ee = $("#f-ee").value;
+  if (!es && !ee){ $("#hint-ss").textContent = "Set a boil time first."; return; }
+  if (es) $("#f-ss").value = K.addMin(es, -120);
+  if (ee) $("#f-se").value = K.addMin(ee, 60);
+  $("#hint-ss").textContent = "Suggested from the boil time — adjust if this one is different.";
+  markFilled(["#f-ss","#f-se"]);
+});
+
+$("#ev-save").addEventListener("click", async () => {
+  const st = $("#ev-status");
+  const place = $("#f-place").value.trim(), date = $("#f-date").value;
+  if (!place || !date){ st.className = "status err"; st.textContent = "A venue and a date are required."; return; }
+  st.className = "status"; st.textContent = "Saving…";
+
+  const prev = S.events.find(x => x.id === S.editing) || {};
+  const id = S.editing || (date + "-" + K.slug(place)).slice(0,120);
+  const row = {
+    id, place, date,
+    city: $("#f-city").value.trim(),
+    event_start:   $("#f-es").value || null, event_end:   $("#f-ee").value || null,
+    support_start: $("#f-ss").value || null, support_end: $("#f-se").value || null,
+    band: $("#f-band").value.trim(),
+    sold_estimate: $("#f-sold").value.trim(),
+    notes: $("#f-notes").value.trim(),
+    aaron_note: $("#f-aaron").value.trim(),
+    nick_work: $("#f-nickwork").value.trim(),
+    confirmed: $("#f-confirmed").checked,
+    kind: $("#f-labor").checked ? "labor" : "event",
+    nick_dropoff_dublin: $("#f-dublin").checked,
+    nick_direct_to_location: $("#f-direct").checked,
+    nick_needs_ride: $("#f-ride").checked,
+    assigned_staff: prev.assigned_staff || [],
+    poster_path: S.clearPoster ? null : (prev.poster_path || null),
+    source: prev.source || "Added in the dashboard",
+    updated_at: new Date().toISOString()
+  };
+
+  try {
+    if (S.pendingShot){
+      st.textContent = "Uploading poster…";
+      const ext = (S.pendingShot.name.split(".").pop() || "jpg").toLowerCase().slice(0,5);
+      const path = id + "-" + Date.now() + "." + ext;
+      const up = await sb.storage.from(cfg.POSTER_BUCKET)
+        .upload(path, S.pendingShot, { upsert: true, contentType: S.pendingShot.type });
+      if (up.error) throw up.error;
+      row.poster_path = path;
+    }
+    st.textContent = "Saving…";
+    const { error } = await sb.from("events").upsert(row);
+    if (error) throw error;
+    if (S.editing && S.editing !== id){
+      await sb.from("events").delete().eq("id", S.editing);
+    }
+    await loadAll(); render();
+    S.pendingShot = null; dlgE.close();
+  } catch (err){
+    st.className = "status err";
+    st.textContent = "Couldn’t save — " + (err && err.message || "try again.");
+  }
+});
+
+$("#ev-delete").addEventListener("click", async () => {
+  if (!S.editing) return;
+  const e = S.events.find(x => x.id === S.editing);
+  if (!window.confirm("Delete “" + (e && e.place || "this event") + "” on " +
+      (e && e.date || "") + "? Crew answers for it go too.")) return;
+  const st = $("#ev-status"); st.className = "status"; st.textContent = "Deleting…";
+  const { error } = await sb.from("events").delete().eq("id", S.editing);
+  if (error){ st.className = "status err"; st.textContent = "Couldn’t delete — " + error.message; return; }
+  await loadAll(); render(); dlgE.close();
+});
+
+/* ── screenshot ── */
+const drop = $("#drop"), shotIn = $("#shot-input");
+drop.addEventListener("click", () => shotIn.click());
+drop.addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === " "){ e.preventDefault(); shotIn.click(); }
+});
+["dragenter","dragover"].forEach(t => drop.addEventListener(t, e => {
+  e.preventDefault(); drop.classList.add("over"); }));
+["dragleave","drop"].forEach(t => drop.addEventListener(t, e => {
+  e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => {
+  const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (f) handleShot(f);
+});
+shotIn.addEventListener("change", () => {
+  const f = shotIn.files && shotIn.files[0]; if (f) handleShot(f); shotIn.value = "";
+});
+$("#shot-clear").addEventListener("click", () => {
+  S.pendingShot = null; S.clearPoster = true;
+  $("#shot-preview").hidden = true; $("#shot-img").removeAttribute("src");
+});
+$("#shot-retry").addEventListener("click", () => { if (S.pendingShot) readShot(S.pendingShot); });
+
+function handleShot(file){
+  if (!/^image\//.test(file.type)){
+    $("#shot-preview").hidden = false;
+    $("#shot-status").className = "status err";
+    $("#shot-status").textContent = "That’s not an image file.";
+    return;
+  }
+  S.pendingShot = file; S.clearPoster = false;
+  const url = URL.createObjectURL(file);
+  $("#shot-img").src = url; $("#shot-preview").hidden = false;
+  $("#shot-img").onload = () => URL.revokeObjectURL(url);
+  readShot(file);
+}
+
+const b64 = file => new Promise((res, rej) => {
+  const r = new FileReader();
+  r.onload = () => res(String(r.result).split(",")[1]);
+  r.onerror = rej;
+  r.readAsDataURL(file);
+});
+
+async function readShot(file){
+  const st = $("#shot-status"); $("#shot-retry").hidden = true;
+  st.className = "status"; st.textContent = "Reading the poster…";
+  try {
+    const { data, error } = await sb.functions.invoke("extract-poster", {
+      body: { image: await b64(file), mediaType: file.type, today: K.today() }
+    });
+    if (error) throw error;
+    const g = k => typeof data[k] === "string" ? data[k].trim() : "";
+    const filled = [];
+    const put = (sel, val) => { const el = $(sel); if (val && el && !el.value){ el.value = val; filled.push(sel); } };
+    put("#f-place", g("place").replace(/^@\s*/, ""));
+    put("#f-city", g("city"));
+    if (/^\d{4}-\d{2}-\d{2}$/.test(g("date")))     put("#f-date", g("date"));
+    if (/^\d{1,2}:\d{2}$/.test(g("eventStart")))   put("#f-es", g("eventStart"));
+    if (/^\d{1,2}:\d{2}$/.test(g("eventEnd")))     put("#f-ee", g("eventEnd"));
+    put("#f-band", g("band"));
+    put("#f-notes", g("notes"));
+    if ($("#f-es").value && !$("#f-ss").value){ $("#f-ss").value = K.addMin($("#f-es").value, -120); filled.push("#f-ss"); }
+    if ($("#f-ee").value && !$("#f-se").value){ $("#f-se").value = K.addMin($("#f-ee").value, 60);  filled.push("#f-se"); }
+    markFilled(filled);
+    $("#hint-ss").textContent = "Suggested from the boil time — adjust if this one is different.";
+    st.className = "status ok";
+    st.textContent = filled.length
+      ? "Filled in " + filled.length + " field" + (filled.length > 1 ? "s" : "") + " — check them before saving."
+      : "Nothing readable on the poster. Fill in the details below.";
+    $("#shot-retry").hidden = false;
+  } catch (err){
+    st.className = "status";
+    st.textContent = "Poster saved. Fill in the details below — " +
+      "automatic reading isn’t switched on.";
+  }
+}
+
+/* ── settings ── */
+function renderRoster(){
+  $("#rosterlist").innerHTML = S.roster.map((n,i) =>
+    '<div class="rosteritem"><input class="u" value="' + K.esc(n) +
+    '" data-i="' + i + '" aria-label="Crew member name">' +
+    '<button type="button" class="btn ghost" data-rm="' + i + '">Remove</button></div>').join("");
+}
+$("#open-settings").addEventListener("click", () => {
+  renderRoster();
+  $("#roster-status").textContent = ""; $("#code-status").textContent = "";
+  $("#new-code").value = "";
+  dlgS.showModal();
+});
+$("#rosterlist").addEventListener("click", e => {
+  const b = e.target.closest("[data-rm]"); if (!b) return;
+  S.roster = S.roster.filter((_, i) => i !== +b.dataset.rm);
+  renderRoster();
+});
+$("#roster-add").addEventListener("click", () => {
+  S.roster = [...S.roster, ""]; renderRoster();
+  const ins = $$("#rosterlist input"); ins[ins.length-1] && ins[ins.length-1].focus();
+});
+$("#roster-save").addEventListener("click", async () => {
+  const names = $$("#rosterlist input").map(i => i.value.trim()).filter(Boolean);
+  const seen = new Set(), out = [];
+  for (const n of names) if (!seen.has(n.toLowerCase())){ seen.add(n.toLowerCase()); out.push(n); }
+  const st = $("#roster-status"); st.className = "status"; st.textContent = "Saving…";
+  try {
+    const { error: upErr } = await sb.from("roster")
+      .upsert(out.map((n,i) => ({ name:n, sort_order:i, active:true })));
+    if (upErr) throw upErr;
+    // Anyone dropped from the list is deactivated, not deleted, so their past answers survive.
+    const { data: all } = await sb.from("roster").select("name");
+    const gone = (all || []).map(r => r.name).filter(n => !out.includes(n));
+    if (gone.length) await sb.from("roster").update({ active:false }).in("name", gone);
+    S.roster = out; renderRoster(); render();
+    st.className = "status ok"; st.textContent = "Roster saved.";
+  } catch (err){
+    st.className = "status err"; st.textContent = "Couldn’t save — " + (err.message || "");
+  }
+});
+$("#code-save").addEventListener("click", async () => {
+  const code = $("#new-code").value.trim();
+  const st = $("#code-status");
+  if (code.length < 6){ st.className = "status err"; st.textContent = "Use at least 6 characters."; return; }
+  st.className = "status"; st.textContent = "Saving…";
+  const { error } = await sb.rpc("set_crew_passcode", { p_new: code });
+  if (error){ st.className = "status err"; st.textContent = "Couldn’t change it — " + error.message; return; }
+  st.className = "status ok"; st.textContent = "Crew code changed. Tell the crew the new one.";
+  $("#new-code").value = "";
+});
+
+/* ── list + filters ── */
+$("#list").addEventListener("click", ev => {
+  const btn = ev.target.closest('[data-act="edit"]'); if (!btn) return;
+  const art = ev.target.closest(".ev"); if (!art) return;
+  openEvent(S.events.find(x => x.id === art.dataset.id), false);
+});
+$("#filters").addEventListener("click", ev => {
+  const b = ev.target.closest("button[data-f]"); if (!b) return;
+  S.filter = b.dataset.f; render();
+});
+$("#new-blank").addEventListener("click", () => openEvent(null, false));
+$("#new-shot").addEventListener("click", () => openEvent(null, true));
+
+/* ── auth ── */
+async function enter(session){
+  const { data: adm } = await sb.from("admins").select("user_id").eq("user_id", session.user.id).maybeSingle();
+  if (!adm){
+    await sb.auth.signOut();
+    $("#gate").hidden = false; $("#top").hidden = true; $("#app").hidden = true;
+    const st = $("#login-status");
+    st.className = "status err";
+    st.textContent = "That account isn’t an admin yet. Add its user id to the admins table.";
+    return;
+  }
+  $("#gate").hidden = true; $("#top").hidden = false; $("#app").hidden = false;
+  $("#who").textContent = session.user.email || "Signed in";
+  try { await loadAll(); render(); }
+  catch (err){ banner("<b>Couldn’t load the schedule.</b> " + K.esc(err.message || "")); }
+}
+
+$("#login-form").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const st = $("#login-status"); const btn = $("#login-go");
+  btn.disabled = true; st.className = "status"; st.textContent = "Signing in…";
+  const { data, error } = await sb.auth.signInWithPassword({
+    email: $("#email").value.trim(), password: $("#password").value
+  });
+  btn.disabled = false;
+  if (error){ st.className = "status err"; st.textContent = "That didn’t work — check the email and password."; return; }
+  $("#password").value = "";
+  st.textContent = "";
+  enter(data.session);
+});
+
+$("#signout").addEventListener("click", async () => {
+  await sb.auth.signOut();
+  location.reload();
+});
+
+sb.auth.getSession().then(({ data }) => {
+  if (data.session) enter(data.session);
+  else { $("#gate").hidden = false; }
+});
+})();
+</script>
+</body>
+</html>
