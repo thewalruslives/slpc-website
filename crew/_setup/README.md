@@ -95,6 +95,19 @@ Leave it blank on an event you haven't sized yet; that event is only flagged
 when nobody at all has said yes. The dashboard's **Crew still needed** tile
 adds up the shortfall across every upcoming event.
 
+## The three crew pages
+
+Everything behind the crew code, linked from the bar at the top of each:
+
+- **`/crew/`** — the schedule. Answer events, leave notes, see who else is on.
+- **`/crew/me.html`** — one person's own summary: next shift with a countdown,
+  how many events they are on, hours booked, what is still waiting on their
+  answer, and what they have already worked.
+- **`/crew/calendar.html`** — the month at a glance. Each day shows its events
+  coloured by state: gold when you are on it, green when the crew is covered,
+  rust when it is short, grey for an extra labor day. Tap a day for the detail.
+  On a phone the pills become coloured bars so the grid still fits.
+
 ## Confirming who actually works
 
 Collecting answers is only half of it — the editor's **Crew** section is where

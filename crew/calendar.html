@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0E0B0F">
+<title>Boil Calendar — Second Line Crew Call</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="top" id="top" hidden>
+  <div class="top-in">
+    <div class="brand">
+      <b>Boil Calendar</b>
+      <span>Second Line Crew Call</span>
+    </div>
+    <nav class="crewnav">
+      <a href="index.html">Schedule</a>
+      <a href="me.html">My shifts</a>
+      <a href="calendar.html" aria-current="page">Calendar</a>
+    </nav>
+    <div class="whoami">
+      <label for="me-select">I am</label>
+      <select class="me" id="me-select"><option value="">Pick your name</option></select>
+    </div>
+  </div>
+</header>
+
+<div class="gate" id="gate" hidden>
+  <form class="gate-card" id="gate-form">
+    <h1>Crew Call</h1>
+    <p>Enter the crew code Aaron gave you.</p>
+    <input id="gate-code" type="password" inputmode="text" autocomplete="current-password"
+           placeholder="CREW CODE" aria-label="Crew code" required>
+    <button class="btn solid" type="submit" id="gate-go">Open the calendar</button>
+    <div class="status" id="gate-status" style="margin-top:12px"></div>
+  </form>
+</div>
+
+<main class="wrap" id="app" hidden>
+  <div class="calbar">
+    <button class="calnav" id="prev" aria-label="Previous month">&larr;</button>
+    <h2 id="calmonth">&nbsp;</h2>
+    <button class="calnav" id="next" aria-label="Next month">&rarr;</button>
+    <button class="btn ghost" id="today">Today</button>
+  </div>
+
+  <div id="cal"></div>
+  <div id="daydetail"></div>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <div class="foot">
+    <div class="legend">
+      <span><i style="background:var(--absinthe-lit)"></i>Crew covered</span>
+      <span><i style="background:var(--rust)"></i>Short on crew</span>
+      <span><i style="background:var(--tallow)"></i>You&rsquo;re on it</span>
+      <span><i style="background:var(--fog)"></i>Extra labor</span>
+    </div>
+  </div>
+</main>
+
+<div id="setup-slot"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script src="boot.js"></script>
+<script>
+(function () {
+"use strict";
+const $ = s => document.querySelector(s);
+const K = SLPC, B = SLPC_BOOT, S = B.S;
+
+const now = new Date();
+let year = now.getFullYear(), month = now.getMonth();   // 0-indexed
+let selected = null;
+
+const pad = n => String(n).padStart(2, "0");
+const iso = (y,m,d) => y + "-" + pad(m+1) + "-" + pad(d);
+
+function eventsOn(date){
+  return S.events.filter(e => e.date === date)
+    .sort((a,b) => (K.mins(a.event_start) ?? 9999) - (K.mins(b.event_start) ?? 9999));
+}
+
+// What colour a day reads as: your own shift wins, then staffing state.
+function stateOf(e){
+  if (e.kind === "labor") return "labor";
+  if (S.me && K.isConfirmed(e, S.me)) return "mine";
+  const r = B.mineFor(e.id);
+  if (r && r.status === "yes") return "mine";
+  return K.shortfall(e, B.respFor(e.id)) > 0 ? "short" : "ok";
+}
+
+function render(){
+  if (!S.loaded) return;
+  $("#calmonth").textContent = K.MONL[month] + " " + year;
+
+  const first = new Date(year, month, 1);
+  const startDow = first.getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = K.today();
+
+  let cells = "";
+  for (let i = 0; i < startDow; i++) cells += '<div class="cell blank"></div>';
+  for (let d = 1; d <= daysInMonth; d++){
+    const date = iso(year, month, d);
+    const evs = eventsOn(date);
+    const isToday = date === today;
+    const isSel = date === selected;
+    cells += '<div class="cell' + (isToday ? " today" : "") + (isSel ? " sel" : "") +
+      (evs.length ? " has" : "") + '" data-date="' + date + '"' +
+      (evs.length ? ' role="button" tabindex="0"' : "") + ">" +
+      '<span class="dnum">' + d + "</span>" +
+      (evs.length ? '<span class="pills">' + evs.map(e => {
+        const st = stateOf(e);
+        return '<span class="pill-ev ' + st + '" title="' + K.esc(e.place) + '">' +
+          '<span class="pt">' + K.esc(e.place) + "</span></span>";
+      }).join("") + "</span>" : "") +
+      "</div>";
+  }
+  const trail = (7 - ((startDow + daysInMonth) % 7)) % 7;
+  for (let i = 0; i < trail; i++) cells += '<div class="cell blank"></div>';
+
+  $("#cal").innerHTML =
+    '<div class="calgrid"><div class="dow">Sun</div><div class="dow">Mon</div><div class="dow">Tue</div>' +
+    '<div class="dow">Wed</div><div class="dow">Thu</div><div class="dow">Fri</div><div class="dow">Sat</div>' +
+    cells + "</div>";
+
+  renderDetail();
+}
+
+function renderDetail(){
+  const box = $("#daydetail");
+  if (!selected){
+    const monthHas = S.events.filter(e => e.date.slice(0,7) === year + "-" + pad(month+1)).length;
+    box.innerHTML = monthHas
+      ? '<p class="mynote">Pick a day to see what’s on.</p>'
+      : '<div class="empty"><b>Nothing this month</b>Use the arrows to look around.</div>';
+    return;
+  }
+  const evs = eventsOn(selected);
+  if (!evs.length){ box.innerHTML = '<p class="mynote">Nothing on that day.</p>'; return; }
+  const p = K.parts(selected);
+  box.innerHTML = '<h3 class="mysect">' + K.DOW[p.dow] + " " + p.d + " " + K.MONL[p.m-1] + "</h3>" +
+    evs.map(e => K.evHTML(e, { responses: B.respFor(e.id), me: S.me,
+                               showAnswer: false, showEdit: false })).join("");
+}
+
+$("#cal").addEventListener("click", ev => {
+  const cell = ev.target.closest(".cell.has"); if (!cell) return;
+  selected = selected === cell.dataset.date ? null : cell.dataset.date;
+  render();
+});
+$("#cal").addEventListener("keydown", ev => {
+  if (ev.key !== "Enter" && ev.key !== " ") return;
+  const cell = ev.target.closest(".cell.has"); if (!cell) return;
+  ev.preventDefault();
+  selected = selected === cell.dataset.date ? null : cell.dataset.date;
+  render();
+});
+
+function shift(by){
+  month += by;
+  if (month < 0){ month = 11; year--; }
+  if (month > 11){ month = 0; year++; }
+  selected = null; render();
+}
+$("#prev").addEventListener("click", () => shift(-1));
+$("#next").addEventListener("click", () => shift(1));
+$("#today").addEventListener("click", () => {
+  const d = new Date(); year = d.getFullYear(); month = d.getMonth();
+  // Only open today if there is something on it, otherwise just show the month.
+  selected = eventsOn(K.today()).length ? K.today() : null;
+  render();
+});
+
+B.start({ onRender: render });
+})();
+</script>
+</body>
+</html>

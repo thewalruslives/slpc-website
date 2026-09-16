@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0E0B0F">
+<title>My Shifts — Second Line Crew Call</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="top" id="top" hidden>
+  <div class="top-in">
+    <div class="brand">
+      <b>My Shifts</b>
+      <span id="brand-sub">Second Line Crew Call</span>
+    </div>
+    <nav class="crewnav">
+      <a href="index.html">Schedule</a>
+      <a href="me.html" aria-current="page">My shifts</a>
+      <a href="calendar.html">Calendar</a>
+    </nav>
+    <div class="whoami">
+      <label for="me-select">I am</label>
+      <select class="me" id="me-select"><option value="">Pick your name</option></select>
+    </div>
+  </div>
+</header>
+
+<div class="gate" id="gate" hidden>
+  <form class="gate-card" id="gate-form">
+    <h1>Crew Call</h1>
+    <p>Enter the crew code Aaron gave you.</p>
+    <input id="gate-code" type="password" inputmode="text" autocomplete="current-password"
+           placeholder="CREW CODE" aria-label="Crew code" required>
+    <button class="btn solid" type="submit" id="gate-go">Open my shifts</button>
+    <div class="status" id="gate-status" style="margin-top:12px"></div>
+  </form>
+</div>
+
+<main class="wrap" id="app" hidden>
+  <div id="summary"></div>
+  <div class="banner" id="banner" hidden></div>
+</main>
+
+<div id="setup-slot"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script src="boot.js"></script>
+<script>
+(function () {
+"use strict";
+const $ = s => document.querySelector(s);
+const K = SLPC, B = SLPC_BOOT, S = B.S;
+
+const DAY = 86400000;
+function daysUntil(iso){
+  const p = K.parts(iso); if (!p) return null;
+  const then = new Date(p.y, p.m - 1, p.d);
+  const now = new Date(); now.setHours(0,0,0,0);
+  return Math.round((then - now) / DAY);
+}
+function whenWord(iso){
+  const d = daysUntil(iso);
+  if (d == null) return "";
+  if (d === 0) return "Today";
+  if (d === 1) return "Tomorrow";
+  if (d < 7)  return "In " + d + " days";
+  if (d < 14) return "Next week";
+  return "In " + Math.round(d / 7) + " weeks";
+}
+// Length of the support window, which is what you are actually committing to.
+function hoursOf(e){
+  const a = K.mins(e.support_start), b = K.mins(e.support_end);
+  if (a == null || b == null || b <= a) return 0;
+  return (b - a) / 60;
+}
+
+function myState(e){
+  const r = B.mineFor(e.id);
+  if (K.isConfirmed(e, S.me)) return "confirmed";
+  if (r && r.status === "yes")   return "yes";
+  if (r && r.status === "maybe") return "maybe";
+  if (r && r.status === "no")    return "no";
+  return "none";
+}
+
+function shiftRow(e, opts){
+  const p = K.parts(e.date);
+  const st = myState(e);
+  const r = B.mineFor(e.id);
+  const label = { confirmed:"On the crew", yes:"You said yes", maybe:"You said maybe",
+                  no:"You can’t make it", none:"No answer yet" }[st];
+  const win = K.span(e.support_start, e.support_end) || K.span(e.event_start, e.event_end);
+  const del = [];
+  if (r && r.can_deliver) del.push("You can deliver");
+  if (e.nick_dropoff_dublin) del.push("Dublin drop-off");
+  if (e.nick_direct_to_location) del.push("Craw to site");
+  return '<a class="shift ' + st + '" href="index.html#' + K.esc(e.id) + '">' +
+    '<span class="s-when"><b>' + (p ? p.d : "?") + "</b>" +
+      "<i>" + (p ? K.MON[p.m-1] : "") + "</i></span>" +
+    '<span class="s-main"><span class="s-place">' + K.esc(e.place) +
+      (e.city ? '<span class="s-city">' + K.esc(e.city) + "</span>" : "") + "</span>" +
+      '<span class="s-time">' + (win ? K.esc(win) : "Times to be confirmed") +
+      (opts && opts.showWhen ? ' <em>· ' + K.esc(whenWord(e.date)) + "</em>" : "") + "</span>" +
+      (del.length ? '<span class="s-del">' + K.esc(del.join(" · ")) + "</span>" : "") +
+    "</span>" +
+    '<span class="s-tag ' + st + '">' + K.esc(label) + "</span></a>";
+}
+
+function render(){
+  if (!S.loaded) return;
+  const box = $("#summary");
+  $("#brand-sub").textContent = S.me ? S.me : "Second Line Crew Call";
+
+  if (!S.me){
+    box.innerHTML = '<div class="empty"><b>Pick your name</b>' +
+      "Choose your name at the top of the page and your shifts appear here.</div>";
+    return;
+  }
+
+  const t = K.today();
+  const all = S.events.slice().sort((a,b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+  const up = all.filter(e => e.date >= t && e.kind !== "labor");
+  const labor = all.filter(e => e.date >= t && e.kind === "labor");
+
+  const confirmed = up.filter(e => myState(e) === "confirmed");
+  const yes       = up.filter(e => myState(e) === "yes");
+  const maybe     = up.filter(e => myState(e) === "maybe");
+  const waiting   = up.concat(labor).filter(e => myState(e) === "none");
+  const booked    = confirmed.concat(yes).sort((a,b) => a.date < b.date ? -1 : 1);
+  const hours     = booked.reduce((n,e) => n + hoursOf(e), 0);
+  const deliveries = booked.filter(e => { const r = B.mineFor(e.id); return r && r.can_deliver; });
+  const past      = all.filter(e => e.date < t && (K.isConfirmed(e, S.me) ||
+                     (B.mineFor(e.id) || {}).status === "yes"));
+
+  const next = booked[0];
+  let html = "";
+
+  if (next){
+    const p = K.parts(next.date);
+    html += '<section class="next">' +
+      '<div class="next-lab">Your next shift · ' + K.esc(whenWord(next.date)) + "</div>" +
+      '<h2>' + K.esc(next.place) + "</h2>" +
+      '<div class="next-meta">' +
+        "<span>" + K.DOW[p.dow] + " " + p.d + " " + K.MON[p.m-1] + "</span>" +
+        (next.city ? "<span>" + K.esc(next.city) + "</span>" : "") +
+        (K.span(next.support_start, next.support_end)
+          ? "<span><i>Support</i> " + K.esc(K.span(next.support_start, next.support_end)) + "</span>" : "") +
+        (K.span(next.event_start, next.event_end)
+          ? "<span><i>Boil</i> " + K.esc(K.span(next.event_start, next.event_end)) + "</span>" : "") +
+      "</div>" +
+      (next.aaron_note ? '<div class="next-note">' + K.esc(next.aaron_note) + "</div>" : "") +
+      "</section>";
+  }
+
+  html += '<div class="stats">' +
+    '<div class="stat"><div class="n">' + confirmed.length + '</div><div class="l">On the crew</div></div>' +
+    '<div class="stat"><div class="n">' + yes.length + '</div><div class="l">Said yes</div></div>' +
+    '<div class="stat"><div class="n' + (waiting.length ? " warn" : "") + '">' + waiting.length +
+      '</div><div class="l">Waiting on you</div></div>' +
+    '<div class="stat"><div class="n">' + (Math.round(hours * 10) / 10) +
+      '</div><div class="l">Hours booked</div></div>' +
+    "</div>";
+
+  if (waiting.length){
+    html += '<h3 class="mysect warnsect">Waiting on your answer</h3>' +
+      '<div class="shifts">' + waiting.map(e => shiftRow(e, { showWhen:true })).join("") + "</div>" +
+      '<p class="mynote">Open the <a href="index.html">schedule</a> to answer these.</p>';
+  }
+
+  if (booked.length){
+    html += '<h3 class="mysect">Your upcoming shifts</h3>' +
+      '<div class="shifts">' + booked.map(e => shiftRow(e, { showWhen:true })).join("") + "</div>";
+  } else {
+    html += '<h3 class="mysect">Your upcoming shifts</h3>' +
+      '<div class="empty"><b>Nothing booked yet</b>' +
+      'Say yes to an event on the <a href="index.html">schedule</a> and it lands here.</div>';
+  }
+
+  if (maybe.length){
+    html += '<h3 class="mysect">You said maybe</h3>' +
+      '<div class="shifts">' + maybe.map(e => shiftRow(e, { showWhen:true })).join("") + "</div>";
+  }
+
+  if (deliveries.length){
+    html += '<h3 class="mysect">You offered to deliver</h3>' +
+      '<div class="shifts">' + deliveries.map(e => shiftRow(e, {})).join("") + "</div>";
+  }
+
+  if (past.length){
+    html += '<h3 class="mysect">Already worked</h3>' +
+      '<p class="mynote">' + past.length + " event" + (past.length > 1 ? "s" : "") +
+      " this season, most recent first.</p>" +
+      '<div class="shifts past">' + past.slice().reverse().slice(0,8)
+        .map(e => shiftRow(e, {})).join("") + "</div>";
+  }
+
+  box.innerHTML = html;
+}
+
+B.start({ onRender: render });
+})();
+</script>
+</body>
+</html>
