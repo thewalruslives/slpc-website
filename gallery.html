@@ -101,6 +101,9 @@
     }
 
     .nav-links a:hover, .nav-links a.active { color: var(--tallow); }
+    .nav-feature { color: var(--tallow) !important; border: 1px solid rgba(200,149,74,0.5); padding: 0.28rem 0.75rem !important; border-radius: 2px; letter-spacing: 0.12em !important; animation: nav-pulse 2.5s ease-in-out infinite; }
+    @keyframes nav-pulse { 0%,100% { border-color: rgba(200,149,74,0.35); box-shadow: none; } 50% { border-color: rgba(200,149,74,0.8); box-shadow: 0 0 8px rgba(200,149,74,0.25); } }
+    .nav-overlay-links .nav-feature { color: var(--tallow) !important; border: 1px solid rgba(200,149,74,0.5); padding: 0.4rem 1.2rem !important; border-radius: 2px; display: inline-block; margin-top: 0.5rem; }
 
     /* ─── CAROUSEL WRAPPER ─── */
     #carousel {
@@ -301,6 +304,7 @@
       <li><a href="gallery.html" class="active">Gallery</a></li>
       <li><a href="walrus-report.html">Walrus Report</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><a href="events.html#oct18" class="nav-feature">Gillman Boil Block Party · Oct 18</a></li>
     </ul>
     <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('nav-overlay').classList.add('open')">
       <span></span><span></span><span></span>
@@ -315,6 +319,7 @@
       <li><a href="gallery.html" class="active">Gallery</a></li>
       <li><a href="walrus-report.html">Walrus Report</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><a href="events.html#oct18" class="nav-feature">Gillman Boil Block Party · Oct 18</a></li>
     </ul>
   </div>
 
