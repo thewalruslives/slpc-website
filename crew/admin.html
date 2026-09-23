@@ -150,6 +150,7 @@
   <div class="dlg-ft">
     <button type="button" class="btn solid" id="ev-save">Save event</button>
     <button type="button" class="btn ghost" data-close>Cancel</button>
+    <button type="button" class="btn ghost" id="ev-dup" hidden>Duplicate</button>
     <button type="button" class="btn danger" id="ev-delete" hidden>Delete</button>
     <span class="status" id="ev-status"></span>
   </div>
@@ -333,6 +334,7 @@ function openEvent(e, startWithShot){
   S.pendingShot = null; S.clearPoster = false;
   $("#ev-title").textContent = e ? "Edit event" : "New event";
   $("#ev-delete").hidden = !e;
+  $("#ev-dup").hidden = !e;
   $("#ev-status").textContent = ""; $("#ev-status").className = "status";
   $("#shot-preview").hidden = true; $("#shot-img").removeAttribute("src");
   $("#shot-status").textContent = ""; $("#shot-status").className = "status";
@@ -407,7 +409,17 @@ $("#ev-save").addEventListener("click", async () => {
   st.className = "status"; st.textContent = "Saving…";
 
   const prev = S.events.find(x => x.id === S.editing) || {};
-  const id = S.editing || (date + "-" + K.slug(place)).slice(0,120);
+  let id = S.editing || (date + "-" + K.slug(place)).slice(0,120);
+  // Same venue on the same date is the same event, whatever its id happens to
+  // be — so update that row rather than leaving two of them.
+  if (!S.editing){
+    const clash = S.events.find(x => x.date === date && K.slug(x.place) === K.slug(place));
+    if (clash){
+      if (!window.confirm("There is already an event for " + clash.place + " on " +
+          clash.date + ". Save over it?")){ st.textContent = ""; return; }
+      id = clash.id;
+    }
+  }
   const row = {
     id, place, date,
     city: $("#f-city").value.trim(),
@@ -454,6 +466,23 @@ $("#ev-save").addEventListener("click", async () => {
     st.className = "status err";
     st.textContent = "Couldn’t save — " + (err && err.message || "try again.");
   }
+});
+
+$("#ev-dup").addEventListener("click", () => {
+  // Keep every field on screen, but detach from the original so saving mints a
+  // new event. The poster and the confirmed crew are per-date, so they do not
+  // come across.
+  S.editing = null; S.pendingShot = null; S.clearPoster = false;
+  $("#ev-title").textContent = "New event \u2014 copied";
+  $("#ev-delete").hidden = true;
+  $("#ev-dup").hidden = true;
+  $("#shot-preview").hidden = true; $("#shot-img").removeAttribute("src");
+  $("#shot-status").textContent = ""; $("#shot-status").className = "status";
+  $("#f-date").value = "";
+  renderCrewPick(null);
+  $("#ev-status").className = "status";
+  $("#ev-status").textContent = "Copied. Pick a date for the new one, then save.";
+  $("#f-date").focus();
 });
 
 $("#ev-delete").addEventListener("click", async () => {
@@ -650,7 +679,7 @@ function readCSV(file){
   fr.onerror = () => { st.className = "status err"; st.textContent = "Couldn’t read that file."; };
   fr.onload = () => {
     try {
-      const res = SLPC_CSV.toEvents(String(fr.result), new Set(S.events.map(e => e.id)));
+      const res = SLPC_CSV.toEvents(String(fr.result), S.events);
       csvPending = res;
       renderPreview(res, file.name);
     } catch (err){

@@ -122,8 +122,13 @@ window.SLPC = (function () {
 
   function tallyHTML(e, rs){
     const want = Number(e.staff_needed) || 0;
-    if (!want) return "";
-    const { n, basis } = counted(e, rs), short = Math.max(0, want - n);
+    const { n, basis } = counted(e, rs);
+    if (!want){
+      // No target set: still show the headcount, so the crew page is never blank.
+      if (!n) return "";
+      return '<div class="tally plain"><b>' + n + "</b> " + basis + "</div>";
+    }
+    const short = Math.max(0, want - n);
     return '<div class="tally ' + (short ? "short" : "met") + '">' +
       "<b>" + n + " of " + want + "</b> " + basis +
       (short ? " \u00b7 " + short + " more needed" : " \u00b7 covered") + "</div>";

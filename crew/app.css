@@ -426,3 +426,12 @@ table.imp .warn{color:var(--rust)}
 .exp b{font-family:var(--util);font-size:14px;font-weight:700;letter-spacing:.09em;
   text-transform:uppercase;color:var(--tallow)}
 .exp span{font-size:14.5px;color:var(--fog);line-height:1.45}
+
+/* Dashboard link sits in the crew nav but reads as separate — it is Aaron's,
+   and the page behind it needs a real sign-in. */
+.crewnav .navadmin{margin-left:6px;padding-left:13px;border-left:1px solid var(--line-soft);
+  border-radius:0 3px 3px 0;color:rgba(181,168,152,.7)}
+.crewnav .navadmin:hover{color:var(--tallow);border-color:var(--line-soft)}
+@media (max-width:560px){.crewnav .navadmin{margin-left:0;padding-left:11px;border-left:none}}
+.tally.plain{color:var(--fog);border-color:var(--line-soft);background:var(--iron)}
+.tally.plain b{color:var(--bone)}

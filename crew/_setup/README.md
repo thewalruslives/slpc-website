@@ -72,7 +72,8 @@ without reformatting: it reads that sheet's own headers — `Place`, `Date`,
   Update, flags anything with no support hours, and names any row it had to
   skip and why.
 - **`Staff Needed`** sets how many people you want on site. The crew then see
-  "1 of 3 signed up · 2 more needed" on the card, and the event stays flagged
+  "1 of 3 signed up · 2 more needed" on the card (without a target they just
+  see the headcount, e.g. "2 signed up"), and the event stays flagged
   until it's covered. Leave it blank and the app just flags events nobody has
   taken, as before.
 - **Crew availability columns are ignored on purpose** — `Rolfe Available`,
@@ -107,6 +108,17 @@ Everything behind the crew code, linked from the bar at the top of each:
   coloured by state: gold when you are on it, green when the crew is covered,
   rust when it is short, grey for an extra labor day. Tap a day for the detail.
   On a phone the pills become coloured bars so the grid still fits.
+
+## Copying an event
+
+Open one and hit **Duplicate**. Everything carries over except the date, the
+poster and the confirmed crew — those are per-date decisions. Pick the new date
+and save.
+
+**Same venue on the same date is treated as the same event**, whatever its id
+happens to be. So duplicating onto a date that already has that venue updates
+that row after asking, rather than leaving you with two. CSV import follows the
+same rule.
 
 ## Getting the data back out
 

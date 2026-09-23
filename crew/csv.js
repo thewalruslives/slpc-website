@@ -157,8 +157,14 @@ window.SLPC_CSV = (function () {
     .replace(/^-|-$/g,"") || "x";
 
   /* ── rows -> events ── */
-  // existingIds: Set of event ids already in the database, to mark new vs update.
-  function toEvents(text, existingIds){
+  // existing: the events already in the database. A row matching one on venue
+  // AND date reuses that row's id, so importing updates instead of duplicating
+  // even when the stored id was minted some other way.
+  function toEvents(text, existing){
+    const known = new Map();
+    for (const e of (existing || [])){
+      if (e && e.date && e.place) known.set(e.date + "|" + slug(e.place), e.id);
+    }
     const rows = parse(text);
     if (!rows.length) return { events:[], errors:[{ line:0, why:"The file is empty." }], ignored:[] };
 
@@ -196,7 +202,8 @@ window.SLPC_CSV = (function () {
       const sup  = parseRange(g.support);
       const extra = [clean(g.notes), boil.rest, sup.rest].filter(Boolean).join(" · ");
 
-      const id = (date + "-" + slug(place)).slice(0,120);
+      const matched = known.get(date + "|" + slug(place));
+      const id = matched || (date + "-" + slug(place)).slice(0,120);
       if (seen.has(id)){ errors.push({ line:r+1, place,
         why:"Same venue and date appears twice in this file — only the first was kept." }); continue; }
       seen.add(id);
@@ -220,7 +227,7 @@ window.SLPC_CSV = (function () {
         assigned_staff: assigned,
         poster_path: null,
         source: "CSV import",
-        _isNew: !(existingIds && existingIds.has(id)),
+        _isNew: !matched,
         _line: r + 1,
         _noTimes: !boil.start && !sup.start
       });
