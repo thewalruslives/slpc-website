@@ -57,7 +57,7 @@ passcode-protected crew functions.
 
 ## Adding events from a CSV
 
-**Dashboard → Import a CSV.** Built to eat an export of your Master Calendar
+**Admin Dashboard → Import a CSV.** Built to eat an export of your Master Calendar
 without reformatting: it reads that sheet's own headers — `Place`, `Date`,
 `City`, `Boil Time`, `Support Hours`, `Music Booking`, `Aaron Note`,
 `Confirmed`, `Support A/B/C`, and the three `Nick ...` delivery columns.
@@ -123,7 +123,7 @@ same rule.
 
 ## Activity log
 
-**Dashboard → Activity.** Every change to an event, a crew answer or the
+**Admin Dashboard → Activity.** Every change to an event, a crew answer or the
 roster, newest first, grouped by day: who did it, the time, and what actually
 moved — "Extra labor needed on Sep 23 — city (empty) → Downtown Oakland
 Commissary; staff needed 0 → 2".
@@ -141,7 +141,7 @@ delete from audit_log where at < now() - interval '1 year';
 
 ## Getting the data back out
 
-**Dashboard → Export a CSV.** Pick a range (everything / upcoming / past) and
+**Admin Dashboard → Export a CSV.** Pick a range (everything / upcoming / past) and
 one of three shapes:
 
 - **The schedule** — one row per event with every field. Its headers are the
