@@ -25,6 +25,7 @@ the whole file each time, press **Run**.
 | `02-data.sql` | Your 40 events, 30 imported answers, and the roster |
 | `03-your-turn.sql` | **Edit it first** — the crew code and your admin login |
 | `04-staff-needed.sql` | Adds the "staff needed" number to each event |
+| `06-activity-log.sql` | Records every change, with who and when |
 
 `03-your-turn.sql` has two lines to change, both marked. It ends with a check
 query; you should see `events 40`, `roster 5`, `admins 1`, `crew_code_set 1`.
@@ -119,6 +120,24 @@ and save.
 happens to be. So duplicating onto a date that already has that venue updates
 that row after asking, rather than leaving you with two. CSV import follows the
 same rule.
+
+## Activity log
+
+**Dashboard → Activity.** Every change to an event, a crew answer or the
+roster, newest first, grouped by day: who did it, the time, and what actually
+moved — "Extra labor needed on Sep 23 — city (empty) → Downtown Oakland
+Commissary; staff needed 0 → 2".
+
+It is written by database triggers, not by the page, so a change made from the
+dashboard, a CSV import, the crew page or straight from the SQL editor is all
+recorded the same way. Crew answers are credited to the crew member by name;
+your own changes to your email. Only an admin can read it.
+
+It grows forever. If it ever gets unwieldy, trim the old end:
+
+```sql
+delete from audit_log where at < now() - interval '1 year';
+```
 
 ## Getting the data back out
 

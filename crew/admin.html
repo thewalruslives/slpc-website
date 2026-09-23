@@ -50,6 +50,7 @@
   <div class="adminbar">
     <button class="btn solid" id="open-import">Import a CSV</button>
     <button class="btn" id="new-blank">Add event</button>
+    <button class="btn" id="open-activity">Activity</button>
     <button class="btn" id="open-export">Export a CSV</button>
     <button class="btn ghost" id="open-settings">Roster &amp; crew code</button>
   </div>
@@ -177,6 +178,25 @@
     <button type="button" class="btn solid" id="csv-commit" disabled>Import</button>
     <button type="button" class="btn ghost" data-close>Cancel</button>
     <span class="status" id="csv-commit-status"></span>
+  </div>
+</dialog>
+
+<!-- activity -->
+<dialog id="dlg-activity">
+  <div class="dlg-hd"><h2>Activity</h2>
+    <button class="x" type="button" data-close aria-label="Close">&times;</button></div>
+  <div class="dlg-bd">
+    <div class="scope" id="act-filter" role="group" aria-label="Filter activity">
+      <button type="button" data-k="all" aria-pressed="true">Everything</button>
+      <button type="button" data-k="answer" aria-pressed="false">Crew answers</button>
+      <button type="button" data-k="event" aria-pressed="false">Event changes</button>
+    </div>
+    <div id="act-list"><p class="mynote">Loading…</p></div>
+  </div>
+  <div class="dlg-ft">
+    <button type="button" class="btn ghost" id="act-more">Show older</button>
+    <button type="button" class="btn ghost" data-close>Close</button>
+    <span class="status" id="act-status"></span>
   </div>
 </dialog>
 
@@ -531,6 +551,72 @@ function handleShot(file){
   $("#shot-img").onload = () => URL.revokeObjectURL(url);
   $("#shot-status").className = "status ok";
   $("#shot-status").textContent = "Poster ready — it saves with the event.";
+}
+
+/* ── activity ── */
+const dlgA2 = $("#dlg-activity");
+let actFilter = "all", actLimit = 60, actRows = [];
+
+$("#open-activity").addEventListener("click", () => {
+  actLimit = 60; dlgA2.showModal(); loadActivity();
+});
+$("#act-filter").addEventListener("click", ev => {
+  const b = ev.target.closest("button[data-k]"); if (!b) return;
+  actFilter = b.dataset.k;
+  $$("#act-filter button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  renderActivity();
+});
+$("#act-more").addEventListener("click", () => { actLimit += 60; loadActivity(); });
+
+async function loadActivity(){
+  const st = $("#act-status"); st.className = "status"; st.textContent = "Loading\u2026";
+  let q = sb.from("audit_log").select("*").order("at", { ascending:false }).limit(actLimit);
+  if (actFilter !== "all") q = q.eq("entity", actFilter);
+  const { data, error } = await q;
+  if (error){
+    st.className = "status err"; st.textContent = "";
+    $("#act-list").innerHTML = /does not exist/i.test(error.message || "")
+      ? '<div class="empty"><b>Not switched on yet</b>' +
+        "Run <code>crew/_setup/06-activity-log.sql</code> in the Supabase SQL editor, " +
+        "then reopen this.</div>"
+      : '<div class="empty"><b>Couldn\u2019t load the log</b>' + K.esc(error.message || "") + "</div>";
+    $("#act-more").hidden = true;
+    return;
+  }
+  actRows = data || [];
+  st.textContent = "";
+  $("#act-more").hidden = actRows.length < actLimit;
+  renderActivity();
+}
+
+function renderActivity(){
+  const rows = actFilter === "all" ? actRows : actRows.filter(r => r.entity === actFilter);
+  const box = $("#act-list");
+  if (!rows.length){
+    box.innerHTML = '<div class="empty"><b>Nothing yet</b>' +
+      "Changes show up here as they happen.</div>";
+    return;
+  }
+  const dayName = iso => {
+    const p = K.parts(iso.slice(0,10)); if (!p) return iso.slice(0,10);
+    if (iso.slice(0,10) === K.today()) return "Today";
+    return K.DOW[p.dow] + " " + p.d + " " + K.MON[p.m-1] + " " + p.y;
+  };
+  let html = "", lastDay = "";
+  for (const r of rows){
+    const day = dayName(r.at);
+    if (day !== lastDay){ lastDay = day; html += '<h4 class="act-day">' + K.esc(day) + "</h4>"; }
+    const t = new Date(r.at);
+    const hh = isNaN(t) ? "" : String(t.getHours()).padStart(2,"0") + ":" +
+                               String(t.getMinutes()).padStart(2,"0");
+    html += '<div class="act">' +
+      '<span class="act-time">' + hh + "</span>" +
+      '<span class="act-body">' +
+        '<span class="act-who ' + K.esc(r.actor_kind) + '">' + K.esc(r.actor) + "</span>" +
+        '<span class="act-what">' + K.esc(r.summary) + "</span>" +
+      "</span></div>";
+  }
+  box.innerHTML = html;
 }
 
 /* ── export ── */
