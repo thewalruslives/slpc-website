@@ -575,7 +575,9 @@ async function loadActivity(){
   const { data, error } = await q;
   if (error){
     st.className = "status err"; st.textContent = "";
-    $("#act-list").innerHTML = /does not exist/i.test(error.message || "")
+    const missing = error.code === "PGRST205" ||
+      /does not exist|schema cache|could not find the table/i.test(error.message || "");
+    $("#act-list").innerHTML = missing
       ? '<div class="empty"><b>Not switched on yet</b>' +
         "Run <code>crew/_setup/06-activity-log.sql</code> in the Supabase SQL editor, " +
         "then reopen this.</div>"
