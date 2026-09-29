@@ -454,3 +454,87 @@ table.imp .warn{color:var(--rust)}
 .act-who.admin{color:var(--tallow)}
 .act-who.system{color:var(--fog)}
 .act-what{font-size:15px;color:var(--bone);line-height:1.45;overflow-wrap:anywhere}
+
+
+/* ── who is on, and who merely answered ──
+   Green is reserved for a confirmed crew member. Everything else reads as
+   pending, so the card cannot imply an event is covered when it is not. */
+.oncrew{margin-top:12px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 10px;
+  padding:10px 13px;border-radius:3px;background:rgba(74,103,65,.16);
+  border:1px solid rgba(110,151,96,.45);border-left:3px solid var(--absinthe-lit)}
+.oncrew-lab{font-family:var(--util);font-size:10.5px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--absinthe-lit)}
+.oncrew-names{display:flex;flex-wrap:wrap;gap:6px 9px}
+.oncrew-name{font-family:var(--util);font-size:15px;font-weight:600;letter-spacing:.02em;
+  color:#A9CC99}
+.oncrew-name.me{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--tallow)}
+.oncrew-name i{font-style:normal;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--absinthe-lit);margin-left:5px;opacity:.85}
+.oncrew-notes{flex-basis:100%;font-size:14px;color:var(--fog);line-height:1.45}
+
+.answers{margin-top:10px;display:flex;flex-direction:column;gap:1px;
+  background:var(--line-soft);border:1px solid var(--line-soft);border-radius:3px;overflow:hidden}
+.ans-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;
+  padding:8px 12px;background:var(--midnight);border-left:2px solid transparent}
+.ans-row.yes{border-left-color:var(--tallow)}
+.ans-row.maybe{border-left-color:var(--maybe)}
+.ans-row.no{border-left-color:var(--no)}
+.ans-row.none{border-left-color:var(--line-soft)}
+.ans-row.me .ans-who{color:var(--tallow)}
+.ans-who{font-family:var(--util);font-size:14.5px;font-weight:600;color:var(--bone);
+  letter-spacing:.02em;min-width:72px}
+.ans-state{font-family:var(--util);font-size:12px;letter-spacing:.06em;color:var(--fog)}
+.ans-row.yes   .ans-state{color:var(--tallow)}
+.ans-row.maybe .ans-state{color:#A294C9}
+.ans-row.no    .ans-state{color:#C4705F}
+.ans-note{flex-basis:100%;font-size:14.5px;color:var(--bone);line-height:1.45;
+  padding-left:2px;border-left:2px solid var(--line-soft);padding-left:9px;margin-top:3px}
+@media (max-width:560px){
+  .ans-who{min-width:0;flex-basis:100%}
+}
+
+/* ── how it works ── */
+.howlead{padding-block:30px 6px;max-width:62ch}
+.howlead h1{font-family:var(--body);font-weight:500;font-size:clamp(25px,5.5vw,34px);
+  color:var(--bone);line-height:1.25;margin-bottom:12px}
+.howlead p{font-size:17.5px;color:var(--fog);line-height:1.6;margin:0}
+.howlead b{color:var(--bone);font-weight:500}
+
+.callout{margin-top:24px;border:1px solid rgba(160,82,45,.45);border-left:3px solid var(--rust);
+  border-radius:3px;background:rgba(139,58,42,.12);padding:16px 18px;max-width:64ch}
+.callout b{display:block;font-family:var(--util);font-size:13.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:#D98A78;margin-bottom:7px}
+.callout p{margin:0;font-size:16px;line-height:1.6;color:var(--bone)}
+.callout p b{display:inline;font-family:inherit;font-size:inherit;letter-spacing:0;
+  text-transform:none;color:var(--bone);margin:0}
+.callout em{font-style:normal;color:var(--tallow)}
+.callout.quiet{border-color:var(--line);border-left-color:var(--tallow);
+  background:var(--iron);margin-top:30px}
+.callout.quiet b{color:var(--tallow)}
+
+.steps{list-style:none;counter-reset:s;padding:0;margin:0;max-width:64ch;
+  display:flex;flex-direction:column;gap:18px}
+.steps li{counter-increment:s;padding-left:44px;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;
+  font-family:var(--util);font-size:13px;font-weight:700;color:var(--tallow);
+  width:28px;height:28px;line-height:26px;text-align:center;
+  border:1px solid var(--line);border-radius:50%}
+.steps b{display:block;font-family:var(--util);font-size:15px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--bone);margin-bottom:5px}
+.steps p{margin:0;font-size:16px;line-height:1.6;color:var(--fog)}
+.steps em{font-style:normal;color:var(--tallow)}
+
+.twoup{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;max-width:64ch}
+.tw{border:1px solid var(--line-soft);border-radius:4px;padding:15px 17px;background:var(--iron)}
+.tw p{margin:9px 0 0;font-size:15.5px;line-height:1.55;color:var(--fog)}
+.tw-tag{font-family:var(--util);font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:4px 9px;border-radius:2px;border:1px solid;display:inline-block}
+.tw-tag.pending{color:var(--tallow)}
+.tw-tag.booked{color:#A9CC99;border-color:rgba(110,151,96,.55);background:rgba(74,103,65,.2)}
+
+.tabs{margin:0;max-width:64ch}
+.tabs dt{font-family:var(--util);font-size:14px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--bone);margin-top:16px}
+.tabs dt:first-child{margin-top:0}
+.tabs dt a{color:var(--tallow);text-decoration:none}
+.tabs dd{margin:4px 0 0;font-size:16px;line-height:1.55;color:var(--fog)}

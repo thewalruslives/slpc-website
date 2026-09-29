@@ -102,6 +102,8 @@ adds up the shortfall across every upcoming event.
 Everything behind the crew code, linked from the bar at the top of each:
 
 - **`/crew/`** — the schedule. Answer events, leave notes, see who else is on.
+- **`/crew/how.html`** — the directions. What the crew are meant to do, and why
+  a "can't make it" matters as much as a yes. Send new people here first.
 - **`/crew/me.html`** — one person's own summary: next shift with a countdown,
   how many events they are on, hours booked, what is still waiting on their
   answer, and what they have already worked.
@@ -169,9 +171,11 @@ name, so you are choosing from what they told you:
     [x] Bia        said yes
     [ ] Nick       no answer yet
 
-Ticked people get a gold **On the crew** chip on the event card, so they know
-they are booked rather than merely willing, and the event lands in their
-**My shifts** even if they never pressed a button.
+Ticked people appear in a green **On the crew** block on the event card, set
+apart from everyone else's answers, and the event lands in their **My shifts**
+even if they never pressed a button. Green means confirmed and nothing else —
+a volunteer reads "Requested, not confirmed" in the answer list below, so a card
+can never imply an event is covered when you have not picked the crew.
 
 The count follows suit. Before you tick anyone it reads "1 of 3 signed up",
 counting volunteers. From the first tick it reads "2 of 3 confirmed" and counts

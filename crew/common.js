@@ -139,28 +139,55 @@ window.SLPC = (function () {
   const isConfirmed = (e, name) => confirmedOf(e).some(a =>
     a === name || a.indexOf(name + " ") === 0 || a.indexOf(name + "(") === 0);
 
+  const stateWords = {
+    yes:   "Requested, not confirmed",
+    maybe: "Might make it, not confirmed",
+    no:    "Can\u2019t make it",
+    "":    "No answer yet"
+  };
+
   function crewHTML(e, rs, me){
-    const rows = rs.map(r => ({ staff:r.staff, status:r.status,
-      can_deliver:r.can_deliver, note:r.note, on:isConfirmed(e, r.staff) }));
-    // Anyone you confirmed who never answered still needs to see they are booked.
-    for (const a of confirmedOf(e)){
-      if (!rows.some(r => a === r.staff || a.indexOf(r.staff + " ") === 0 || a.indexOf(r.staff + "(") === 0))
-        rows.push({ staff:a, status:"", can_deliver:false, note:"", on:true });
+    const onCrew = [], answered = [];
+    for (const r of rs){
+      const row = { staff:r.staff, status:r.status || "", can_deliver:!!r.can_deliver,
+                    note:r.note || "", on:isConfirmed(e, r.staff) };
+      (row.on ? onCrew : answered).push(row);
     }
-    if (!rows.length)
+    // Confirmed by you but never answered — they still belong in the crew block.
+    for (const a of confirmedOf(e)){
+      if (!rs.some(r => a === r.staff || a.indexOf(r.staff + " ") === 0 || a.indexOf(r.staff + "(") === 0))
+        onCrew.push({ staff:a, status:"", can_deliver:false, note:"", on:true });
+    }
+    if (!onCrew.length && !answered.length)
       return '<div class="crew"><span class="chip none">Nobody has answered yet</span></div>';
+
     const order = { yes:0, maybe:1, no:2 };
-    rows.sort((a,b) => (b.on?1:0) - (a.on?1:0) ||
-      (order[a.status] ?? 3) - (order[b.status] ?? 3) || a.staff.localeCompare(b.staff));
-    return '<div class="crew">' + rows.map(r =>
-      '<span class="chip ' + (r.status || "none") + (r.on ? " on" : "") +
-      (r.staff === me ? " me-chip" : "") + '">' +
-      (r.on ? '<span class="tick" aria-hidden="true">\u2713</span>' : "") +
-      esc(r.staff) +
-      (r.on ? '<span class="dv">On the crew</span>' : "") +
-      (r.can_deliver ? '<span class="dv">Can deliver</span>' : "") +
-      (r.note ? '<span class="dv" title="' + esc(r.note) + '">Note</span>' : "") +
-      "</span>").join("") + "</div>";
+    onCrew.sort((a,b) => a.staff.localeCompare(b.staff));
+    answered.sort((a,b) => (order[a.status] ?? 3) - (order[b.status] ?? 3) ||
+                            a.staff.localeCompare(b.staff));
+
+    let html = "";
+    if (onCrew.length){
+      html += '<div class="oncrew"><span class="oncrew-lab">On the crew</span>' +
+        '<span class="oncrew-names">' + onCrew.map(r =>
+          '<span class="oncrew-name' + (r.staff === me ? " me" : "") + '">' + esc(r.staff) +
+          (r.can_deliver ? '<i>delivering</i>' : "") + "</span>").join("") + "</span>" +
+        (onCrew.some(r => r.note)
+          ? '<span class="oncrew-notes">' + onCrew.filter(r => r.note).map(r =>
+              esc(r.staff) + ": " + esc(r.note)).join(" \u00b7 ") + "</span>"
+          : "") +
+        "</div>";
+    }
+    if (answered.length){
+      html += '<div class="answers">' + answered.map(r =>
+        '<div class="ans-row ' + (r.status || "none") + (r.staff === me ? " me" : "") + '">' +
+          '<span class="ans-who">' + esc(r.staff) + "</span>" +
+          '<span class="ans-state">' + esc(stateWords[r.status] ?? "No answer yet") +
+            (r.can_deliver ? " \u00b7 can deliver" : "") + "</span>" +
+          (r.note ? '<span class="ans-note">' + esc(r.note) + "</span>" : "") +
+        "</div>").join("") + "</div>";
+    }
+    return html;
   }
 
   function answerHTML(e, mine, me){
