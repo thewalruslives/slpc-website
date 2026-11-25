@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crawfish Boil Events Bay Area — Second Line Pleasure Club Summer 2026</title>
-  <meta name="description" content="Upcoming Second Line Pleasure Club crawfish boil events across the Bay Area and California. Louisiana-style seafood boils with live music at Mendocino, San Francisco, Moraga, Pacifica, Sacramento, Davis, and more. October–November 2026. Buy tickets online." />
+  <title>See You Next Year — Crawfish Boil Events Bay Area | Second Line Pleasure Club</title>
+  <meta name="description" content="Second Line Pleasure Club's 2026 crawfish boil season is a wrap. See you next year — subscribe to hear about next season's Bay Area boils first." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://secondlinepleasure.club/events.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Second Line Pleasure Club" />
   <meta property="og:title" content="Crawfish Boil Events Bay Area — Second Line Pleasure Club" />
-  <meta property="og:description" content="Upcoming Louisiana-style crawfish boil events with live music at Bay Area breweries and venues. San Francisco, Alameda, Berkeley, Pacifica, Sacramento. Tickets available online." />
+  <meta property="og:description" content="Second Line Pleasure Club's 2026 crawfish boil season is a wrap. See you next year — subscribe to hear about next season's Bay Area boils first." />
   <meta property="og:url" content="https://secondlinepleasure.club/events.html" />
   <meta property="og:image" content="https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg" />
   <meta property="og:image:alt" content="Louisiana crawfish boil event at a Bay Area brewery — Second Line Pleasure Club" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Bay Area Crawfish Boil Events — Second Line Pleasure Club" />
-  <meta name="twitter:description" content="Louisiana-style crawfish boil events at Bay Area breweries with live NOLA music. SF, Oakland, Berkeley, Sacramento. Tickets online." />
+  <meta name="twitter:description" content="Second Line Pleasure Club's 2026 crawfish boil season is a wrap. See you next year — subscribe to hear about next season's Bay Area boils first." />
   <meta name="twitter:image" content="https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg" />
   <link rel="icon" type="image/png" href="assets/logos/Updated Simple Logo 3_16_26.png">
   <link rel="apple-touch-icon" href="assets/logos/Updated Simple Logo 3_16_26.png">
@@ -48,7 +48,7 @@
     .nav-feature { color: var(--tallow) !important; border: 1px solid rgba(200,149,74,0.5); padding: 0.28rem 0.75rem !important; border-radius: 2px; letter-spacing: 0.12em !important; animation: nav-pulse 2.5s ease-in-out infinite; }
     @keyframes nav-pulse { 0%,100% { border-color: rgba(200,149,74,0.35); box-shadow: none; } 50% { border-color: rgba(200,149,74,0.8); box-shadow: 0 0 8px rgba(200,149,74,0.25); } }
     .nav-overlay-links .nav-feature { color: var(--tallow) !important; border: 1px solid rgba(200,149,74,0.5); padding: 0.4rem 1.2rem !important; border-radius: 2px; display: inline-block; margin-top: 0.5rem; }
-    @media (max-width: 640px) { .nav-links { display: none; } }
+    @media (max-width: 1160px) { .nav-links { display: none; } }
 
     /* ── MOBILE NAV ── */
     .nav-toggle {
@@ -76,16 +76,24 @@
     }
     .nav-overlay-links li a:hover,
     .nav-overlay-links li a.active { color: var(--bone); }
-    @media (max-width: 640px) { .nav-toggle { display: flex; } }
+    @media (max-width: 1160px) { .nav-toggle { display: flex; } }
 
     /* ── PAGE HERO ── */
-    .page-hero { padding: 8rem 2rem 3.5rem; text-align: center; border-bottom: 1px solid rgba(200,149,74,0.12); }
+    .page-hero { padding: 11rem 2rem 4rem; text-align: center; border-bottom: 1px solid rgba(200,149,74,0.12); }
     .page-label { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--tallow); text-transform: uppercase; margin-bottom: 0.75rem; }
-    .page-title { font-family: 'Righteous', sans-serif; font-size: clamp(3rem, 8vw, 5rem); color: var(--bone); line-height: 1.1; margin-bottom: 1rem; }
-    .page-sub { font-family: 'EB Garamond', serif; font-size: 1.1rem; color: var(--fog); max-width: 540px; margin: 0 auto 2rem; }
+    .page-title { font-family: 'Righteous', sans-serif; font-size: clamp(3rem, 8vw, 5rem); color: var(--bone); line-height: 1.1; text-wrap: balance; margin-bottom: 1rem; }
+    .page-sub { font-family: 'EB Garamond', serif; font-size: 1.1rem; color: var(--fog); max-width: 540px; margin: 0 auto 2.25rem; line-height: 1.6; text-wrap: balance; }
+
+    .hero-subscribe {
+      display: inline-block; font-family: 'Cinzel', serif; font-size: 0.85rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--midnight);
+      background: var(--tallow); padding: 1.2rem 3rem; text-decoration: none; transition: background 0.2s;
+    }
+    .hero-subscribe:hover { background: var(--bone); }
+    @media (max-width: 640px) { .hero-subscribe { font-size: 0.78rem; letter-spacing: 0.16em; padding: 1.1rem 1.5rem; } }
 
     /* ── SUGGEST BUTTON ── */
-    .suggest-bar { display: flex; justify-content: center; padding: 1.25rem 2rem 2.5rem; }
+    .suggest-bar { display: flex; justify-content: center; padding: 2.5rem 2rem; }
     .suggest-btn {
       display: inline-flex; align-items: center; gap: 0.6rem;
       font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.2em;
@@ -152,259 +160,6 @@
           {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://secondlinepleasure.club/"},
           {"@type": "ListItem", "position": 2, "name": "Events", "item": "https://secondlinepleasure.club/events.html"}
         ]
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-sep4",
-        "name": "Second Line Pleasure Club Presents: The Boil at The Huck Jam — Heartwood Mendocino",
-        "startDate": "2026-09-04T17:00:00-07:00",
-        "endDate": "2026-09-04T19:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Heartwood Mendocino", "address": {"@type": "PostalAddress", "addressLocality": "Mendocino", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/e7S-p_Z1o", "availability": "https://schema.org/InStock"},
-        "description": "Louisiana-style crawfish boil at The Huck Jam music festival at Heartwood Mendocino. Boil 5–7pm.",
-        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-1.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-sep8",
-        "name": "Second Line Pleasure Club Presents: The Boil at Humble Sea Brewing Pacifica",
-        "startDate": "2026-09-08T17:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Humble Sea Brewing Co.", "address": {"@type": "PostalAddress", "addressLocality": "Pacifica", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "performer": {"@type": "MusicGroup", "name": "Tradstar Quartet"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/U_5H__6eL", "availability": "https://schema.org/InStock"},
-        "description": "Louisiana-style crawfish boil at Humble Sea Brewing in Pacifica with live music by the Tradstar Quartet.",
-        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-15.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-sep9",
-        "name": "Second Line Pleasure Club Presents: The Boil at Canyon Club Brewery Moraga",
-        "startDate": "2026-09-09T17:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Canyon Club Brewery", "address": {"@type": "PostalAddress", "addressLocality": "Moraga", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "performer": {"@type": "MusicGroup", "name": "Back Dimples"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/VJV19Gs1M", "availability": "https://schema.org/InStock"},
-        "description": "Louisiana-style crawfish boil at Canyon Club Brewery in Moraga, CA with live music by Back Dimples.",
-        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-28.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-sep12",
-        "name": "Second Line Pleasure Club Presents: Baddies & Crawdaddies at Southern Pacific Brewing",
-        "startDate": "2026-09-12T12:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Southern Pacific Brewing", "address": {"@type": "PostalAddress", "streetAddress": "620 Treat Ave", "addressLocality": "San Francisco", "addressRegion": "CA", "postalCode": "94110", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/_px_czXH4", "availability": "https://schema.org/InStock"},
-        "description": "Baddies & Crawdaddies at Southern Pacific Brewing San Francisco. Louisiana-style crawfish boil starting at noon.",
-        "image": "https://secondlinepleasure.club/assets/photos/nighttime%20dump%202.jpeg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-sep15",
-        "name": "Second Line Pleasure Club Presents: The Boil at Hapa's Brewing",
-        "startDate": "2026-09-15T17:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Hapa's Brewing Company", "address": {"@type": "PostalAddress", "streetAddress": "59 Barack Obama Blvd", "addressLocality": "San Jose", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/rY6MWmqs9", "availability": "https://schema.org/InStock"},
-        "description": "Louisiana-style crawfish boil at Hapa's Brewing Company in San Jose, CA.",
-        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-4.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-sep26",
-        "name": "Second Line Pleasure Club Presents: The Boil at Drake's Barrel House San Leandro",
-        "startDate": "2026-09-26T14:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Drake's Brewing Company — Barrel House", "address": {"@type": "PostalAddress", "addressLocality": "San Leandro", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "performer": {"@type": "MusicGroup", "name": "Andre Thierry"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/Hh7WhcjqC", "availability": "https://schema.org/InStock"},
-        "description": "Louisiana-style crawfish boil at Drake's Barrel House in San Leandro with live music by Andre Thierry.",
-        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-29.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-sep27",
-        "name": "Second Line Pleasure Club Presents: The Boil at Drake's The Barn Sacramento",
-        "startDate": "2026-09-27T15:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Drake's: The Barn", "address": {"@type": "PostalAddress", "addressLocality": "West Sacramento", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "performer": {"@type": "MusicGroup", "name": "Andre Thierry"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/pPukcR1pJ", "availability": "https://schema.org/InStock"},
-        "description": "Louisiana-style crawfish boil at Drake's: The Barn in West Sacramento with live music by Andre Thierry.",
-        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-30.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-sep30",
-        "name": "Second Line Pleasure Club Presents: The Boil at Calicraft Davis",
-        "startDate": "2026-09-30T17:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Calicraft Brewing Company", "address": {"@type": "PostalAddress", "addressLocality": "Davis", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "performer": {"@type": "MusicGroup", "name": "Matt Bradford"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/n-fPXWTeS", "availability": "https://schema.org/InStock"},
-        "description": "Louisiana-style crawfish boil at Calicraft Brewing in Davis, CA with live music by Matt Bradford.",
-        "image": "https://secondlinepleasure.club/assets/posters/Calicraft%20Davis%20Poster.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-oct11",
-        "name": "Second Line Pleasure Club Presents: The Boil at Davenport Roadhouse",
-        "startDate": "2026-10-11T14:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Davenport Roadhouse", "address": {"@type": "PostalAddress", "addressLocality": "Davenport", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/Wh7yxpnwX", "availability": "https://schema.org/InStock"},
-        "description": "Louisiana-style crawfish boil at Davenport Roadhouse on the Santa Cruz coast.",
-        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-22.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-oct17",
-        "name": "Second Line Pleasure Club Presents: The Boil at Sacyard Sacramento",
-        "startDate": "2026-10-17T13:00:00-07:00",
-        "endDate": "2026-10-17T16:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": "Sacyard", "address": {"@type": "PostalAddress", "addressLocality": "Sacramento", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "performer": {"@type": "MusicGroup", "name": "Terra Bonne"},
-        "offers": {"@type": "Offer", "url": "https://markitai.com/u/secondlinepleasureclub", "availability": "https://schema.org/InStock"},
-        "description": "Louisiana-style crawfish boil at Sacyard in Sacramento with live music by Terra Bonne.",
-        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-29.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-oct18",
-        "name": "Second Line Pleasure Club Presents: The Boil Block Party at Gilman Wine Block",
-        "startDate": "2026-10-18T15:00:00-07:00",
-        "endDate": "2026-10-18T20:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "isAccessibleForFree": true,
-        "location": {"@type": "Place", "name": "Gilman Wine Block", "address": {"@type": "PostalAddress", "addressLocality": "Berkeley", "addressRegion": "CA", "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": "Second Line Pleasure Club", "url": "https://secondlinepleasure.club"},
-        "performer": [
-          {"@type": "MusicGroup", "name": "Andre Thierry"},
-          {"@type": "MusicGroup", "name": "The Top Chefs"}
-        ],
-        "offers": {"@type": "Offer", "url": "https://markitai.com/e/FOWRIt5qn", "availability": "https://schema.org/InStock", "price": "0", "priceCurrency": "USD"},
-        "description": "The Boil Block Party at Gilman Wine Block in Berkeley. Free entry, free music, all ages. 3 bands including Andre Thierry and The Top Chefs, 3 food vendors (SLPC, Pop's Creole, Petit Americain), art vendors. Sacramento Delta crawfish, wine from Tessier and Donkey and Goat, beer from Gilman Brewing. Pre-order crawfish with code BLOCKBOIL for 15% off through Sept 28.",
-        "image": "https://secondlinepleasure.club/assets/photos/041926-SLPC-30.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-oct26",
-        "name": "Second Line Pleasure Club Presents: The Boil at Kingfish Pub & Cafe",
-        "startDate": "2026-10-26T17:00:00-07:00",
-        "endDate": "2026-10-26T20:00:00-07:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {
-          "@type": "Place",
-          "name": "Kingfish Pub & Cafe",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "5227 Telegraph Ave",
-            "addressLocality": "Oakland",
-            "addressRegion": "CA",
-            "addressCountry": "US"
-          }
-        },
-        "organizer": {
-          "@type": "Organization",
-          "name": "Second Line Pleasure Club",
-          "url": "https://secondlinepleasure.club"
-        },
-        "offers": {
-          "@type": "Offer",
-          "url": "https://markitai.com/e/yi1K_op60?l=B70Q",
-          "availability": "https://schema.org/InStock"
-        },
-        "description": "Louisiana-style crawfish boil at Kingfish Pub & Cafe in Oakland. Local crawfish, andouille, corn, potatoes, green beans and bread pudding. Pre-purchase crawfish; walk-ins limited. 21+.",
-        "image": "https://secondlinepleasure.club/assets/posters/kingfish%20poster%202.jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-nov1",
-        "name": "Second Line Pleasure Club Presents: The Harvest Boil at Overshine Wines",
-        "startDate": "2026-11-01T12:00:00-08:00",
-        "endDate": "2026-11-01T16:00:00-08:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {
-          "@type": "Place",
-          "name": "Overshine Wines",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "2201 Westside Rd",
-            "addressLocality": "Healdsburg",
-            "addressRegion": "CA",
-            "addressCountry": "US"
-          }
-        },
-        "organizer": {
-          "@type": "Organization",
-          "name": "Second Line Pleasure Club",
-          "url": "https://secondlinepleasure.club"
-        },
-        "offers": {
-          "@type": "Offer",
-          "url": "https://markitai.com/e/URC0D9ICa?l=d1lh",
-          "availability": "https://schema.org/InStock"
-        },
-        "description": "The Harvest Boil — Louisiana-style crawfish boil at Overshine Wines in Healdsburg, CA with California crawfish, fixings and a live band.",
-        "image": "https://secondlinepleasure.club/assets/posters/Overshine%208.5%20x%2011%20Final%20(1).jpg"
-      },
-      {
-        "@type": "Event",
-        "@id": "https://secondlinepleasure.club/events.html#event-nov10",
-        "name": "Second Line Pleasure Club Presents: The Boil at Humble Sea Brewing Santa Cruz",
-        "startDate": "2026-11-10T17:00:00-08:00",
-        "endDate": "2026-11-10T20:00:00-08:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {
-          "@type": "Place",
-          "name": "Humble Sea Brewing Co.",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "820 Swift St",
-            "addressLocality": "Santa Cruz",
-            "addressRegion": "CA",
-            "addressCountry": "US"
-          }
-        },
-        "organizer": {
-          "@type": "Organization",
-          "name": "Second Line Pleasure Club",
-          "url": "https://secondlinepleasure.club"
-        },
-        "offers": {
-          "@type": "Offer",
-          "url": "https://markitai.com/e/Us2LoDxJp?l=BXkr",
-          "availability": "https://schema.org/InStock"
-        },
-        "description": "Louisiana-style crawfish boil with Sac Delta crawfish and fixings at Humble Sea Brewing in Santa Cruz. Pre-purchase required.",
-        "image": "https://secondlinepleasure.club/assets/posters/SLPC%20X%20HSSC%20II%2011x17.jpg"
       }
     ]
   }
@@ -422,8 +177,9 @@
       <li><a href="events.html" class="active">Events</a></li>
       <li><a href="gallery.html">Gallery</a></li>
       <li><a href="walrus-report.html">Walrus Report</a></li>
+      <li><a href="delta-crayfish-club.html">Delta Crayfish Club</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="events.html" class="nav-feature">Purchase Tickets</a></li>
+      <li><a href="https://markitai.com/u/secondlinepleasureclub" target="_blank" rel="noopener" class="nav-feature">Subscribe</a></li>
     </ul>
     <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('nav-overlay').classList.add('open')">
       <span></span><span></span><span></span>
@@ -437,16 +193,18 @@
       <li><a href="events.html" class="active">Events</a></li>
       <li><a href="gallery.html">Gallery</a></li>
       <li><a href="walrus-report.html">Walrus Report</a></li>
+      <li><a href="delta-crayfish-club.html">Delta Crayfish Club</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="events.html" class="nav-feature">Purchase Tickets</a></li>
+      <li><a href="https://markitai.com/u/secondlinepleasureclub" target="_blank" rel="noopener" class="nav-feature">Subscribe</a></li>
     </ul>
   </div>
 
-  <!-- PAGE HERO -->
+  <!-- PAGE HERO — OFF-SEASON -->
   <div class="page-hero">
-    <p class="page-label">Bay Area Boils</p>
-    <h1 class="page-title">Upcoming Events</h1>
-    <p class="page-sub">Second Line Pleasure Club hosts Louisiana-style crawfish boils with live NOLA music at Bay Area breweries and venues. Click any event to buy tickets — or subscribe via SMS for early access.</p>
+    <p class="page-label">That's a Wrap on the 2026 Season</p>
+    <h1 class="page-title">See You Next Year</h1>
+    <p class="page-sub">Thank you to everyone who pulled up a seat, got their hands dirty, and danced with us. The pots are cooling off until next season. Subscribe to stay updated and you'll be the first to know when the boils are back.</p>
+    <a class="hero-subscribe" href="https://markitai.com/u/secondlinepleasureclub" target="_blank" rel="noopener">Subscribe to Stay Updated</a>
   </div>
 
   <!-- SUGGEST BUTTON — replace href="#" with your link when ready -->
@@ -458,81 +216,67 @@
   </div>
   <p style="text-align:center; padding:0 2rem 1.75rem; font-family:'Cinzel',serif; font-size:1.05rem; letter-spacing:0.06em; color:var(--fog);">Planning a private or corporate event? <a href="private.html" style="color:var(--tallow); text-decoration:none;">Book a private boil →</a></p>
 
-  <!-- ── OCTOBER 2026 ── -->
-  <div class="month-divider"><h2>October 2026</h2></div>
+  <!-- ── PAST EVENTS ── -->
+  <div class="month-divider" style="padding-top:2rem;"><h2 style="color:var(--fog);">Past Events</h2></div>
 
   <div class="events-grid">
 
-    <!-- Oct 26 — Kingfish Pub & Cafe, Oakland -->
-    <div class="event-card">
-      <a class="event-photo-link poster" href="https://markitai.com/e/yi1K_op60?l=B70Q" target="_blank" rel="noopener">
-        <img src="assets/posters/kingfish poster 2.jpg" alt="Crawfish boil at Kingfish Pub &amp; Cafe Oakland — Second Line Pleasure Club" />
-        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
-      </a>
-      <div class="event-info">
-        <p class="event-meta">Mon · Oct 26 · 5–8pm</p>
-        <p class="event-venue">Kingfish Pub &amp; Cafe</p>
-        <p class="event-location">5227 Telegraph Ave · Oakland, CA</p>
-        <p class="event-band">TBA</p>
-        <p class="event-desc">Local crawfish, andouille, corn, potatoes, green beans — and bread pudding. Pre-purchase crawfish; walk-ins limited. 21+.</p>
-        <div class="event-footer">
-          <span class="event-time-chip">5–8pm · 21+</span>
-          <a class="ticket-btn" href="https://markitai.com/e/yi1K_op60?l=B70Q" target="_blank" rel="noopener">Get Tickets</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ── NOVEMBER 2026 ── -->
-  <div class="month-divider"><h2>November 2026</h2></div>
-
-  <div class="events-grid">
-
-    <!-- Nov 1 — Overshine Wines, Healdsburg -->
-    <div class="event-card">
-      <a class="event-photo-link poster" href="https://markitai.com/e/URC0D9ICa?l=d1lh" target="_blank" rel="noopener">
-        <img src="assets/posters/Overshine 8.5 x 11 Final (1).jpg" alt="The Harvest Boil at Overshine Wines Healdsburg — Second Line Pleasure Club" />
-        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
-      </a>
-      <div class="event-info">
-        <p class="event-meta">Sun · Nov 1 · 12–4pm</p>
-        <p class="event-venue">Overshine Wines</p>
-        <p class="event-location">2201 Westside Rd · Healdsburg, CA</p>
-        <p class="event-band">Live Band</p>
-        <p class="event-desc"><strong>The Harvest Boil.</strong> Taking the boil to wine country — California crawfish, fixings, and a live band.</p>
-        <div class="event-footer">
-          <span class="event-time-chip">12–4pm</span>
-          <a class="ticket-btn" href="https://markitai.com/e/URC0D9ICa?l=d1lh" target="_blank" rel="noopener">Get Tickets</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Nov 10 — Humble Sea Santa Cruz -->
-    <div class="event-card">
-      <a class="event-photo-link poster" href="https://markitai.com/e/Us2LoDxJp?l=BXkr" target="_blank" rel="noopener">
+    <!-- Nov 10 — Humble Sea Santa Cruz (past) -->
+    <div class="event-card past">
+      <a class="event-photo-link poster" style="pointer-events:none;">
         <img src="assets/posters/SLPC X HSSC II 11x17.jpg" alt="Crawfish boil at Humble Sea Brewing Santa Cruz — Second Line Pleasure Club" />
-        <div class="event-photo-overlay"><span class="ticket-badge">Get Tickets</span></div>
+        <div class="event-photo-overlay"></div>
       </a>
       <div class="event-info">
         <p class="event-meta">Tue · Nov 10 · 5–8pm</p>
         <p class="event-venue">Humble Sea Brewing</p>
-        <p class="event-location">820 Swift St · Santa Cruz, CA</p>
+        <p class="event-location">Santa Cruz, CA</p>
         <p class="event-band">TBA</p>
-        <p class="event-desc">Back in Santa Cruz for round two. Sac Delta crawfish and all the fixings. Pre-purchase required.</p>
+        <p class="event-desc">Back in Santa Cruz for round two. Sac Delta crawfish and all the fixings.</p>
         <div class="event-footer">
           <span class="event-time-chip">5–8pm</span>
-          <a class="ticket-btn" href="https://markitai.com/e/Us2LoDxJp?l=BXkr" target="_blank" rel="noopener">Get Tickets</a>
+          <span class="past-label">Past Event</span>
         </div>
       </div>
     </div>
 
-  </div>
+    <!-- Nov 1 — Overshine Wines (past) -->
+    <div class="event-card past">
+      <a class="event-photo-link poster" style="pointer-events:none;">
+        <img src="assets/posters/Overshine 8.5 x 11 Final (1).jpg" alt="The Harvest Boil at Overshine Wines Healdsburg — Second Line Pleasure Club" />
+        <div class="event-photo-overlay"></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Sun · Nov 1 · 12–4pm</p>
+        <p class="event-venue">Overshine Wines</p>
+        <p class="event-location">Healdsburg, CA</p>
+        <p class="event-band">Live Band</p>
+        <p class="event-desc"><strong>The Harvest Boil.</strong> Took the boil to wine country — California crawfish, fixings, and a live band.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">12–4pm</span>
+          <span class="past-label">Past Event</span>
+        </div>
+      </div>
+    </div>
 
-  <!-- ── PAST EVENTS ── -->
-  <div class="month-divider" style="padding-top:4rem;"><h2 style="color:var(--fog);">Past Events</h2></div>
-
-  <div class="events-grid">
+    <!-- Oct 26 — Kingfish Pub & Cafe (past) -->
+    <div class="event-card past">
+      <a class="event-photo-link poster" style="pointer-events:none;">
+        <img src="assets/posters/kingfish poster 2.jpg" alt="Crawfish boil at Kingfish Pub &amp; Cafe Oakland — Second Line Pleasure Club" />
+        <div class="event-photo-overlay"></div>
+      </a>
+      <div class="event-info">
+        <p class="event-meta">Mon · Oct 26 · 5–8pm</p>
+        <p class="event-venue">Kingfish Pub &amp; Cafe</p>
+        <p class="event-location">Oakland, CA</p>
+        <p class="event-band">TBA</p>
+        <p class="event-desc">Local crawfish, andouille, corn, potatoes, green beans — and bread pudding.</p>
+        <div class="event-footer">
+          <span class="event-time-chip">5–8pm</span>
+          <span class="past-label">Past Event</span>
+        </div>
+      </div>
+    </div>
 
     <!-- Oct 18 — Gilman Wine Block (past) -->
     <div class="event-card past">
@@ -1048,7 +792,7 @@
   </div>
 
   <div class="page-footer-note">
-    More events added regularly. <a href="https://markitai.com/u/secondlinepleasureclub" target="_blank" rel="noopener">Join the club</a> for early access before public announcements.
+    That's the season. <a href="https://markitai.com/u/secondlinepleasureclub" target="_blank" rel="noopener">Subscribe</a> for early access to next year's boils before public announcements.
   </div>
 
   <footer>
